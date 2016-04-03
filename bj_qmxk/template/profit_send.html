@@ -1,0 +1,70 @@
+<div class="main">
+	<div class="form form-horizontal">
+		<h4>审核打款详细信息</h4>
+		<table class="tb">
+		<form action="">
+			<input type="hidden" name="from_user" value="{$_GPC['from_user']}">
+			<input type="hidden" name="months" value="{$_GPC['months']}">
+			<input type="hidden" name="op" value="send">
+			<input type="hidden" name="opp" value="sent">
+			<input type="hidden" name="act" value="module" />
+			<input type="hidden" name="name" value="bj_qmxk" />
+			<input type="hidden" name="do" value="profit" />
+			
+			<tr>
+				<th style="width:200px"><label>设置审核结算状态</label></th>
+				<td style="text-align: left;">
+					<label class="radio inline" ><input type="radio" name="ispay" value="0" {if $info['ispay']==0}checked{/if}>暂不处理</label>
+					<label class="radio inline" ><input type="radio" name="ispay" value="1" {if $info['ispay']==1}checked{/if}>打款</label>
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">真实姓名</label></th>
+				<td>
+					{if $user['realname']!=""} {$user['realname']}{else}未完善{/if}
+				</td>
+			</tr>
+			
+					<tr>
+				<th style="width:200px"><label for="">银行卡号</label></th>
+				<td>
+					{if $user['banktype']!=""} {$user['banktype']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">银行名称</label></th>
+				<td>
+					{if $user['bankcard']!=""} {$user['bankcard']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">支付宝</label></th>
+				<td>
+					{if $user['alipay']!=""} {$user['alipay']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user['mobile']!=""} {$user['mobile']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">工资</label></th>
+				<td>
+						<input type="hidden" value="{php echo ($gz)}" readonly name="gz"/>
+				
+					<font color="red">{$gz}</font>
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td>
+					<a href="{php echo $this->createWebUrl('profit', array('op'=>'display'))}"><input type="button" class="btn btn-primary span3" name="submit" value="返回" /></a>
+					<input type="submit" class="btn btn-primary span3" name="submit" onClick="return confirm('确认操作吗？');" value="确定" />
+				</td>
+			</tr>
+			</form>
+		</table>
+	</div>
+</div>

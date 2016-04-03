@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>{$title}</title>
+<meta name="generator" content="lhsoft.net" />
+<meta name="author" content="长沙朗慧信息科技有限公司 www.lhsoft.net" />
+<meta name="copyright" content="2011-2014 lhsoft Ltd." />
+<meta name="MSSmartTagsPreventParsing" content="True" />
+<meta http-equiv="MSThemeCompatible" content="Yes" />
+<!--左边隐藏菜单 css-->
+<link href="{BJ_QMXK_ROOT}/style/css/menu.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css">
+<!--全部样式 css-->
+<link href="{BJ_QMXK_ROOT}/style/css/css.css?x={BJ_QMXK_VERSION}" class="css_css" rel="stylesheet" type="text/css" />
+<link href="{BJ_QMXK_ROOT}/style/css/banner.css?x={BJ_QMXK_VERSION}" class="css_css" rel="stylesheet" type="text/css" />
+<link href="{BJ_QMXK_ROOT}/recouse/css/xin_v3.s.min.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+
+<!--左边隐藏菜单 jquery-->
+<script src="{BJ_QMXK_ROOT}/style/js/jquery.js?x={BJ_QMXK_VERSION}"></script>
+<script src="{BJ_QMXK_ROOT}/style/js/jquery.mmenu.min.js?x={BJ_QMXK_VERSION}"></script>
+<script src="{BJ_QMXK_ROOT}/style/js/xMarquee.js?x={BJ_QMXK_VERSION}"></script>
+<script type="text/javascript">
+	$(function(){
+		$("#x1").xMarquee();
+	
+	})
+
+</script>
+<!--banner jquery-->
+<script src="{BJ_QMXK_ROOT}/style/js/owl.carousel.js"></script>
+<script>
+$(function(){
+	$('#owl-demo').owlCarousel({
+		items: 1,
+		navigation: true,
+		navigationText: ["上一个","下一个"],
+		autoPlay: true,
+		stopOnHover: true
+	}).hover(function(){
+		$('.owl-buttons').show();
+	}, function(){
+		$('.owl-buttons').hide();
+	}); 
+	$("#do_search").click(function() {
+		if($("#search_word").val()){
+			$("#searchForm").submit();
+		} else {
+			alert("请输入关键词！");
+			return false;
+		}
+	});
+});
+
+
+
+</script>
+
+</head>
+<body>
+<div id="page">
+	<!--顶部-->
+
+    <div class="WX_search" id="mallHead">
+	<form action="{php echo $this->createMobileUrl('list2')}"  method="post"  id="searchForm">
+        <input name="keyword" id="search_word" value="{$_GPC['keyword']}" class="WX_search_txt hd_search_txt_null" placeholder="请输入商品名进行搜索！" ptag="37080.5.2" type="search"  AUTOCOMPLETE="off"/>
+    <div class="WX_me">
+        <a href="javascript:;"  id="do_search"  class="WX_search_btn_blue " >搜索</a>
+    </div>
+	 </form>
+</div>
+
+	<!--内容-->
+	<div class="main">
+		<!--banner-->
+		<div id="banner">
+			<div id="owl-demo" class="owl-carousel">
+				{loop $advs $adv}
+	            <a class="item" href="{if empty($adv['link'])}{else}{$adv['link']}{/if}"><img src="{$_W['attachurl']}{$adv['thumb']}" alt=""/></a>
+	            {/loop}
+			</div>
+		</div>
+		<div id="category">
+			<ul>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 115))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a2.png"  /><p>个护化妆</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 132))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a1.png"  /><p>内衣配饰</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 122))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a3.png"  /><p>居家生活</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 131))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a4.png"  /><p>家居家纺</p></a></li>
+				<div style="clear:both;"></div>
+			</ul>
+			<ul>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 130))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a5.png"  /><p>电子数码</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 129))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a6.png"  /><p>电脑办公</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 113))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a7.png"   /><p>母婴在线</p></a></li>
+				<li ><a href="{php echo $this->createMobileUrl('list2', array('pcate' => 134))}"><img src="{BJ_QMXK_ROOT}/template/mobile/images/a8.png"   /><p>食品健康</p></a></li>
+					<div style="clear:both;"></div>
+			</ul>
+		</div>
+		<div style="height:10px;background:#f5f5f5"></div>
+		<div style="position:relative;">
+		<img src="{BJ_QMXK_ROOT}/style/images/listen.png"  width="30" style="position:absolute;left:10px;top:3px"/>	
+		<div id="x1" class="xMarquee" style="margin-left:50px;font-weight:bold;">
+		    <ol>
+		    {loop $ars $ar}
+		   		<li>☆<a href="{php echo $this->createMobileUrl('article', array('article_id' => $ar['id'],'mid'=>$profile['id']))}"  >{$ar['title']}</a></li>
+		    {/loop}
+		    </ol>
+		</div>
+		</div>
+	<div class="shop_content"  style="background:#f5f5f5;padding-top:10px;padding-bottom:40px">
+		{if $theone["ischeck"]==0}
+			{$theone['terms']}
+		{/if}
+			{if $theone["ischeck"]==1}
+				{loop $category $item}
+			<ul>
+				<li style="margin:10px 0px 0px;background:#fff">
+					<a href="{php echo $this->createMobileUrl('list2', array('pcate' => $item['id']))}">
+					<div class="category_name" style="padding-left:10px;height:30px;line-height:30px;font-size:16px;"><strong>{$item['name']}</strong></div>
+					{if $item['cateindexadvpic']}
+					<div>
+						<img src="./resource/attachment/{$item['cateindexadvpic']}"  width="100%"/>
+					</div>
+					<span style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;">{$item['description']}</span>
+					{/if}
+					</a>
+			
+				</li>
+				 <div class="mod_itemgrid" id="itemCont"  style="background:#F5F5F5;"> 
+				 {if !empty($goods[$item['id']])}    
+				{loop $goods[$item['id']]  $good_info}
+				<div class="hproduct" style="background:#fff;border:1px solid #E3E3E3;box-shadow:0px 2px 5px #ddd ;margin-top:20px;" >        
+					<a href="{php echo $this->createMobileUrl('detail', array('id' => $good_info['id']))}" stye="background:#fff;border:1px solid #ddd;display:block;">     
+						<p class="cover"><img src="{$_W['attachurl']}{$item['thumb']}" ></p>            
+						<p style="height:30px;line-height:30px;padding:0px 10px;overflow: hidden;">{$good_info['title']}</p>  
+						<p class="prices" stye="background:#fff;"><strong>
+							<em stye="background:#fff;">¥{$good_info['marketprice']}</em></strong>
+							<del stye="background:#fff;">¥{$good_info['productprice']}</del>
+							{if $good_info["issendfree"]==1}<em style="background:#f00;color:#fff;" class="discount" >包邮</em>{/if}
+						</p>         
+					</a>     
+				</div> 
+				{/loop}
+				{else}
+				<div style="padding:10px;line-height:25px;">
+				亲，感谢您对【{$cfg["footer"]}】的大力支持，【{$cfg["footer"]}】正在努力按步骤完善商城产品线，敬请期待！
+				</div>
+				{/if}
+			</div>
+				{/loop}
+				<div class="clear"></div>
+			</ul>
+		  
+			{/if}
+		</div>
+		<div id="tip"></div>
+	</div>
+</div>
+<div class="wx_nav"><a href="{php echo $this->createMobileUrl('list')}" data-href="###" ptag="37080.1.1" class="nav_index on">首页</a><a href="{php echo $this->createMobileUrl('listCategory')}"  ptag="37080.1.2" class="nav_search" style="display:">分类</a><a href="{php echo $this->createMobileUrl('mycart')}"  ptag="37080.1.3" class="nav_shopcart">购物车</a><a href="{php echo $this->createMobileUrl('myorder')}"  ptag="37080.1.4" class="nav_shopping_guide">我的订单</a><a href="{php echo $this->createMobileUrl('fansindex')}"  ptag="37080.1.4" class="nav_me">创客中心</a></div>
+
+{if $shownotice == true}
+<style>
+.mui-bar-tab {
+{if $theone['ischeck'] == 1}
+top: 0;
+{else}
+bottom: 0;
+{/if}
+display: table;
+width: 100%;
+height: 50px;
+padding: 0;
+table-layout: fixed;
+border-top: 0;
+border-bottom: 0;
+}
+.mui-bar {
+position: fixed;
+right: 0;
+left: 0;
+z-index: 10;
+height: 44px;
+padding-right: 10px;
+padding-left: 10px;
+filter:alpha(opacity=50); 
+background:rgba(49, 48, 48, 0.5) none repeat scroll 0 0 !important;
+border-bottom: 0;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+.mui-btn {
+position: relative;
+top: 7px;
+z-index: 20;
+padding: 6px 12px 7px;
+margin-top: 0;
+font-weight: 400;
+}
+.mui-btn-warning {
+color: #fff;
+background-color: #f0ad4e;
+border: 1px solid #f0ad4e;
+float: right;
+margin-right: 5px;
+font-size: 15px;
+line-height: 21px;
+}
+</style>
+<nav class="mui-bar mui-bar-tab" style="z-index:99999;font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial;">
+    <img src="{if empty($fans['avatar'])}{BJ_QMXK_ROOT}/style/images/yh.png{else}{$fans['avatar']}{/if}" style="width:40px;height:40px;float:left;margin:5px;">
+    <div style="color:#ffffff;font-size:12px;font-weight:500;line-height:20px;float:left;margin-top: 5px;"><span style="color:#31FF00;font-size:13px;">{$fans['nickname']}</span><br>您还未关注{$_W['account']['name']}！</div>
+    <button onclick="location.href='{$cfg['ydyy']}';" class="mui-btn mui-btn-warning" style="float:right;margin-right:15px;font-size:15px;">点击关注</button>
+</nav> 
+{/if}
+{template 'jsweixin'}
+</body>
+</html>

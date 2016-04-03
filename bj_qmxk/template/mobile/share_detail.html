@@ -1,0 +1,327 @@
+{php $bootstrap_type = 3;}
+{template 'header'}
+<link href="./source/modules/juyousha/css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css" />
+<script src="./source/modules/juyousha/js/bootstrap-dialog.min.js"></script>
+<style type='text/css'>
+    #poptip { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px;height: 27px;background:#000; opacity: 0.7;filter:alpha(opacity=0.7); color:#fff;z-index: 999;  border-radius:5px;
+        -webkit-border-radius:5px;
+        -moz-border-radius:5px;}
+#poptip_content { position: fixed; top:40%;left:50%;width:160px;margin-left:-80px; height: 27px; color:#fff;text-align:center;font-size:14px;z-index: 9909}
+</style>
+<script language='javascript'>
+    function tip(msg,autoClose){
+     var div = $("#poptip");
+     var content =$("#poptip_content");
+     if(div.length<=0){
+         div = $("<div id='poptip'></div>").appendTo(document.body);
+         content =$("<div id='poptip_content'>" + msg + "</div>").appendTo(document.body);
+     }
+     else{
+         content.html(msg);
+         content.show(); div.show();
+     }
+     if(autoClose) {
+        setTimeout(function(){
+            content.fadeOut(500);
+            div.fadeOut(500);
+
+        },1000);
+     }
+}
+function tip_close(){
+    $("#poptip").fadeOut(500);
+     $("#poptip_content").fadeOut(500);
+}
+    </script>
+
+<link type="text/css" rel="stylesheet" href="./source/modules/juyousha/images/style.css">
+<script type="text/javascript" src="./source/modules/juyousha/images/jquery.gcjs.js"></script>
+<script type='text/javascript' src='./source/modules/juyousha/images/touchslider.min.js'></script>
+<script language='javascript' src='./source/modules/juyousha/images/photoswipe/simple-inheritance.min.js'></script>
+<script language='javascript' src='./source/modules/juyousha/images/photoswipe/photoswipe-1.0.11.min.js'></script>
+<link href="./source/modules/juyousha/images/photoswipe/photoswipe.css" rel="stylesheet" />
+
+<div class="head">
+  <a href="javascript:history.back();" class="bn pull-left"><i class="icon-angle-left"></i></a>
+  <span class="title">跪求杀价</span>
+  <a href="{php echo $this->createMobileUrl('list')}" class="bn pull-right" style="margin-right:10px;"><i class="icon-home"></i></a>
+</div>
+
+<div class="detail-main" style='margin-bottom:65px;'>
+
+  <div class="detail-img">
+
+    <div id="banner_box" class="box_swipe">
+      <ul style="background:#FFF;">
+        {loop $piclist $row}
+        <li style="text-align:center;">
+        <a href="{$_W['attachurl']}{$row['attachment']}" rel='{$_W['attachurl']}{$row['attachment']}'><img src="{$_W['attachurl']}{$row['attachment']}" alt="" height="200px"/>
+        </a>
+        </li>
+        {/loop}
+      </ul>
+      <ol>
+        {loop $piclist $row}
+        <li class="on"></li>
+        {/loop}
+      </ol>
+    </div>
+    <script>
+      var proimg_count = {php echo count($piclist)};
+      $(function() {
+      new Swipe($('#banner_box')[0], {
+      speed:500,
+      auto:3000,
+      callback: function(){
+      var lis = $(this.element).next("ol").children();
+      lis.removeClass("on").eq(this.index).addClass("on");
+      }
+      });
+
+      if (proimg_count > 0) {
+      (function(window, $, PhotoSwipe) {
+      $('#banner_box ul li a[rel]').photoSwipe({});
+      }(window, window.jQuery, window.Code.PhotoSwipe));
+
+    }
+
+  });
+</script>
+
+
+  </div>
+
+  <!-- ---- 聚友杀开始------ -->
+  {php $ju_discount = $goods['killdiscount']; }
+  {php $ju_friend_count = count($juinfo);}
+  {php $ju_received_money = 0; }
+  {loop $juinfo $j}
+    {php $ju_received_money += $j['discount'];}
+  {/loop}
+  {php $ju_needs_more_money = max(0, $goods['killtotaldiscount'] - $ju_received_money);}
+  <!-- ---- 聚友杀结束------ -->
+
+
+  <div class="detail-div img-rounded">
+    <div class="detail-group text-center" style="line-height:20px;font-weight:bold;">{$goods['title']}</div>
+    <div class="detail-group" style='margin-top:10px;'><span class="col-xs-8" style="width:100%;">
+        {if $marketprice==$productprice}
+        现价¥ <span id='marketprice' class="text-danger" style="font-size:18px; font-weight:bold;">{$marketprice}</span>{if $ju_needs_more_money > 0}，帮砍一刀最多可省¥ <span class="text-danger" style="font-size:18px; font-weight:bold;">{$ju_needs_more_money}</span>!{/if}
+        {else}
+        <span id='productpricecontainer' style='{if $productprice<=0}display:none{/if}'>原价: <del style="font-size:16px; ">¥  <span id='productprice'>{$productprice}</span></del></span> 现价¥ <span class="text-danger" id='marketprice'  style="font-size:18px; font-weight:bold;">{$marketprice}</span>{if $ju_needs_more_money > 0}，帮砍一刀最多可省¥ <span class="text-danger" style="font-size:18px; font-weight:bold;">{$ju_needs_more_money}</span>!{/if}
+        {/if}
+      </span>
+    </div>
+
+    <!-- ---- 聚友杀开始------ -->
+    <div class="detail-group">
+      <div class="detail-div img-rounded other-detail text-center">
+        {if $ju_friend_count <= 0}
+        <div class="detail-group text-center" style="line-height:20px;font-weight:bold;">你是第一个，快来点下面的按钮帮我杀价吧！！一分一分省到结婚^_^</div>
+        {else}
+        <div class="detail-group text-center" style="line-height:20px;font-weight:bold;"> 已有{$ju_friend_count}名好友帮我杀价！{if $ju_needs_more_money > 0}帮帮忙，还可以再降{$ju_needs_more_money}元！{else} 搞定杀价！{/if}</div>
+        {/if}
+      </div>
+    </div>
+    <div class="detail-group" style='margin:10px auto;'>
+      <span class="col-xs-12" style="width:100%;">
+        {if strcmp(trim($giver), trim($begger)) == 0}
+          <a href="javascript:void(0)" id="jubutton" class="btn btn-danger col-xs-12" style="width:100%;"><i class="icon-ok"></i> 自砍一刀</a>
+        {else}
+          <a href="javascript:void(0)" id="jubutton" class="btn btn-danger col-xs-12" style="width:100%;"><i class="icon-ok"></i> 帮砍一刀</a>
+        {/if}
+      </span>
+    </div>
+  </div>
+
+
+  <style type="text/css">
+    #jucover{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0, 0, 0, 0.7);display:none;z-index:20000;}
+    #jucover img{position:fixed;right: 18px;top:5px;width:260px;height:180px;z-index:20001;}
+  </style>
+  <div id="jucover" onclick="$(this).hide()"><img src="./source/modules/juyousha/images/guide.png"></div>
+  <div id="loading" class="hide"><img src="./source/modules/juyousha/images/loading.gif"></div>
+  <script>
+    $(function() {
+    // 初始化聚友杀提示层为隐藏状态
+    $("#jucover").hide();
+
+    //点击具有杀价按钮后显示提示层
+    $("#jubutton").on("click", function() {
+      var doing_msg = '...';
+      var success_msg = '您已经帮助好友节省{$ju_discount}元。他对你感激涕零！';
+      var dialog = new BootstrapDialog({
+            title: '正在杀价...',
+            message: '<img style="width:100%;height:18px" src="./source/modules/juyousha/images/loading.gif" />',
+            autospin: true,
+            buttons: [{
+                label: '关闭',
+                icon: 'glyphicon glyphicon-check',
+                id: 'btn-1',
+                action: function(dialog) {
+                    dialog.close();
+                }
+            },
+            {
+                label: '去看看',
+                icon: 'glyphicon glyphicon-send',
+                id: 'btn-go',
+                action: function(dialog) {
+                  location.href="{php echo $this->createMobileUrl('Detail', array('id'=>$goodsid));}";
+                }
+            }
+                ]
+      });
+      dialog.open();
+
+      //tip("正在处理数据...");
+      $.get(
+      '{php echo $this->createMobileUrl('kill', array('goodsid' => $goodsid, 'title'=>$goods['title'], 'giver'=>$giver, 'givername'=>$givername, 'begger'=>$begger))}',
+      {},
+      function(s){
+        //tip_close();
+        if (s.message) {
+          dialog.setTitle(s.message.title);
+          dialog.setMessage(s.message.msg);
+          // 杀价成功时刷新页面
+          if (s.message.code == 0) {
+            dialog.getButton('btn-1').click(function() {
+              location.reload();
+            });
+          } else {
+            dialog.getModalHeader().css('background-color', 'red');
+          }
+        }
+      }, 'json');
+     });
+    });
+
+  </script>
+  <!-- ---- 聚友杀结束------ -->
+
+  {if count($params)>0}
+  <div class="detail-div img-rounded other-detail">
+    {loop $params $p}
+    <div class="detail-group">
+      <span class="col-xs-4">{$p['title']}</span>
+      <span class="col-xs-8">{$p['value']}</span>
+    </div>
+    {/loop}
+  </div>
+  {/if}
+
+
+  <div class="detail-div img-rounded detail-content" style="word-break:break-all">
+    {$goods['content']}
+  </div>
+
+  <div style="position:fixed; bottom:0; left:0; width:100%; text-align:center; background:#E9E9E9; padding:10px 2%;">
+    {if $goods['status']!=1 || $goods['deleted']==1}
+    <a href="javascript:void(0)" class="btn btn-default col-xs-12"  style="width:100%;">此商品已下架</a>
+    {else}
+    <input type="hidden"  id="optionid" name="optionid" value="" />
+    <!--
+    <a href="{php echo $this->createMobileUrl('Detail', array('id'=>$goodsid));}" class="btn btn-success col-xs-12"  style="width:100%;">什么好东西，我也想看看</a>
+    -->
+    {/if}
+  </div>
+</div>
+
+		
+<style>
+.attention-miji{ clear:both;margin:20px; margin-left:87%;width:30px; height:70px; background:#ccc;opacity:.4; color:#FFF; position:fixed; line-height:13px;
+filter:alpha(opacity=40);
+-moz-opacity:.4; 
+-moz-border-radius: 15px;      /* Gecko browsers */
+    -webkit-border-radius: 15px;   /* Webkit browsers */
+    border-radius:15px;            /* W3C syntax */}
+.attention-head{ width:100%;height:60px;margin-left:auto; margin-right:auto; background-color:#007799 ;font-size:12px; color:#FFF; margin-top:auto;display:block;position:fixed; bottom:0; }
+.attention-head img.headimg{ width:40px; height:40px; padding:10px 0 0 10px; float:left;}
+.orange-button {
+    background: -moz-linear-gradient(center top , #faa51a, #f47a20) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    border: 1px solid #da7c0c;
+    color: #fef4e9;
+    border-radius: 0.5em;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    display: inline-block;
+    font: 14px/100% Arial,Helvetica,sans-serif;
+    margin: 0 2px;
+    outline: medium none;
+    padding: 0.5em;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+    vertical-align: baseline;
+}
+	* {
+		margin: 0;
+		padding: 0;
+		}
+		
+		body {
+		font: 12px/1.5 tahoma,arial,'Hiragino Sans GB','\5b8b\4f53',sans-serif;
+		}
+		
+		</style>
+	
+		
+{if isset($_GPC['gz'])}
+<div class="attention-head" style="z-index:999;">
+				<img class="headimg" src="{$beggerinfo['avatar']}" alt="图像">
+                <div style=" float:left;width:155px; height:40px;overflow:hidden;margin-left:8px; margin-top:10px;">
+                <p style=" margin:5px 0">
+				来自好友<span style=" color:#0F0;">{$beggerinfo['nickname']}</span>的推荐，立即关注，抢夺东家地盘！</p>
+                </div>
+                <div style="float:right; height:30px; line-height:30px;margin:15px 5px 15px 0">
+                {php $ydyy = $this->module['config']['ydyy'];}
+                <a class="orange-button" href="{$ydyy}">点击关注</a></div>
+				
+			</div>
+
+
+{/if}
+
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=20150120"></script>
+
+<script type="text/javascript">
+
+
+//获取指定cookes函数
+function getCookie(name) 
+{ 
+    var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+ 
+    if(arr=document.cookie.match(reg))
+ 
+        return unescape(arr[2]); 
+    else 
+        return null; 
+} 
+	var mid=getCookie("mid");
+	
+	var url = "{php echo $_W['siteroot']. $this->createMobileUrl('shareDetail', array('id'=>$goodsid, 'begger'=>$_GPC['begger'])) . '&wxref=mp.weixin.qq.com'.'&gz=1'}";
+
+        var wxData = {
+            "imgUrl" : "{$_W['attachurl']}{$goods['timelinethumb']}",
+            "link" : url+"&mid="+mid,
+            "desc" : "{$goods['timelinedesc']}",
+            "title" : "{$goods['timelinetitle']}"
+        };
+                  wx.config({
+    debug: true,
+    appId: "{$signPackage['appId']}",
+    timestamp: {$signPackage['timestamp']}, 
+    nonceStr: "{$signPackage['nonceStr']}", 
+    signature: "{$signPackage['signature']}",
+     jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+      ]
+});
+</script>
+<script src="./source/modules/bj_qmxk/style/js/wxaction.js?v=2015012103"></script>
+

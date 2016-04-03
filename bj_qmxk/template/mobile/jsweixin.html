@@ -1,0 +1,46 @@
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js?v=20150120"></script>
+<script type="text/javascript">
+var wxData = {
+            "imgUrl" : "{$signPackage['imgUrl']}",
+            "link" : "{$signPackage['link']}",
+            "desc" : "{$signPackage['description']}",
+            "title" : "{$signPackage['title']}"
+};
+wx.config({
+    debug: false,
+    appId: "{$signPackage['appId']}",
+    timestamp: {$signPackage['timestamp']}, 
+    nonceStr: "{$signPackage['nonceStr']}", 
+    signature: "{$signPackage['signature']}",
+     jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+      ]
+});
+var shareData = {
+      title: wxData.title,
+      link: wxData.link,
+    	desc: wxData.desc,
+      imgUrl:  wxData.imgUrl
+    };
+
+wx.ready(function () {
+    wx.onMenuShareAppMessage(shareData);
+    wx.onMenuShareTimeline(shareData);
+    wx.onMenuShareQQ(shareData);
+    wx.onMenuShareWeibo(shareData);
+	$('#contentmain1').hide();
+	$('#contentmain2').show();
+});
+function t_hideOptionMenu()
+{
+ 
+}
+function t_showOptionMenu()
+{
+ 
+}
+</script>

@@ -1,0 +1,71 @@
+﻿@charset "utf-8";
+/* CSS Document */
+.rich_media_inner {
+	font-family: "Helvetica Neue",Helvetica,"Hiragino Sans GB","Microsoft YaHei",Arial,sans-serif;
+    background-color: #f3f3f3;
+    line-height: inherit;
+	display: block;
+    font-size: 16px;
+    word-wrap: break-word;
+	margin: 0;
+    padding: 0;
+}
+.rich_media_area_primary {
+    position: relative;
+    padding: 20px 15px 15px;
+    background-color: #fff;
+}
+.rich_media_title {
+    margin-bottom: 10px;
+    line-height: 1.4;
+    font-weight: 400;
+    font-size: 24px;
+}
+h2 {
+    display: block;
+    -webkit-margin-before: 0.83em;
+    -webkit-margin-after: 0.83em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+.rich_media_meta_list {
+    margin-bottom: 18px;
+    line-height: 20px;
+    font-size: 0;
+}
+.rich_media_meta_list em {
+    font-style: normal;
+}
+.rich_media_meta_text {
+    color: #8c8c8c;
+}
+.rich_media_meta {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+.rich_media_meta_list a {
+    color: #607fa6;
+    text-decoration: none;
+}
+/* .rich_media_content {
+    overflow: hidden;
+    color: #3e3e3e;
+} */
+.rich_media_content{height: auto;background-color: #fff;}
+.rich_media_content .pro-intro{width: 100%;height: auto;margin: 0 auto;position: relative;top: 0;left: 0;}
+.rich_media_content .pro-intro img{max-width: 100%;height: auto;width: auto\9;}
+.rich_media_tool {
+    overflow: hidden;
+    padding-top: 15px;
+    line-height: 32px;
+}
+.rich_media_tool .meta_primary {
+    float: left;
+    margin-right: 10px;
+}
+.tips_global {
+    color: #8c8c8c;
+}

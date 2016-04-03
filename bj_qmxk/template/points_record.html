@@ -1,0 +1,79 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation != 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('dailyshare')}">分享记录</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('points_record', array('op' => 'display'))}">积分记录</a></li>
+</ul>
+<div class="main">
+	<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="points_record" />
+		<input type="hidden" name="op" value="display" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>类型</th>
+					<td>
+						<select name="type">
+							<option value="">请选择</option>
+							<option value="1" {if $_GPC['type'] == 1} selected{/if}>分享</option>
+							<option value="3" {if $_GPC['type'] == 3} selected{/if}>今日签到</option>
+							<option value="4" {if $_GPC['type'] == 4} selected{/if}>扫码</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<th>昵称</th>
+					<td>
+						<input class="span3" name="realname" type="text" value="{$_GPC['realname']}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>收支情况</th>
+					<td>
+						<select name="balance">
+							<option value="">请选择</option>
+							<option value="1" {if $_GPC['balance'] == 1} selected{/if}>收入</option>
+							<option value="-1" {if $_GPC['balance'] == 2} selected{/if}>支出</option>
+						</select>
+					</td>
+				</tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:100px;">昵称</th>
+					<th style="width:100px;">积分</th>
+					<th style="width:100px;">类型</th>
+					<th style="width:100px;">收支情况</th>
+					<th style="width:200px;">添加时间</th>
+					<th style="width:300px;">备注</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td><a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $item['mid']));}">{$item['realname']}</a></td>
+					<td>{if $item['balance'] == 1} +{/if}{if $item['balance'] == 2} -1{/if}{$item['points']}</td>
+					<td>{if $item['type'] == 1}分享{elseif $item['type'] == 3}今日签到{elseif $item['type'] == 4}扫码{/if}</td>
+					<td>{if $item['balance'] == 1}收入{elseif $item['balance'] == -1}支出{/if}</td>
+					<td>{$item['addtime']}</td>
+					<td>{$item['remark']}</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{template 'common/footer'}

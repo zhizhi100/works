@@ -1,0 +1,105 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的佣金</title>
+   <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+    <link rel="stylesheet" href="{BJ_QMXK_ROOT}/style/css/style.css"/>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    <style>
+#CashAmount {
+margin-left:auto;
+margin-right:auto;
+max-width: 500px;
+background: #fff;
+padding: 25px 15px 25px 10px;
+color: #888;
+text-shadow: 1px 1px 1px #FFF;
+border:1px solid #E4E4E4;
+}
+.tip-text{border:1px solid #E4E4E4;background: #fff;padding: 15px ;line-height:30px;color:#f00;}
+input[type="button"], input[type="submit"], input[type="reset"] {
+-webkit-appearance: none; 
+}
+	</style>
+</head>
+<body class="body-gray">
+
+
+    <!--submit errow tip begin-->
+    <div data-alert class="alert-box alert" id="errerMsg" style="display: none;"><a href="#" class="close">&times;</a></div>
+    <!--submit errow tip end-->
+
+    <!--topbar begin-->
+    <div class="fixed">
+        <nav class="tab-bar">
+            <section class="left-small">
+                <a href="{php echo $this->createMobileUrl('commission')}" class="menu-icon"><span></span></a>
+            </section>
+            <section class="middle tab-bar-section">
+                <h1 class="title">提取佣金</h1>
+            </section>
+        </nav>
+    </div>
+    <!--topbar end-->
+    <!--content begin-->
+    <div class="panel extract">
+        <div class="commision-total"><span class="span-title">可提现金额</span><span class="number">¥{$freeSalary}</span></div>
+        <div class="panel extract-account">
+            <ul class="side-nav">
+                <li class="account-none"><span style="line-height: 45px;font-size: 18px;float: left;color: #999;"><span style="margin-left:10px">用户名：{$profile['realname']}<br/>银行卡号:{$bankcard['banktype']}<br/>银行名称:{$bankcard['bankcard']}<br/>支付宝：{$bankcard['alipay']}</span></span></li>
+            </ul>
+        </div>
+        <form method="post" action="{php echo $this->createMobileurl('commission',array('op'=>'applyed'))}">
+        <div class="row extract-monynumber">
+            <div class="large-12 columns">
+                <input  type="number"  name="withdrawal_amount" class=""   id="CashAmount"  placeholder="输入提取金额" onkeyup="clearNoNum(this);">
+                <span class="close-input" style="display: ;"></span>
+            </div>
+        </div>
+        <div class="tip-text">最低提现金额为<b id="MinaAmountCash">{$zhifucommission}</b>元，必须为<b id="IntTimes">{$zhifucommission}</b>的整数倍</div>
+        <input type="button" value="立即申请"   class="button [radius round] red  tixian"  />
+        </form>
+    </div>
+{template 'footer'}
+<script src="http://libs.baidu.com/jquery/1.7.1/jquery.min.js"></script>
+<script src="{BJ_QMXK_ROOT}/style/js/com.js"></script>
+<script type="text/javascript">
+
+$(".tixian").live("click", function () {
+	var withdrawal_amount=parseFloat($("input[name=withdrawal_amount]").val());
+	var zhifucommission="{$zhifucommission}";
+	if(!withdrawal_amount){
+		TopBox.alert("请输入提现金额!");
+		return false;
+	}else if(withdrawal_amount>"{$freeSalary}"){
+		TopBox.alert("输入的提现金额不能大于可提现金额!");
+		return false;
+	}else if(withdrawal_amount%zhifucommission){
+		TopBox.alert("输入的提现金额必须为"+zhifucommission+"的倍数！");
+		return false;
+	}else{
+		$("form").submit();
+	}
+	
+})
+
+ function clearNoNum(obj) {
+        //先把非数字的都替换掉，除了数字和.
+        obj.value = obj.value.replace(/[^\d.]/g,"");
+        //必须保证第一个为数字而不是.
+        obj.value = obj.value.replace(/^\./g,"");
+        //保证只有出现一个.而没有多个.
+        obj.value = obj.value.replace(/\.{2,}/g,".");
+        //保证.只出现一次，而不能出现两次以上
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+    }
+</script>
+</body>
+</html>

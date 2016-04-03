@@ -1,0 +1,220 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>自由积分转账</title>
+     <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/normalize.css">
+     <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+	 <link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    <style>
+		li{list-style:none;padding:5px 0px;}
+		#brokeragelist{width:95%;}
+ input{ height: 35px;background: #fff; box-shadow: 0 1px 1px rgba(0,0,0,.1);text-indent: 8px;padding: 20px 0;font-size: 14px;line-height: 35px; -webkit-appearance: none; margin-bottom:10px}
+  input[type="text"], input[type="number"] {
+color: #888;
+padding: 0px 0px 0px 5px;
+border: 1px solid #CBCFD2;
+background: #FBFBFB;
+outline: 0;
+-webkit-box-shadow:inset 0px 1px 6px #EFF2F5;
+box-shadow: inset 0px 1px 6px #EFF2F5;
+font: 200 12px/25px Arial, Helvetica, sans-serif;
+height: 35px;
+line-height:25px;
+margin: 2px 6px 16px 0px;
+}
+
+ textarea{
+height:100px;
+padding: 5px 0px 0px 5px;
+}
+input[type=button], input[type=submit], input[type=file], button { line-height:40px;height:40px;cursor: pointer; -webkit-appearance: none;} 
+.text,.pic{float:left;}
+.member_info{border:1px solid #CBCFD2;padding:10px;}
+.dotransfer{display:none;}
+.fhmx_list div{margin:5px;}
+	</style>
+</head>
+
+<body>
+ 
+    <!--table begin-->
+    <dl class="tabs tab-title2">
+		<dd class="active" id="brokeragetab"  style="width:33%"><a href="javascript:void(0)" onclick="brokeragelistshow(this)"><i class="icon-comdetail"></i>我要转账</a></dd>
+   		 <dd id="transferrecordtab"  style="width:33%"><a href="javascript:void(0)" onclick="transferrecordshow(this)"><i class="icon-extract"></i>转账记录</a></dd>
+   		  <dd id="receivetab"  style="width:33%"><a href="javascript:void(0)" onclick="receivelistshow(this)"><i class="icon-extract"></i>接收记录</a></dd>
+    </dl>
+    <!--table end-->
+    <!--content begin-->
+<div class="tabs-content">
+          <!--content begin-->
+    <div class="tabs-content">
+        <!--commission begin-->
+        <div class="content active" id="brokeragelist">
+        	<ul>
+        		<li><span>当前自由积分:&nbsp;&nbsp;</span><em style="font-size:16px;color:#f00;"><strong>¥{$credit3}</strong></em></li>
+        		<li><span>转账ID:&nbsp;&nbsp;</span>
+        		<input name="member_number" type="text" placeholder="请输入转账对方的会员编号"  style="margin-top:5px;"/>
+        		<span><input type="button" value="查询" class="button  query"/></span></li>
+        		<li class="member_info" style="padding:10px;">
+	        		对方信息显示区域
+        		</li>
+        		<li >
+        			<h4 style="color:#f00 ;margin:10px;">请核对转账信息并输入转账金额</h4>
+        			<div>
+        				<input type="number"  name="transfer_money" class=""   id="CashAmount"  placeholder="输入转账金额" onkeyup="clearNoNum(this);"/>
+        				 <input type="button" value="立即转账"   class="button [radius round] red  dotransfer"  />
+        			</div>
+        		</li>
+        	</ul>
+        </div>
+        
+        <div class="content active" id="transferrecordlist"  style="display:none;">
+        	    <ul class="fhmx_list">
+        	    {loop $transfer_list  $item}
+        	    	<li  style="background:#fff;border:2px solid #ccc;padding:10px;margin:10px 20px 0px 0px;">
+              			<div><span>付款人:</span><font color="#f00">{$item['from_realname']}</font></div>
+              			<div><span>收款人:</span>{$item['to_realname']}</div>
+              			<div><span>属性:</span>	{if $item['type']==1}自由余额转账{/if}</div>
+              			<div><span>金额:</span><font color="#f00">{$item['money']}元</font></div>
+              			<div><span>转账时间:</span>{$item['createtime']}</div>
+	              	</li>
+	              {/loop}
+        	    </ul>
+        	       {if empty($transfer_list)}
+		            <div class="disorder-none"><i class="icon-none"></i><span class="nonetext">您还没有转账记录！</span></div>
+		           {/if}
+        </div>
+         <div class="content active" id="transferrecordlist"  style="display:none;">
+        	    <ul class="fhmx_list">
+        	    {loop $receivelist  $item}
+        	    	<li  style="background:#fff;border:2px solid #ccc;padding:10px;margin:10px 20px 0px 0px;">
+              			<div><span>付款人:</span>{$item['from_realname']}</div>
+              			<div><span>收款人:</span><font color="#f00">{$item['to_realname']}</font></div>
+              			<div><span>属性:</span>	{if $item['type']==1}自由余额转账{/if}</div>
+              			<div><span>金额:</span><font color="#f00">{$item['money']}元</font></div>
+              			<div><span>转账时间:</span>{$item['createtime']}</div>
+	              	</li>
+	              {/loop}
+        	    </ul>
+        	       {if empty($receivelist)}
+		            <div class="disorder-none"><i class="icon-none"></i><span class="nonetext">您还没有接收记录！</span></div>
+		           {/if}
+        </div>
+        
+        
+	</div>
+</div>
+{template 'footer'}	
+<div class="wx_nav"><a href="{php echo $this->createMobileUrl('list')}" data-href="###" ptag="37080.1.1" class="nav_index on">首页</a><a href="{php echo $this->createMobileUrl('listCategory')}"  ptag="37080.1.2" class="nav_search" style="display:">分类</a><a href="{php echo $this->createMobileUrl('mycart')}"  ptag="37080.1.3" class="nav_shopcart">购物车</a><a href="{php echo $this->createMobileUrl('myorder')}"  ptag="37080.1.4" class="nav_shopping_guide">我的订单</a><a href="{php echo $this->createMobileUrl('fansindex')}"  ptag="37080.1.4" class="nav_me">创客中心</a></div>
+    <!--content begin-->
+    <script type="text/javascript">
+    function clearNoNum(obj) {
+        //先把非数字的都替换掉，除了数字和.
+        obj.value = obj.value.replace(/[^\d.]/g,"");
+        //必须保证第一个为数字而不是.
+        obj.value = obj.value.replace(/^\./g,"");
+        //保证只有出现一个.而没有多个.
+        obj.value = obj.value.replace(/\.{2,}/g,".");
+        //保证.只出现一次，而不能出现两次以上
+        obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
+    }
+    $(".query").click(function(){
+    	var member_number=$("input[name=member_number]").val();
+    	if(!member_number){
+    		   alert("请输入转账对方的会员编号");
+    		   return false;
+    	}
+    	 $.ajax({
+				type: "POST",
+				url: "{php echo $this->createMobileurl('transfer',array('op'=>'ajaxquery'))}",
+				data: { 'member_number': member_number},
+				dataType: "text",
+				success: function (d) {
+					var arr=eval("("+d+")");
+					if(arr["code"]=="success"){
+						var html="";
+						html +='<span class="pic"> <img src="'+arr['data']['avatar']+'" width="50"/></span><div class="text" style="margin-left:20px;">';
+						html +='  <span class="pro-name">昵称：<span class="realname">'+arr['data']['realname']+'</span></span>';
+						html +='    <div class="pro-pric"><span>关注时间：</span><span class="createtime">'+arr['data']['createtime']+'</span></div> </div><div style="clear:both;"></div>';
+				        $(".member_info")  .html(html)
+				        $(".dotransfer").show();
+					}else{
+						alert(arr["data"]);
+					 $(".member_info")  .html("暂未找到相关信息!")
+					}
+					return;
+				},
+				error: function (xml, text, thrown) {
+				}
+			});
+    })
+    
+    $(".dotransfer").on("click",function(){
+    	var transfer_money=parseFloat($("input[name=transfer_money]").val()).toFixed(2);
+    	var member_number=$("input[name=member_number]").val();
+    	var total_money={$credit3};
+    	if(!member_number){
+    		   alert("请输入转账对方的会员编号");
+    		   return false;
+    	}
+    	if(!transfer_money){
+ 		   alert("请输入转账金额");
+ 		  return false;
+ 		}
+    	if(transfer_money>total_money){
+    		 alert("转账金额不能大于当前总自有积分!");
+    		  return false;
+    	}
+    	 $.ajax({
+				type: "POST",
+				url: "{php echo $this->createMobileurl('transfer',array('op'=>'ajaxtransfer'))}",
+				data: { 'member_number': member_number,'transfer_money':transfer_money},
+				dataType: "text",
+				success: function (d) {
+					var arr=eval("("+d+")");
+					if(arr["code"]=="success"){
+						 alert("恭喜您转账成功!");
+						location.reload();
+					}else{
+						alert(arr["data"]);
+					}
+					return;
+				},
+				error: function (xml, text, thrown) {
+				}
+			});
+    })
+        function brokeragelistshow() {
+             $("#receivelist").hide();
+             $("#transferrecordlist").hide();
+             $("#brokeragelist").show();
+             $("#brokeragetab").addClass("active");
+             $("#receivetab").removeClass("active");
+             $("#transferrecordtab").removeClass("active");
+        }
+        function receivelistshow() {
+            $("#brokeragelist").hide();
+            $("#transferrecordlist").hide();
+            $("#receivelist").show();
+            $("#receivetab").addClass("active");
+            $("#brokeragetab").removeClass("active");
+            $("#transferrecordtab").removeClass("active");
+        }
+    function  transferrecordshow() {
+        $("#brokeragelist").hide();
+        $("#receivelist").hide();
+        $("#transferrecordlist").show();
+        $("#receivetab").removeClass("active");
+        $("#brokeragetab").removeClass("active");
+        $("#transferrecordtab").addClass("active");
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,80 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的勋章</title>
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+	    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/dis-v4.1.css?201411241620000000">
+		<link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.tab.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.accordion.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/func.js"></script>
+</head>
+<body>
+    <div class="mask"></div>
+    <div class="bro-spare">
+        <p class="tip-txt"><i class="icon-money"></i>总分红金额</p>
+        <span class="number-big">¥{if empty($total_money)}0{else}{$total_money}{/if}元</span>
+        <p class="field-2">已打款分红总额：<big>¥{if empty($already_money)}0{else}{$already_money}{/if}元</big></p>
+    </div>
+    <!--list begin-->
+    <ul class="maneylist" >
+    {loop $medal_info $medal}
+           <li class="maneylist-li">
+            <a  class="a-personal" href="{php echo $this->createMobileUrl('medal', array('op'=>'dividendDetail','medal_id'=>$medal['id']))}">
+                <i class=""><img src='./resource/attachment/{$medal["avatar"]}' width="20" height="20"/></i>
+                <span class="text">{$medal["medal_name"]}</span>
+                <span class="money-number">¥{$medal["money"]}</span>
+            </a>
+        </li>
+      {/loop}
+    </ul>
+    <!--list end-->
+
+    <div class="bro-extract-btn">
+        <a href="{php echo $this->createMobileUrl('medal', array('op'=>'dividendDetail'))}" class="button [radius round] red">分红明细</a>
+    </div>
+
+	{template 'footer'}
+	   <div class="h50"></div>
+
+    <div class="fixed bottom">
+        <div class="shareList">
+            <ul class="small-block-grid-4" id="sharelist">
+                <li shareid="tsina"><i class="icon-sina"></i><span class="name">新浪微博</span></li>
+                <li shareid="qzone"><i class="icon-qqzone"></i><span class="name">QQ空间</span></li>
+                <li shareid="tqq"><i class="icon-txwb"></i><span class="name">腾讯微博</span></li>
+                <li class="no-line" shareid="xiaoyou"><i class="icon-friend"></i><span class="name">朋友网</span></li>
+                <li shareid="ydnote"><i class="icon-youdao"></i><span class="name">有道云笔记</span></li>
+            </ul>
+        </div>
+    </div>
+ <script>
+        $(document).foundation().foundation('joyride', 'start');
+
+        function showShare() {
+            $(".shareList").slideToggle("slow");
+            $(".mask").toggle();
+        }
+
+        $(document).ready(function () {
+            $(".mask").click(function () {
+                $(".shareList").slideToggle("slow");
+                $(".mask").toggle();
+            })
+        })
+    </script>
+    <!-- JiaThis Button BEGIN -->
+
+
+    
+{template 'jsweixin'}
+</body>
+</html>

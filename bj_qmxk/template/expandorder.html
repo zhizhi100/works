@@ -1,0 +1,65 @@
+{template 'common/header'}
+{template 'common'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'display' }class="active"{/if}><a>我的推广订单</a></li>
+	<li><a href="javascript:history.go(-1);">返回</a></li>
+</ul>
+{if $operation == 'display'}
+<div class="main">
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:100px;"></th>
+					<th style="width:120px;">订单编号</th>
+					<th style="width:100px;">收货人姓名</th>
+					<th style="width:80px;">联系电话</th>
+					<th style="width:80px;">支付方式</th>
+					<th style="width:50px;">总价</th>             
+<!--				<th style="width:50px;">类型</th>-->
+					<th style="width:50px;">状态</th>
+					<th style="width:150px;">下单时间</th>
+						<th style="width:50px;">1级佣金</th>	{if $cfg['globalCommissionLevel']>=2}		
+					<th style="width:50px;">2级佣金</th>	    {/if}	{if $cfg['globalCommissionLevel']>=3}		
+						<th style="width:50px;">3级佣金</th>			  {/if}	
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['level']}级订单</td>
+					<td>{$item['ordersn']}</td>
+					<td>{$address[$item['addressid']]['realname']}</td>
+					<td>{$address[$item['addressid']]['mobile']}</td>
+					<td>{if $item['paytype'] == 1}<span class="label label-important">余额支付</span>{/if}{if $item['paytype'] == 2}<span class="label label-important">在线支付</span>{/if}{if $item['paytype'] == 3}<span class="label label-warning">货到付款</span>{/if}</td>
+					<td>{$item['price']} 元</td>
+					<td>
+						{if $item['status'] == 0}<span class="label label-info" >待付款</span>{/if}
+						{if $item['status'] == 1}<span class="label label-info" >待发货</span>{/if}
+						{if $item['status'] == 2}<span class="label label-info">待收货</span>{/if}
+						{if $item['status'] ==3}<span class="label label-success" >已完成</span>{/if}
+						{if $item['status'] == -1}<span class="label label-success">已关闭</span>{/if}
+						{if $item['status'] == -2}<span class="label label-info">退款中</span>{/if}
+						{if $item['status'] == -3}<span class="label label-info">换货中</span>{/if}
+						{if $item['status'] ==-4}<span class="label label-info">退货中</span>{/if}
+						{if $item['status'] == -5}<span class="label label-success">已退货</span>{/if}
+						{if $item['status'] == -6}<span class="label  label-success">已退款</span>{/if}
+					<td>{php echo date('Y-m-d H:i:s', $item['createtime'])}</td>
+							<td>{if $item['status'] == 3}{$item['commission']}元{else}{$item['commission']}元{/if}</td>{if $cfg['globalCommissionLevel']>=2}		
+							<td>{if $item['status'] == 3}{$item['commission2']}元{else}{$item['commission2']}元{/if}</td>{/if}	{if $cfg['globalCommissionLevel']>=3}		
+									<td>{if $item['status'] == 3}{$item['commission3']}元{else}{$item['commission3']}元{/if}</td>{/if}
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+<script type="text/javascript" src="{BJ_QMXK_ROOT}/recouse/js/jquery-ui-timepicker-addon.js"></script><script type="text/javascript">
+    $(function() {
+        $('#start_time').timepicker({});
+        $('#end_time').timepicker({});
+    });
+</script>
+{/if}
+{template 'common/footer'}

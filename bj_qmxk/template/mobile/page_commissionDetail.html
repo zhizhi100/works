@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>{$title}明细</title>
+     <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/normalize.css">
+     <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+	 <link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    	<style>
+				.tabs-content{background:#f5f5f5}
+				.fhmx_list {margin:0px;border:none;box-shadow:none}
+    			.fhmx_list li{list-style:none;text-align:right;font-size:14px;color:#999;background:#fff;border-top:1px solid #eee;border-bottom:1px solid #eee;margin:10px 0px;}
+				.fhmx_list li span{position:absolute;left:10px;top:0px;color:#444;}
+				.fhmx_list li div{position:relative;height:30px;line-height:30px;padding:0px 10px;}
+				.fhmx_list li div b{color:#f00;}
+    		</style>
+</head>
+
+<body>
+    <!--table end-->
+    <!--content begin-->
+    <div class="tabs-content">
+          <!--content begin-->
+    <div class="tabs-content">
+        <!--commission begin-->
+        <div class="content active" id="brokeragelist">
+        	{if !empty($list)}
+              <ul class="fhmx_list">
+				{if $action=="expand"}
+					{loop $list $item}
+						<li>
+	              			<div><span>{$item['level']}级订单:</span>{$item['ordersn']}</div>
+	              			<div><span>购买人:</span>{$item['realname']}</div>
+	              			<div><span>推广金额:</span>{if !empty($item['commission'])}+{$item['commission']}元{else}--{/if}</div>
+	              			<div><span>时间:</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</div>
+	              			<div><span>订单状态:</span>
+	              			{if $item['status1'] == 0}	{if $item['status'] == 0}待付款{/if}
+							{if $item['status'] == 1}待发货{/if}
+							{if $item['status'] == 2}待收货{/if}
+							{if $item['status'] == 3}已完成{/if}
+							{if $item['status'] == -1}已关闭{/if}{/if}
+	              		</li>
+					{/loop}
+				{/if}
+				{if $action=="consumerRebates"}
+					{loop $list $item}
+						<li>
+	              			<div><span>订单编号:</span>{$item['ordersn']}</div>
+	              			<div><span>订单金额:</span>{$item['price']}</div>
+	              			<div><span>返点金额:</span>{$item['rebates_money']}</div>
+	              			<div><span>时间:</span>{php echo date('Y-m-d H:i:s', $item['createtime'])}</div>
+	              			<div><span>订单状态:</span>
+	              			{if $item['status1'] == 0}	{if $item['status'] == 0}待付款{/if}
+							{if $item['status'] == 1}待发货{/if}
+							{if $item['status'] == 2}待收货{/if}
+							{if $item['status'] == 3}已完成{/if}
+							{if $item['status'] == -1}已关闭{/if}{/if}
+	              		</li>
+					{/loop}
+				{/if}
+				{if $action=="agency"}
+					{loop $list $item}
+						<li>
+              			<div><span>代理名称</span>{$item["medal_name"]}</div>
+              			<div><span>分红时间</span>{$item["add_time"]}</div>
+              			<div><span>分红金额</span><b>{$item["money"]}元</b></div>
+              			<div><span>当前分红人数</span><b>{$item["person_num"]}人</b></div>
+	              		</li>
+					{/loop}
+			  {/if}	
+			  {if $action=="subscribe"}
+					{loop $list $item}
+						<li>
+              			<div><span>订单号</span>{$item["ordersn"]}</div>
+              			<div><span>时间</span>{$item["add_time"]}</div>
+              			<div><span>金额</span><b>{$item["money"]}元</b></div>
+              			<div><span>当前分钱同级人数</span><b>{$item["person_num"]}人</b></div>
+	              		</li>
+					{/loop}
+			  {/if}	
+			  {if $action=="withdraw"}
+					{loop $list $item}
+						<li>
+              			<div><span>申请时间</span>{php echo date('Y-m-d H:i:s',$item['createtime'])}</div>
+              			<div><span>申请金额</span><b>{$item["commission"]}元</b></div>
+              			<div><span>状态</span><b>
+              				{if $item['status']==0}未审核{/if}
+												{if $item['status']==1}已审核{/if}
+												{if $item['status']==-1}审核无效{/if}
+												{if $item['status']==2}已打款{/if}
+              			</b></div>
+              			{if $item["status"] >0  && $item["status"] <2}
+              				<div><span>审核时间</span>{php echo date('Y-m-d H:i:s',$item['checktime'])}</div>
+              			{/if}
+              			{if $item["status"] ==2}
+              			<div><span>打款时间</span>{php echo date('Y-m-d H:i:s',$item['paymenttime'])}</div>
+              			{/if}
+	              		</li>
+					{/loop}
+			  {/if}	
+          	  </ul>
+              	{$pager}
+           {/if}
+           {if empty($list)}
+            <!--none begin-->
+            <div class="disorder-none"><i class="icon-none"></i><span class="nonetext">您还没有佣金！</span></div>
+            <!--none end-->
+           {/if}
+        </div>
+        <!--commission end-->
+    </div>
+	
+{template 'footer'}	
+<div class="wx_nav"><a href="{php echo $this->createMobileUrl('list')}" data-href="###" ptag="37080.1.1" class="nav_index on">首页</a><a href="{php echo $this->createMobileUrl('listCategory')}"  ptag="37080.1.2" class="nav_search" style="display:">分类</a><a href="{php echo $this->createMobileUrl('mycart')}"  ptag="37080.1.3" class="nav_shopcart">购物车</a><a href="{php echo $this->createMobileUrl('myorder')}"  ptag="37080.1.4" class="nav_shopping_guide">我的订单</a><a href="{php echo $this->createMobileUrl('fansindex')}"  ptag="37080.1.4" class="nav_me">创客中心</a></div>
+    <!--content begin-->
+    <script type="text/javascript">
+        $('a[name="list"]').click(function () {
+            //  alert(1)
+            $(this).parent().children("div").toggle();
+            $(this).parent().toggleClass("current");
+        })
+
+        $('div[name="listext"]').click(function () {
+            $(this).toggleClass("current");
+        })
+            
+        
+        function brokeragelistshow() {
+            $("#brokeragelist").show();
+            $("#extractlist").hide();
+            $("#brokeragetab").addClass("active");
+            $("#extracttab").removeClass("active");
+        }
+        function extractlistshow() {
+            $("#brokeragelist").hide();
+            $("#extractlist").show();
+            $("#extracttab").addClass("active");
+            $("#brokeragetab").removeClass("active");
+        }
+    </script>
+</body>
+</html>

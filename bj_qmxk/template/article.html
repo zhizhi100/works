@@ -1,0 +1,238 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'&&$modules!='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op' => 'post'))}">添加文章</a></li>
+	<li {if $operation == 'display'&&$modules!='column'&&$modules!='share'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op' => 'display'))}">管理文章</a></li>
+	<li {if $operation == 'post'&&$modules=='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_column', array('op' => 'post'))}">添加文章栏目</a></li>
+	<li {if $operation == 'display'&&$modules=='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_column', array('op' => 'display'))}">管理文章栏目</a></li>
+<!-- 	<li {if $operation == 'display'&&$modules=='share'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_share', array('op' => 'display'))}">文章分享阅读记录</a></li> -->
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return formcheck();">
+        <input type="hidden" name="id" value="{$item['id']}" />
+        {if $item['id']}
+        <h4>修改文章</h4>
+        {else}
+        <h4>添加文章</h4>
+        {/if}
+		<table class="tb">
+			<tr>
+				<th><span class="white">*</span><label for="">文章栏目</label></th>
+				<td>
+					<select class="span7" style="margin-right:15px;" name="column_id">
+						<option value="">请选择</option>
+						{loop $column $row}
+						<option value="{$row['id']}" {if $row['id'] == $item['column_id']} selected="selected"{/if}>{$row['column_name']}</option>
+						{/loop}
+					</select>
+				</td>
+			</tr>
+		    <tr>
+		        <th><span class="red">*</span><label for="">文章标题</label></th>
+		        <td>
+		            <input type="text" name="title" id="title" class="span7" value="{$item['title']}" />
+		        </td>
+		    </tr>
+			<tr>
+			    <th><span class="white">*</span>文章内容</th>
+			    <td>
+			        <textarea style="height:500px; width:90%;" class="span7 richtext-clone" name="content" cols="70">{$item['content']}</textarea>
+			    </td>
+			</tr>
+			<tr>
+				<th><span class="white">*</span>描述</th>
+				<td>
+				    <textarea style="height:150px;" class="span7" name="describe" cols="70">{$item['describe']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th><span class="white">*</span>分享次数</th>
+				<td>
+					<input type="text" name="share_num" class="span7" value="{$item['share_num']}" />
+					<span class="help-block">推广次数只能是非负整数！</span>
+				</td>
+			</tr>
+			<tr>
+				<th><span class="white">*</span>阅读次数</th>
+				<td>
+					<input type="text" name="read_num" class="span7" value="{$item['read_num']}" />
+					<span class="help-block">阅读次数只能是非负整数！</span>
+				</td>
+			</tr>
+			<tr>
+                <th><label for="">是否推广</label></th>
+                <td>
+                    <label for="isshow1" class="radio inline"><input type="radio" name="recommend" value="1" id="isshow1" {if $item['recommend'] == 1}checked="true"{/if} /> 是</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <label for="isshow2" class="radio inline"><input type="radio" name="recommend" value="-1" id="isshow2"  {if $item['recommend'] == -1}checked="true"{elseif empty($item['recommend'])}checked="true"{/if} /> 否</label>
+                    <span class="help-block"></span>
+                </td>
+            </tr>
+			<tr>
+			    <th></th>
+			    <td>
+			        <input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+			        <input type="hidden" name="token" value="{$_W['token']}" />
+			    </td>
+			</tr>
+		</table>
+    </form>
+</div>
+<link type="text/css" rel="stylesheet" href="./resource/script/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./resource/script/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./resource/script/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+	kindeditor($('.richtext-clone'));
+    function formcheck(){                         
+        if($("#title").isEmpty()) {
+            Tip.focus("title","请输入文章标题!","right");
+            return false;
+        }
+    }
+    $(function(){     
+    	$("input[name=spread_num]").keyup(function () {
+            var reg = $(this).val().match(/^(0|[1-9]\d*)$/);
+            var txt = '';
+            if (reg != null) {
+                txt = reg[0];
+            }
+            $(this).val(txt);
+        }).change(function () {
+            $(this).keypress();
+            var v = $(this).val();
+            if (/\.$/.test(v)){
+                $(this).val(v.substr(0, v.length - 1));
+            }
+        })
+        $("input[name=read_num]").keyup(function () {
+            var reg = $(this).val().match(/^(0|[1-9]\d*)$/);
+            var txt = '';
+            if (reg != null) {
+                txt = reg[0];
+            }
+            $(this).val(txt);
+        }).change(function () {
+            $(this).keypress();
+            var v = $(this).val();
+            if (/\.$/.test(v)){
+                $(this).val(v.substr(0, v.length - 1));
+            }
+        })
+    });
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<form action="site.php" method="get">
+		<div class="search">
+			<input type="hidden" name="act" value="module" />
+			<input type="hidden" name="do" value="article" />
+			<input type="hidden" name="op" value="display" />
+			<input type="hidden" name="name" value="bj_qmxk" />
+			<table class="table table-bordered tb">
+				<tbody>
+					<tr>
+						<th>文章标题</th>
+						<td>
+							<input class="span3" name="title" id="" type="text" value="{$_GPC['title']}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>文章栏目</th>
+						<td>
+							<select name="column_id">
+								<option value="">请选择</option>
+								{loop $column $row}
+								<option value="{$row['id']}" {if $row['id'] == $_GPC['column_id']} selected="selected"{/if}>{$row['column_name']}</option>
+								{/loop}
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th>状态</th>
+						<td>
+							<select name="recommend">
+								<option value="">请选择</option>
+								<option value="1" {if $_GPC['recommend'] == 1} selected{/if}>已推广</option>
+								<option value="-1" {if $_GPC['recommend'] == -1} selected{/if}>未推广</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+					 <tr class="search-submit">
+						<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+					 </tr>
+				</tbody>
+			</table>
+		</div>
+		<div style="padding:15px;">
+			<table class="table table-hover">
+				<thead class="navbar-inner">
+					<tr>
+<!-- 						<th style="width:50px;"></th> -->
+						<th style="min-width:300px;">文章标题</th>
+						<th style="width:150px;">文章栏目</th>
+						<th style="width:150px;">状态(点击可修改)</th>
+						<th style="width:100px;">分享次数</th>
+						<th style="width:100px;">阅读次数</th>
+						<th style="width:150px;">添加人</th>
+						<th style="width:200px;">添加时间</th>
+						<th style="text-align:right;width:100px;">操作</th>
+					</tr>
+				</thead>
+				<tbody>
+					{loop $list $item}
+					<tr>
+<!-- 						<td><input type="checkbox" class="checkitem" name="chk[]" value="{$item['id']}"/></td> -->
+						<td>{$item['title']}</td>
+						<td>{$item['column_name']}</td>
+						<td>{if $item['recommend'] == 1}<span data='{$item['recommend']}' onclick="setProperty(this,{$item['id']},'recommend')" class="label label-success" style="cursor:pointer;">已推广</span>{else}<span data='{$item['recommend']}' onclick="setProperty(this,{$item['id']},'recommend')" class="label label-error" style="cursor:pointer;">未推广</span>{/if}</td>
+						<td>{$item['share_num']}</td>
+						<td>{$item['read_num']}</td>
+						<td>{$item['operator']}</td>
+						<td>{$item['add_time']}</td>
+						<td style="text-align:right;">
+							<a href="{php echo $this->createWebUrl('article', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;<a href="{php echo $this->createWebUrl('article', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+						</td>
+					</tr>
+					{/loop}
+					<tr>
+			            <td colspan="9" style="line-height:22px">
+			            	<label style="margin-right:15px;float:left;height:22px"><input style="float:left;" type="checkbox" class="checkall" style="margin-top:7px"/>全选</label>
+<!-- 			                <input style="border:1px solid #8d8d8d;border-radius:5px;height:22px;font-size:12px" type="button" name="alldelete" value="删除" onclick="return confirm('此操作不可恢复，确认删除？');return false;"/> -->
+			            </td>
+			        </tr>
+				</tbody>
+			</table>
+			{$pager}
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id,type){
+        $.post("{php echo $this->createWebUrl('setarticleproperty')}"
+        ,{id:id,type:type, data: obj.getAttribute("data")}
+        ,function(d){
+			$(obj).attr("data",d.data);
+			if(d.data==1){
+				obj.innerHTML = '已推广';	
+			}
+			if(d.data==-1){
+				obj.innerHTML = '未推广';
+			}
+			$(obj).toggleClass("label-success");
+        },"json");
+    }
+	$('.checkall').click(function(){
+		var _self = this;
+		$('.checkitem').each(function(){
+			if (!this.disabled){
+				$(this).attr('checked', _self.checked);
+			}
+		});
+		$('.checkall').attr('checked', this.checked);
+	});
+</script>
+{/if}
+{template 'common/footer'}

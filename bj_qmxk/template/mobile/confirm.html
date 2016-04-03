@@ -1,0 +1,563 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+     <meta charset="utf-8">
+    <title>订单确认</title>
+    
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+	<link rel="stylesheet" href="{BJ_QMXK_ROOT}/recouse/css/confirm.css?v=111" />
+	<script type="text/javascript" src="./resource/script/jquery-1.7.2.min.js"></script>
+
+<style>
+body{padding-bottom:55px}
+
+.label_radio input { 
+	margin-right: 5px; 
+}
+
+.has-js .label_radio { 
+	padding-left: 26px; 
+}
+
+.has-js .label_radio { 
+	background-position: 0 0;
+	background: url({BJ_QMXK_ROOT}/recouse/images/radio_none.png) no-repeat;
+	background-size: 16px 16px;
+}
+.has-js label.r_on { 
+	background-position: 0 0px;
+	background: url({BJ_QMXK_ROOT}/recouse/images/radio_check.png) no-repeat;
+	background-size: 16px 16px;
+}
+.has-js .label_radio input { 
+	position: absolute; 
+	left: -9999px; 
+} 
+
+.btn-danger {
+  color: #ffffff;
+  background-color: #d9534f;
+  border-color: #d43f3a;
+}
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.428571429;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+.regular-checkbox{display:none;}
+
+.regular-checkbox+ label {-webkit-appearance: none;margin:10px 5px;font-size:14px;border-radius: 5px;display: inline-block;position: relative;color:#333;position:relative;}
+.regular-checkbox+ label img{width:200px;}
+.regular-checkbox+ label div{position:absolute;width:100%;bottom:0px;top:0px;background:url({BJ_QMXK_ROOT}/recouse/images/gou.png) no-repeat center rgba(0,0,0,0.5);display:none}
+.regular-checkbox:checked + label {color: #ffa900;}
+.regular-checkbox:checked + label  div{display:block;}
+
+
+</style>
+
+    </head>
+<body>
+
+
+
+<section class="accounts">
+<div class="infobox">
+ <h2>收货信息</h2>
+   {if !empty($row)}
+ 
+ <p class="address_item">{$row['province']} {$row['city']} {$row['area']} {$row['address']} <br/> {$row['realname']}, {$row['mobile']}</p>
+<p><button type="button" class="btn btn-danger" onclick="location.href='{php echo $this->createMobileUrl('address',array('from'=>'confirm','returnurl'=>urlencode($returnurl)))}'"><i class="icon-plus"></i>管理收货地址</button></p>
+	  {else}
+	<p><button type="button" class="btn btn-danger" onclick="location.href='{php echo $this->createMobileUrl('address',array('from'=>'confirm','returnurl'=>urlencode($returnurl)))}'"><i class="icon-plus"></i> 添加收货地址</button></p>
+		{/if}
+
+</div>
+<form id='formorder' name="input" onsubmit="return check()" method="post">
+<input type="hidden" name="goodstype" value="{$goodstype}" />
+<input type="hidden" name="address" value="{$row['id']}" />
+ <div class="infobox">
+ <h2>配送方式</h2>
+ <ul class="payStyle">
+ {loop $dispatch $d}
+  <li>
+ <label>
+ 	<input name="dispatch"  type="radio"  value="{$d['id']}"   onchange="peisongType({$d['price']});"/>
+ 		{$d['dispatchname']}
+ 	</label>
+</li>
+ {/loop}
+  </ul>
+</div>
+{if !empty($all_voucher_receive)}
+<div class="infobox">
+	 <h2>选择代金券</h2>
+	  <div class="mycard">
+	 	 {loop  $all_voucher_receive  $item}
+	 	<input type="checkbox" id="checkbox-{$item['id']}"   onchange="reducePaymentAmount('vocher','','{$item['money']}',$(this))"   name="voucher_record_ids[]" class="regular-checkbox mycard_li"  value="{$item['id']}" data-param="{$item['money']}" data="{$item['voucher_name']}"/>
+			<label for="checkbox-{$item['id']}" >
+				<img src="./resource/attachment/{$item['pic']}" width="100"/>
+				<div></div>	
+			</label>
+	 	{/loop}
+	  </div>
+</div>
+{/if}
+ <div class="infobox">
+ <h2>余额支付</h2>
+ <ul class="payStyle">
+ <li>
+ 	<label><img src="{BJ_QMXK_ROOT}/recouse/images/icon-yuer.png" />余额支付</label>
+</li>
+<li>
+	<label>
+		<input class="balance"   id="credit2"  type="checkbox"  value="3"   onchange="reducePaymentAmount('balance','credit2','{$yue['credit2']}','')" 
+       data="{$yue["credit2"]}"/>购物积分({$yue["credit2"]}元)
+	</label>
+</li> 
+<li>
+	<label>
+		<input   class="balance"    type="checkbox"  id="credit3"   value="3"  
+		onchange="reducePaymentAmount('balance','credit3','{$yue['credit3']}','')"   data="{$yue["credit3"]}"/>自由积分({$yue["credit3"]}元)
+	</label>
+</li>
+ </ul>
+ </div>
+ <div class="infobox">
+ <h2>支付方式</h2>
+ <ul class="payStyle">
+	<li><label><input  name="sendtype" checked="checked" class="non_balance_paid"  onchange='oncheckboxchange("paytype1");'  type="radio" 
+	 value="1"  />
+		<img src="{BJ_QMXK_ROOT}/recouse/images/icon-weixin.png" />
+		微信支付</label></li>
+  </ul>
+</div>
+
+
+<div class="my-memvers">
+  <div class="member-browse">
+        <h2 class="member-browse-title"><span>订单详情</span></h2>
+        <ul class="member-browse-ul">
+       	{loop $allgoods $item}
+            <li class="member-browse-li">
+                <div class="row member-browse-summey">
+                    <a class="member-browse-summey-info" href="{php echo $this->createMobileUrl('detail',array('id'=>$item['id']))}" >                 
+                        <div class="member-browse-nt">                           
+                            <span class="member-browse-name"> {$item['title']}</span>
+                        </div>
+                    </a>                   
+                </div>
+              <span class='goodsprice' style="display:none">{$item['totalprice']}</span>
+                <div class="member-browser-pro-list" >
+                    
+                    <a class="member-browser-pro-a" href="#"><span class="pro-img">
+                        <img src="{php echo $_W['attachurl'].$item['thumb']}"></span><p class="pro-info"><span class="pro-name">
+							{if $totaldiscount > 0}
+					        原价：<span id='totalprice'>{$totalprice}</span>&nbsp;
+					        聚友杀折扣：<span id='totaldiscount'>{$totaldiscount}</span>&nbsp;
+							{else}价格：{$item['totalprice']}</span><span id='totaldiscount' style=" display:none;">{$totaldiscount}</span>
+					        {/if}
+							{if $memdiscount}
+					        [折扣率：<span id='totaldiscount'>{$memdiscount}%</span>]&nbsp;
+					     	<input type="hidden" id="memdiscount" name="memdiscount" value="{$memdiscount}" />
+					        {/if}
+							<span class="pro-price">数量：{$item['total']}{if !empty($item['unit'])}{$item['unit']}{/if}</strong></span>
+                        	 {if !empty($item['optionname'])}
+                        		<br/><span class="pro-price">规格：  {$item['optionname']}</span>
+                        	{/if}</p>
+                    </a>
+                </div>
+            </li>
+		{/loop}
+        </ul>
+    </div>
+</div>
+<div class="my-clearing">
+	<ul  class="my-clearing-info">
+			<li>
+				<p>商品金额<span id="total-goods-price"></span></p>
+			</li>
+			<li class="total-dispatchprice" >
+				<p>运费<span id="total-dispatchprice">+0.00<em>元</em></span></p>
+			</li>
+			<li >
+				<p>购物积分<span id="subtract-credit2">-0.00<em>元</em></span></p>
+			</li>
+			<li class="freeBalance_li">
+				<p>自由积分<span id="subtract-credit3">-0.00<em>元</em></span></p>
+			</li>
+	</ul>
+</div>
+
+
+<input name="freeBalance"  type="hidden"  id="freeBalance" value="0"/>
+<input name="shoppingBalance"  type="hidden"  id="shoppingBalance" value="0"/>
+<input name="non_payment"  type="hidden"  id="non_payment"  value="0"/>
+<input name="voucher_money"   type="hidden"   id="voucher_money"  value="0"/> 
+
+<input name="yunfei"  type="hidden"  id="yunfei_input"  value="0"/>
+
+
+
+<div class="infobox ">
+<ul id='infoul' class="otherInfo">
+	<li>备注信息：<textarea name="remark" onchange='oninputchange("detail");' style='width:100%;border: none;' type="text" value="" placeholder="亲，还有什么要交待的话，告诉我们吧！" ></textarea></li>
+</ul>
+</div>
+
+
+
+
+
+
+<div class="carFoot">
+<button type="submit" id='submit'  name="submit" value="yes"  style="display: inline-block;float: right;padding: 0 33px;text-align: center;height: 35px;line-height: 35px;margin-right: 10px;color: #fff;background: #e4393c;font-size: 16px;border: none;border-radius: 5px;">
+	提交订单
+</button>
+<p>实付款：<i class="price">&yen;<span id='finalprice'>{$finalprice}</span><span >元</span><span  id="yunfei"></span></i></p>
+</div>
+
+
+
+
+	
+	<input type="hidden" name="token" value="{$_W['token']}" />
+</form>
+</section>
+
+
+	{template 'footer'}			
+
+
+
+
+
+<script src="{BJ_QMXK_ROOT}/recouse/js/zepto.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+Zepto(function($){
+   var $nav = $('.global-nav'), $btnLogo = $('.global-nav__operate-wrap');
+   //点击箭头，显示隐藏导航
+   $btnLogo.on('click',function(){
+     if($btnLogo.parent().hasClass('global-nav--current')){
+       navHide();
+     }else{
+       navShow();
+     }
+   });
+   var navShow = function(){
+     $nav.addClass('global-nav--current');
+   }
+   var navHide = function(){
+     $nav.removeClass('global-nav--current');
+   }
+   
+   $(window).on("scroll", function() {
+		if($nav.hasClass('global-nav--current')){
+			navHide();
+		}
+	});
+})
+function get_search_box(){
+	try{
+		document.getElementById('get_search_box').click();
+	}catch(err){
+		document.getElementById('keywordfoot').focus();
+ 	}
+}
+</script>
+        <script language='javascript'>
+        	//将数字进行格式化处理
+        	function formatNum(num){
+        		//默认保留两位小数
+        		var digit = arguments[1] || 2; 
+        		//如果非数字
+        		if(isNaN(num)){ 
+					return 0;        			
+        		}else{
+        			return num.toFixed(digit);        			
+        		}        		
+        	}
+    		//显示结算信息
+    		var total_goods_price = 0;
+			$(".goodsprice").each(function(){
+				total_goods_price+=parseFloat($(this).html());
+			});
+			//保留小数点后两位
+			total_goods_price = formatNum(total_goods_price);
+			//总金额（除配送费用外）
+    		$("#total-goods-price").html("+"+total_goods_price+"<em>元</em>");
+			$("#non_payment").val(total_goods_price);
+		   $("#finalprice").html(total_goods_price);
+    		function changeAddress(){
+                location.href = '{php echo $this->createMobileUrl('address', array('from'=>'confirm','returnurl'=>urlencode($returnurl)))}'
+            }
+    		function Reset(){
+    			var total_goods_price = 0;
+    			$(".goodsprice").each(function(){
+    				total_goods_price+=parseFloat($(this).html());
+    			});
+    			total_goods_price = formatNum(total_goods_price);
+    			$("#non_payment").val(total_goods_price)
+    			$("#voucher_money").val(0)
+    			$("#shoppingBalance").val(0)
+    			$("#yunfei_input").val(0);
+    			$("#freeBalance").val(0);
+    			$(".freeBalance_li").nextAll("li").remove();
+    			$("#total-dispatchprice").html("+0.00<em>元</em>")
+    			$("#subtract-credit2").html("+0.00<em>元</em>")
+    			$("#subtract-credit3").html("+0.00<em>元</em>")
+    			$("input[type=checkbox]").each(function(){
+    				$(this).attr("checked",false)
+    			})
+    			  $("input[name='sendtype']").attr("checked",true)
+    		}
+    		/**
+    		*选择配送方式
+    		*/
+//     		$(":input[name=dispatch]").change(function(){
+    		
+//     		})
+//默认选中第一个
+    		$(":input[name=dispatch]").eq(0).attr("checked",true).change();
+    		
+    		function peisongType(data){
+    			Reset();
+    			var non_payment=parseFloat($("#non_payment").val());
+    			var price=parseFloat(data);
+    			$("#total-dispatchprice").html("+"+price+"<em>元</em>")
+				//需要得到原来的运送金额
+ 				var old_yunfei=$("#yunfei_input").val();
+    			total_goods_price=total_goods_price+price;
+    			
+     			$("#non_payment").val(formatNum(non_payment+price));
+     			$("#finalprice").html(formatNum(non_payment+price));
+     			$("#yunfei_input").val(price);
+    		}
+    		/**
+    		*减少实付款操作
+    		*1.代金券 2.余额支付 
+    		*/
+    		function reducePaymentAmount(paytype,balancePaidType,money,node){
+    			var total_goods_price = 0;
+    			$(".goodsprice").each(function(){
+    				total_goods_price+=parseFloat($(this).html());
+    			});
+    			var yunfei=parseFloat($("#yunfei_input").val());
+    			total_goods_price=total_goods_price+yunfei;
+    			
+    			var non_payment=parseFloat($("#non_payment").val());  //实付款金额
+    			var total_vocher_money=parseFloat($("#voucher_money").val());  //已选代金券总额
+    			
+       		   var old_shoppingBalance=parseFloat($("#shoppingBalance").val()); //0
+			   var old_freeBalance=parseFloat($("#freeBalance").val()); //0
+    			if(paytype=="vocher"){
+    				//代金券
+	    			var voucher_name=node.attr("data");  //代金券名称
+					var voucher_money=parseFloat(node.attr("data-param"));  //代金券金额
+					var voucher_id=node.val();  //代金券的领取Id
+// 					Reset();
+   					if(node.attr("checked")){
+   						total_vocher_money+=parseFloat(money);
+   					//alert(non_payment+(old_shoppingBalance+old_freeBalance))
+   					//alert(total_vocher_money)
+   	    				if(money>(non_payment+(old_shoppingBalance+old_freeBalance))){   //代金券金额不能大于实支付金额
+   	    					alert("代金券金额不能大于实付款金额!");
+   	    					node.attr("checked",false)
+   	    					return false;
+   	    				}else{
+   	    					$(".my-clearing-info li:last").after("<li ><p>"+voucher_name+"<span id=subtract-card-"+voucher_id+">-"+voucher_money+"<em>元</em></span></p></li>")
+          					 $("#voucher_money").val(total_vocher_money)
+          					 
+          					creditPayment(total_goods_price-total_vocher_money);  //减去代金券重新分配
+   	   	   					//credit3Payment(yue2,yue3,total_goods_price-total_vocher_money);
+   	    				}
+       					
+   					}else{
+   						$("#subtract-card-"+voucher_id).parent().parent().remove();
+   					 	$("#voucher_money").val(total_vocher_money-voucher_money)
+   					creditPayment(total_goods_price-(total_vocher_money-voucher_money));  //减去代金券重新分配
+   	   					//credit3Payment(yue2,yue3,total_goods_price);
+       				}
+   				
+    			}else if(paytype=="balance"){
+    				//余额支付
+    				var yue2=$("input[id=credit2]").attr("data");
+    	       			var yue3=$("input[id=credit3]").attr("data");
+    	       			yue2=formatNum(parseFloat(yue2));
+    	       			yue3=formatNum(parseFloat(yue3));
+    				if(balancePaidType=="credit2"){
+    					if($("input[id=credit2]").attr("checked")){
+    						//购物余额
+    			            	 var old_shoppingBalance=parseFloat($("#shoppingBalance").val()).toFixed(2);  //获取自由余额
+    							   if(parseFloat(yue2)>=parseFloat(non_payment)){
+    								   $("#subtract-credit2").html("-"+non_payment+"<em>元</em>");
+    								   $("#shoppingBalance").val(non_payment);
+    								
+    							   }else{
+    								   $("#subtract-credit2").html("-"+yue2+"<em>元</em>");
+    								   $("#shoppingBalance").val(yue2);
+    							   }
+    					 }else{
+    						//取消购物余额
+    							 var new_vocher_money_yue2= formatNum(parseFloat($("#voucher_money").val()));
+    						 //未支付==订单总额-（已选代金券）
+    						operation_credit3(yue3,total_goods_price-(new_vocher_money_yue2))
+    						 $("#subtract-credit2").html("-0.00<em>元</em>");
+    						 $("#shoppingBalance").val(0);
+    					
+    					 }
+    				}else{
+    					if($("input[id=credit3]").attr("checked")){
+    						 if(parseFloat(yue3)>=parseFloat(non_payment)){
+    							  $("#subtract-credit3").html("-"+non_payment+"<em>元</em>");
+    							  $("#freeBalance").val(non_payment);
+    						   }else{
+    							   $("#subtract-credit3").html("-"+yue3+"<em>元</em>");
+    							   $("#freeBalance").val(yue3);
+    						   }
+    					  }else{
+    							 var new_vocher_money_yue3= formatNum(parseFloat($("#voucher_money").val()));
+        						 //未支付==订单总额-（已选代金券）
+        						operation_credit2(yue2,total_goods_price-(new_vocher_money_yue3))
+    						  $("#subtract-credit3").html("-0.00<em>元</em>");
+    						   $("#freeBalance").val(0);
+    					  }
+    				}
+    				//creditPayment(non_payment);
+    			}
+    			 //余额明细
+				   var new_shoppingBalance = formatNum(parseFloat($("#shoppingBalance").val())); //0
+				   var new_freeBalance = formatNum(parseFloat($("#freeBalance").val())); //0
+				   var new_vocher_money = formatNum(parseFloat($("#voucher_money").val())); //0
+				  // alert(new_shoppingBalance)
+				   //alert(new_freeBalance)
+				   //总支出
+				   var payOut=parseFloat(new_freeBalance)+parseFloat(new_shoppingBalance)+parseFloat(new_vocher_money);
+				   //实付款
+					var finalprice=total_goods_price-payOut;
+					finalprice = formatNum(finalprice);
+					
+					$("#non_payment").val(finalprice)  //实付款（input）
+				    $("#finalprice").html(finalprice);   //实付款 显示
+
+					   if((!finalprice) || (finalprice==0.00)){
+						   	//alert(finalprice)
+						   $("input[name='sendtype']").removeAttr("checked")
+					   }else{
+							$("input[name='sendtype']").attr("checked",true)
+						}
+				   
+    		}
+    		
+    		function creditPayment(non_payment){
+    			//余额支付
+				var yue2=$("input[id=credit2]").attr("data");
+       			var yue3=$("input[id=credit3]").attr("data");
+       			yue2=parseFloat(yue2).toFixed(2);
+       			yue3=parseFloat(yue3).toFixed(2);
+       			
+				if($("input[id=credit2]").attr("checked")){
+					//购物余额
+					  operation_credit2(yue2,non_payment)
+				//	alert("购物余额"+non_payment)
+				 }else{
+					 $("#subtract-credit2").html("-0.00<em>元</em>");
+					   $("#shoppingBalance").val(0);
+				 }
+				if($("input[id=credit3]").attr("checked")){
+					//自由余额
+				  	 var old_shoppingBalance=parseFloat($("#shoppingBalance").val()); //0
+					 operation_credit3(yue3,non_payment-old_shoppingBalance)
+				//	 alert("自由余额"+(non_payment-old_shoppingBalance))
+				  }else{
+					  $("#subtract-credit3").html("-0.00<em>元</em>");
+					   $("#freeBalance").val(0);
+				  }
+    		}
+    	
+			
+		    function operation_credit2(yue,total_payprice){
+		    	var yue3=$("input[id=credit3]").attr("data");
+       			yue3=parseFloat(yue3).toFixed(2);
+          	  if($("input[id=credit2]").attr("checked")){
+	            	 var old_freeBalance=parseFloat($("#freeBalance").val()).toFixed(2);  //获取自由余额
+					   if(parseFloat(yue)>=parseFloat(total_payprice)){
+						   $("#subtract-credit2").html("-"+total_payprice+"<em>元</em>");
+						   $("#shoppingBalance").val(total_payprice);
+							//此处需要调用自由余额处理
+						   operation_credit3(yue3,0);
+					   }else{
+						   $("#subtract-credit2").html("-"+yue+"<em>元</em>");
+						   $("#shoppingBalance").val(yue);
+						   operation_credit3(yue3,total_payprice-yue);
+					   }
+          	  }
+          }
+      
+          function operation_credit3(yue,total_payprice){
+          	   if($("input[id=credit3]").attr("checked")){
+					   if(parseFloat(yue)>=parseFloat(total_payprice)){
+						  $("#subtract-credit3").html("-"+total_payprice+"<em>元</em>");
+						  $("#freeBalance").val(total_payprice);
+						  
+					   }else{
+						   $("#subtract-credit3").html("-"+yue+"<em>元</em>");
+						   $("#freeBalance").val(yue);
+					   }
+				   }
+          }
+          
+          
+    		/**
+    		*增加实付款  选择配送方式    
+    		*/
+    		
+    	
+    		
+    	
+
+			/**
+			*提交验证
+			*/
+            function check(){
+                if($(".address_item").length<=0){
+                    alert("请添加收货地址!");
+                    return false;
+                }      
+                if($('input:radio[name="dispatch"]:checked').val()!=null)
+                {
+                	return true;
+                	
+                }else
+               	{
+               		alert("请选择配送方式");
+               		  return false;
+               		}
+            }
+    		
+ </script>
+            
+ 
+
+{template 'jsweixin'}
+
+</body>
+</html>   

@@ -1,0 +1,276 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('medal', array('op' => 'post'))}">添加勋章</a></li>
+	<li {if $operation == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('medal', array('op' => 'display'))}">管理勋章</a></li>
+	<li {if $operation == 'dividend'}class="active"{/if}><a href="{php echo $this->createWebUrl('medal', array('op' => 'dividend'))}">添加等级分红</a></li>
+	<li {if $operation == 'dividendrecord'}class="active"{/if}><a href="{php echo $this->createWebUrl('medal', array('op' => 'dividendrecord'))}">等级分红记录</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data">
+		<h4>分销勋章</h4>
+		<table class="table table-hover">
+			<tr>
+				<th><label for="">勋章名称</label></th>
+				<td>
+					<input type="text" name="medal_name" class="span6" value="{$medal['medal_name']}" />
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">分红比例</label></th>
+				<td>
+				<input type="text" name="globalDividend" placeholder="分红比例请输入数字格式" class="span6" value="{$medal['globalDividend']}" />%
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">勋章图标</label></th>
+				<td>
+					   {php echo tpl_form_field_image('avatar', $medal['avatar']);}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">规则类型</label></th>
+				<td>
+				<div style="margin-top:20px;">
+			<label for="type_1" >	<input name="rules_type[]"    style="margin:5px; width:20px;font-size:16px;"  value="1"  type="checkbox"  id="type_1"   {if strpos($medal['rules_type'], '1') !== false} checked=checked {/if} /><b>分级约束型</b></label>
+					需一级代理
+					<input type="text" name="one_num" placeholder="请输入数字格式" class="span2" value="{$medal['one_num']}" />
+				个；	需二级代理
+					<input type="text" name="two_num" placeholder="请输入数字格式" class="span2" value="{$medal['two_num']}" />
+				个；	需三级代理
+					<input type="text" name="three_num" placeholder="请输入数字格式" class="span2" value="{$medal['three_num']}" />
+				个。
+				</div>
+				<div style="margin-top:20px;">
+				<label for="type_2" >	<input name="rules_type[]"    style="margin:5px; width:20px;font-size:16px;"  value="2"   {if strpos($medal['rules_type'], '2') !== false} checked=checked {/if} type="checkbox"  id="type_2"/><b>求和型</b></label>
+					需一级代理总和
+					<input type="text" name="one_num_sum" placeholder="请输入数字格式" class="span2" value="{$medal['one_num_sum']}" />
+				个；	需一二级代理总和
+					<input type="text" name="one_two_num_sum" placeholder="请输入数字格式" class="span2"  value="{$medal['one_two_num_sum']}" />
+				个；	需一二三级代理总和
+					<input type="text" name="one_two_three_num_sum" placeholder="请输入数字格式" class="span2" value="{$medal['one_two_three_num_sum']}" />
+				个。
+				</div>
+				<div style="margin-top:20px;">
+				<label for="type_3" >	<input name="rules_type[]"    style="margin:5px; width:20px;font-size:16px;"  value="3"  type="checkbox"  id="type_3"  {if strpos($medal['rules_type'], '3') !== false} checked=checked {/if}/><b>求和型</b></label>
+				需购买金额达到
+					<input type="text" name="monetary" placeholder="请输入数字格式" class="span2" value="{$medal['monetary']}" />
+			元；
+				</div>
+				
+				
+				
+				
+<!-- 					  <select name="rules_type"> -->
+<!-- 					  		<option value="1"   {if $medal['rules_type']==1}selected=selected{/if}>分级约束型</option> -->
+<!-- 					  		<option value="2"  {if $medal['rules_type']==2}selected=selected{/if}>求和型</option> -->
+<!-- 					  		<option value="3"  {if $medal['rules_type']==3}selected=selected{/if}>购买金额型</option> -->
+<!-- 					  </select> -->
+				</td>
+			</tr>
+<!-- 			<tr class="rules_1 rules"  {if $medal['rules_type'] !=1}style="display:none"{/if}> -->
+<!-- 				<th><label for="">规则</label></th> -->
+<!-- 				<td> -->
+<!-- 				需一级代理 -->
+<!-- 					<input type="text" name="one_num" placeholder="请输入数字格式" class="span2" value="{$medal['one_num']}" /> -->
+<!-- 				个；	需二级代理 -->
+<!-- 					<input type="text" name="two_num" placeholder="请输入数字格式" class="span2" value="{$medal['two_num']}" /> -->
+<!-- 				个；	需三级代理 -->
+<!-- 					<input type="text" name="three_num" placeholder="请输入数字格式" class="span2" value="{$medal['three_num']}" /> -->
+<!-- 				个。 -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+<!-- 		<tr class="rules_2 rules"   {if $medal['rules_type'] !=2}style="display:none"{/if}> -->
+<!-- 				<th><label for="">规则</label></th> -->
+<!-- 				<td> -->
+<!-- 				需一级代理总和 -->
+<!-- 					<input type="text" name="one_num_sum" placeholder="请输入数字格式" class="span2" value="{$medal['one_num_sum']}" /> -->
+<!-- 				个；	需一二级代理总和 -->
+<!-- 					<input type="text" name="one_two_num_sum" placeholder="请输入数字格式" class="span2" value="{$medal['one_two_num_sum']}" /> -->
+<!-- 				个；	需一二三级代理总和 -->
+<!-- 					<input type="text" name="one_two_three_num_sum" placeholder="请输入数字格式" class="span2" value="{$medal['one_two_three_num_sum']}" /> -->
+<!-- 				个。 -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr class="rules_3 rules"   {if $medal['rules_type'] !=3}style="display:none"{/if}> -->
+<!-- 				<th><label for="">规则</label></th> -->
+<!-- 				<td> -->
+<!-- 				需购买金额达到 -->
+<!-- 					<input type="text" name="monetary" placeholder="请输入数字格式" class="span2" value="{$medal['monetary']}" /> -->
+<!-- 			元； -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+			<tr>
+				<th></th>
+				<td>
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</td>
+			</tr>
+		</table>
+	</form>
+</div>
+<script type="text/javascript">
+$(function() {
+	var rules_type=$(":input[name=rules_type]").val();
+	$(".rules_"+rules_type).show();
+	
+	$(":input[name=rules_type]").change(function(){
+		var rules_type=$(this).val();
+		$(".rules").hide();
+		$(".rules_"+rules_type).show();
+	})
+})
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="memberlevel">
+		<form action="" method="post" onsubmit="return formcheck(this)">
+		<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+		
+					<th>勋章名称</th>
+					<th>头像</th>
+					<th>分红比例</th>
+					<th>规则</th>
+					<th style="width:80px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $medal $row}
+				<tr>
+					<td>{$row['medal_name']}</td>
+					<td><img src="./resource/attachment/{$row['avatar']}" width="100"/></td>
+					<td>{$row['globalDividend']}%</td>
+					<th>
+					{if strpos($row['rules_type'], '1') !== false} 
+					需1级代理{$row['one_num']}个；	需2级代理{$row['two_num']}个；	需3级代理{$row['three_num']}个<br/>
+					{/if}
+					{if strpos($row['rules_type'], '2') !== false}
+					(或者)需1级代理{$row['one_num_sum']}个；	需1,2级代理共{$row['one_two_num_sum']}个；	需1,2,3级代理共{$row['one_two_three_num_sum']}个<br/>
+					{/if}
+					{if strpos($row['rules_type'], '3') !== false}
+						(或者)消费金额需达到{$row['monetary']}元；
+					{/if}
+					</th>
+					<td><a href="{php echo $this->createWebUrl('medal', array('op' => 'post', 'id' => $row['id']))}">编辑</a>&nbsp;&nbsp;
+					<a href="{php echo $this->createWebUrl('medal', array('op' => 'delete','id' => $row['id']))}" 
+					onclick="return confirm('确认删除此等级吗？');return false;">删除</a></td>
+				</tr>
+				
+			{/loop}
+				
+	
+			</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{elseif $operation == 'dividend'}
+<div class="main">
+	<div class="memberlevel">
+		<form action="" method="post" >
+		<input type="hidden" name="act" value="module" />
+				<input type="hidden" name="name" value="bj_qmxk" />
+				<input type="hidden" name="do" value="medal" />
+				<input type="hidden" name="op" value="dividend" />
+				<input type="hidden" name="opp" value="dodividend" />
+		<table class="table table-hover">
+			<CAPTION>昨日实际销售总额：<font color="#f00" size="5">{$todaydividend}</font>&nbsp;元</CAPTION>
+				<thead class="navbar-inner">
+				<tr>
+					<th>勋章名称</th>
+					<th>分红比例</th>
+					<th>平均分红金额</th>
+					<th>(至今日前)累计获得人数</th>
+					<th>总数量</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $medal_info $now}
+				<tr>
+					<td>{$now[medal_name]}</td>
+					<td>{$now[globalDividend]}</td>
+					<td><input value="{$now[config_money]}"  type="text" name="config[{$now[id]}][money]"/>
+<!-- 					<input value="{$now[personel]}"  type="hidden" name="config[{$now[id]}][personel]"/> -->
+					</td>
+					<td><a  href="{php echo $this->createWebUrl('fansmanager', array('op' => 'sort','medal_id'=>$now['id']))}">{$now[now_get_medal_num]}</a></td>
+					<td><a  href="{php echo $this->createWebUrl('fansmanager', array('op' => 'sort','medal_id'=>$now['id']))}">{$now["total_num"]}</a></td>
+				</tr>
+			{/loop}
+			<tr  >
+				<td colspan="999" ><input type="submit" value="确定分红" style="float:right;"/></td>
+			</tr>	
+		
+			</tbody>
+		</table>
+		</form>
+	</div>
+</div>
+{elseif $operation == 'dividendrecord'}
+<form action="">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<input type="hidden" name="do" value="medal" />
+		<input type="hidden" name="op" value="dividendrecord" />
+		<table class="table sub-search">
+			<tbody>
+			<tr>
+				<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">昵称：</td>
+				<td style="width:100px">
+					<input name="keyword" type="text" value="{$keyword}" />
+				</td>	
+				<td>&nbsp;</td>
+				<td>&nbsp;
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">分红时间：</td>
+				<td style="width:100px">
+						{php echo tpl_form_field_date('add_time',$add_time, false,false)}
+				</td>	
+				<td>&nbsp;</td>
+				<td>&nbsp;
+				</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+			<td></td>	
+				<td><input type="submit" name="" value="查询" class="btn btn-primary"></td><td></td>
+				<td>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<div class="main">
+	<div class="memberlevel">
+		<table class="table table-hover">
+				<thead class="navbar-inner">
+				<tr>
+					<th>昵称</th>
+					<th>所得勋章</th>
+					<th>所得分红金额</th>
+					<th>分红时间</th>
+					<th>状态</th>
+				</tr>
+			</thead>
+			<tbody>
+			{loop $record $now}
+				<tr>
+					<td>{$now[realname]}</td>
+					<td>{$now[medal_name]}</td>
+					<td>{$now[money]}</td>
+					<td>{$now[add_time]}</td>
+					<td>{$now[d_status]}</td>
+				</tr>
+			{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

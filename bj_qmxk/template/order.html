@@ -1,0 +1,639 @@
+{template 'common/header'}
+{template 'common'}
+<ul class="nav nav-tabs">
+{if empty($shareid)}
+	<li {if $operation == 'display' && $status == '1'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 1))}">待发货</a></li>
+	<!--<li {if $operation == 'display' && $sendtype == '2'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => '-1', 'sendtype' => 2))}">待自提</a></li>-->
+	<li {if $operation == 'display' && $status == '0'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 0))}">待付款</a></li>
+	<li {if $operation == 'display' && $status == '2'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 2))}">待收货</a></li>
+    <li {if $operation == 'display' && $status == '3'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 3))}">已完成订单</a></li>
+    <li {if $operation == 'display' && $status == '-1'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -1))}">已关闭订单</a></li>
+    <li {if $operation == 'display' && $status == '-2'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -2))}">退款中</a></li>
+<!--     <li {if $operation == 'display' && $status == '-3'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -3))}">换货中</a></li> -->
+    <li {if $operation == 'display' && $status == '-4'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -4))}">退货中</a></li>
+    <li {if $operation == 'display' && $status == '-5'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -5))}">已退货</a></li>
+    <li {if $operation == 'display' && $status == '-6'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => -6))}">已退款</a></li>
+	<li {if $operation == 'display' && $status == '4'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 4))}">全部订单</a></li>
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'post'))}">批量修改订单状态</a></li>
+	{/if}
+</ul>
+{if $operation == 'display'}
+<form action="">
+	<input type="hidden" name="act" value="module" />
+	<input type="hidden" name="name" value="bj_qmxk" />
+	<input type="hidden" name="do" value="order" />
+	<input type="hidden" name="op" value="display" />
+	<input type="hidden" name="status" value="{$status}" />
+	<table class="table sub-search">
+		<tbody>
+			<tr>
+				<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">订单编号：</td>
+				<td style="width:100px">
+					<input name="ordersn" type="text" value="{$param_ordersn}" />
+				</td>	
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+				<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">起始日期：</td>
+				<td style="width:100px">
+				{if !empty($start_time)}
+					{php echo tpl_form_field_date2('start_time', date('Y-m-d',$start_time), false)}
+				{else}
+					{php echo tpl_form_field_date2('start_time', date('Y-m-d',time()), false)}
+				{/if}
+				</td>	
+				<td style="vertical-align: middle;font-size: 14px;font-weight: bold;width:100px">终止日期：</td>
+				<td>
+				{if !empty($end_time)}
+					{php echo tpl_form_field_date2('end_time', date('Y-m-d',$end_time), false)}
+				{else}
+					{php echo tpl_form_field_date2('end_time', date('Y-m-d',time()), false)}
+				{/if}
+				</td>
+				<td>&nbsp;</td>	<td>&nbsp;</td>
+			</tr>
+			<tr>
+				<td></td>	
+				<td><input type="submit" name="" value="查询" class="btn btn-primary" style="height:30px"></td><td></td>
+				{if $status == 1}
+				<td><button type="submit" name="orderEXP01" value="orderEXP01" class="btn btn-warning btn-lg">导出发货单</button></td>
+				{/if}	
+				<td></td>	<td>&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<div class="main">
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:120px;">订单编号</th>
+					<th style="width:100px;">收货人姓名</th>
+					<th style="width:80px;">联系电话</th>
+					<th style="width:80px;">支付方式</th>
+					{if empty($shareid)}
+					<th style="width:80px;">配送方式</th>
+					<th style="width:50px;">运费</th>			
+                    {/if}
+					<th style="width:50px;">总价</th>             
+<!--				<th style="width:50px;">类型</th>-->
+					<th style="width:50px;">状态</th>
+					<th style="width:150px;">下单时间</th>
+					{if !empty($shareid)}
+						<th style="width:50px;">1级佣金</th>	{if $cfg['globalCommissionLevel']>=2}		
+					<th style="width:50px;">2级佣金</th>	    {/if}	{if $cfg['globalCommissionLevel']>=3}		
+						<th style="width:50px;">3级佣金</th>			  {/if}	
+                    {/if}
+					{if empty($shareid)}
+					<th style="width:120px;">操作</th>
+					{/if}
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['ordersn']}{if !empty($item["special"])}(特殊订单){/if}</td>
+					<td>{$address[$item['addressid']]['realname']}</td>
+					<td>{$address[$item['addressid']]['mobile']}</td>
+					<td>{if $item['paytype'] == 1}<span class="label label-important">余额支付</span>{/if}{if $item['paytype'] == 2}<span class="label label-important">在线支付</span>{/if}{if $item['paytype'] == 3}<span class="label label-warning">货到付款</span>{/if}</td>
+					{if empty($shareid)}
+					<td>{if empty($item['dispatch'])}自提{else}快递配送{/if}</td>
+                                        <td>{$item['dispatchprice']}</td>
+					{/if}
+					<td>{$item['price']} 元</td>
+<!--					<td>{if $item['goodstype']}实物{else}虚拟{/if}</td>-->
+					<td>
+						{if $item['status'] == 0}<span class="label label-info" >待付款</span>{/if}
+						{if $item['status'] == 1}<span class="label label-info" >待发货</span>{/if}
+						{if $item['status'] == 2}<span class="label label-info">待收货</span>{/if}
+						{if $item['status'] ==3}<span class="label label-success" >已完成</span>{/if}
+						{if $item['status'] == -1}<span class="label label-success">已关闭</span>{/if}
+						{if $item['status'] == -2}<span class="label label-info">退款中</span>{/if}
+						{if $item['status'] == -3}<span class="label label-info">换货中</span>{/if}
+						{if $item['status'] ==-4}<span class="label label-info">退货中</span>{/if}
+						{if $item['status'] == -5}<span class="label label-success">已退货</span>{/if}
+						{if $item['status'] == -6}<span class="label  label-success">已退款</span>{/if}
+						
+					<td>{php echo date('Y-m-d H:i:s', $item['createtime'])}</td>
+					{if !empty($shareid)}
+							<td>{if $item['status'] == 3}{$item['commission']}元{else}{$item['commission']}元{/if}</td>{if $cfg['globalCommissionLevel']>=2}		
+							<td>{if $item['status'] == 3}{$item['commission2']}元{else}{$item['commission2']}元{/if}</td>{/if}	{if $cfg['globalCommissionLevel']>=3}		
+									<td>{if $item['status'] == 3}{$item['commission3']}元{else}{$item['commission3']}元{/if}</td>{/if}
+                    {/if}
+					{if empty($shareid)}
+					<td><a href="{php echo $this->createWebUrl('order', array('op' => 'detail', 'id' => $item['id']))}">查看详情</a></td>
+					{/if}
+				</tr>
+				{/loop}
+			</tbody>
+			<!--tr>
+				<td></td>
+				<td colspan="3">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+					<input type="submit" class="btn btn-primary" name="submit" value="提交" />
+				</td>
+			</tr-->
+		</table>
+		{$pager}
+	</div>
+</div>
+<script type="text/javascript" src="{BJ_QMXK_ROOT}/recouse/js/jquery-ui-timepicker-addon.js"></script><script type="text/javascript">
+    $(function() {
+        $('#start_time').timepicker({});
+        $('#end_time').timepicker({});
+    });
+</script>
+{elseif $operation == 'detail'}
+<div class="main">
+	<form class="form-horizontal form" action="" method="post" enctype="multipart/form-data" onsubmit="return formcheck(this)">
+		{if $item['transid']}<div style="margin:10px 0; width:auto;" class="alert alert-error"><i class="icon-lightbulb"></i> 此为微信支付订单，必须要提交发货状态！</div>{/if}
+		<input type="hidden" name="id" value="{$item[id]}">
+		<h4>订单信息</h4>
+		<table class="tb">
+
+			<tr>
+				<th ><label for="">收货人姓名:</label></th>
+				<td >
+					{$item['user']['realname']}
+				</td>
+				<th ><label for="">联系电话:</label></th>
+				<td >
+					{$item['user']['mobile']}
+				</td>
+			</tr>
+			
+			<tr>
+				<th><label for="">订单编号:</label></th>
+				<td>
+					{$item['ordersn']}
+				</td>
+				<th><label for="">总金额:</label></th>
+				<td>
+					{$item['price']} 元 （商品: {$item['goodsprice']} 元 运费: {$item['dispatchprice']} 元)
+				</td>
+			</tr>
+			<tr>
+			<th><label for="">下单时间：</label></th>
+				<td>
+					{php echo date('Y-m-d H:i:s', $item['createtime'])}
+				</td>
+				<th><label for="">收货地址：</label></th>
+				<td>
+					{$item['user']['province']}{$item['user']['city']}{$item['user']['area']}{$item['user']['address']}
+				</td>
+			</tr>
+			
+			
+			
+			<tr>
+				<th><label for="">分销员：</label></th>
+				<td>{if !empty($member[$item['shareid']])}
+					{$member[$item['shareid']]}
+					{else} -- {/if}
+				</td>
+						<th><label for="">订单状态：</label></th>
+				<td>
+						{if $item['status'] == 0}<span class="label label-info" >待付款</span>{/if}
+						{if $item['status'] == 1}<span class="label label-info" >待发货</span>{/if}
+						{if $item['status'] == 2}<span class="label label-info">待收货</span>{/if}
+						{if $item['status'] ==3}<span class="label label-success" >已完成</span>{/if}
+						{if $item['status'] == -1}<span class="label label-success">已关闭</span>{/if}
+						{if $item['status'] == -2}<span class="label label-info">退款中</span>{/if}
+						{if $item['status'] == -3}<span class="label label-info">换货中</span>{/if}
+						{if $item['status'] ==-4}<span class="label label-info">退货中</span>{/if}
+						{if $item['status'] == -5}<span class="label label-success">已退货</span>{/if}
+						{if $item['status'] == -6}<span class="label  label-success">已退款</span>{/if}
+				</td>
+			</tr>
+			</tr>
+			
+		<!--	<tr>
+				<th><label for="">价钱</label></th>
+				<td>
+					{$item['price']} 元 （商品: {$item['goodsprice']} 元 运费: {$item['dispatchprice']} 元)
+				</td>
+			</tr>-->
+			<tr>
+				<th><label for="">配送方式：</label></th>
+				<td>
+					{if empty($dispatch)}自提{else}快递配送{/if}  {if !empty($item['expresssn'])}【<a target="_blank" href="http://www.kuaidi100.com/chaxun?com={$item['expresscom']}&nu={$item['expresssn']}">{$item['expresscom']}{$item['expresssn']}</a>】{/if}
+				</td>
+					<th><label for="">支付方式：</label></th>
+				<td>
+					{if $item['paytype'] == 1}余额支付{/if}
+					{if $item['paytype'] == 2}在线支付{/if}
+					{if $item['paytype'] == 3}货到付款{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">分销佣金明细：</label></th>
+				<td>
+					<a href="javascript:void(0);"  style="color:#f00;" class="fx_click"><b>点我点我</b></a>
+				</td>
+				<th><label for="">微信昵称：</label></th>
+				<td>
+					{$member[$item["from_user"]]}
+				</td>
+<!-- 					<th><label for="">分红佣金明细：</label></th> -->
+<!-- 				<td> -->
+<!-- 						<a href="javascript:void(0);" style="color:#f00;" class="fh_click"><b>点我点我</b></a> -->
+<!-- 				</td> -->
+			</tr>
+			<!--<tr>
+				<th><label for="">付款方式</label></th>
+				<td>
+					{if $item['paytype'] == 1}余额支付{/if}
+					{if $item['paytype'] == 2}在线支付{/if}
+					{if $item['paytype'] == 3}货到付款{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">订单状态</label></th>
+				<td>
+					{if $item['status'] == 0}<span class="label label-info">待付款</span>{/if}
+					{if $item['status'] == 1}<span class="label label-info">待发货</span>{/if}
+					{if $item['status'] == 2}<span class="label label-info">待收货</span>{/if}
+					{if $item['status'] == 3}<span class="label label-success">已完成</span>{/if}
+					{if $item['status'] == -1}<span class="label label-success">已关闭</span>{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">下单日期</label></th>
+				<td>
+					{php echo date('Y-m-d H:i:s', $item['createtime'])}
+				</td>
+			</tr>-->
+			<!--<tr>
+				<th>备注</th>
+				<td>
+					<textarea style="height:150px;" class="span7" name="remark" cols="70">{$item['remark']}</textarea>
+				</td>
+			</tr>-->
+		</table>
+		<!--<h4>用户信息</h4>
+		<table class="tb">
+			<tr>
+				<th><label for="">姓名</label></th>
+				<td>
+					{$item['user']['realname']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">手机</label></th>
+				<td>
+					{$item['user']['mobile']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">QQ</label></th>
+				<td>
+					{$item['user']['qq']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">地址</label></th>
+				<td>
+					{$item['user']['province']}{$item['user']['city']}{$item['user']['area']}{$item['user']['address']}
+				</td>
+			</tr>
+		</table>
+		<h4>商品列表</h4>-->
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:30px;">ID</th>
+					<th style="min-width:350px;">商品标题</th>
+                                        <th style="min-width:250px;">商品规格</th>
+					<th style="width:100px;">商品编号</th>
+					<th style="width:100px;">商品条码</th>
+                                        
+					<!--<th style="width:100px;">销售价/成本价</th>
+					<th style="width:100px;">属性</th>-->
+                                        <th style="width:80px;color:red;">成交价</th>
+					<th style="width:50px;">数量</th>
+					<!--<th style="text-align:right; min-width:60px;">操作</th>-->
+				</tr>
+			</thead>
+			{loop $item['goods'] $goods}
+			<tr>
+				<td>{$goods['id']}</td>
+				<td>{if $category[$goods['pcate']]['name']}
+                                    <span class="text-error">[{$category[$goods['pcate']]['name']}] </span>{/if}{if $children[$goods['pcate']][$goods['ccate']][1]}
+                                    <span class="text-info">[{$children[$goods['pcate']][$goods['ccate']][1]}] </span>{/if}
+                                    {$goods['title']}
+                                
+                                </td>
+                                <td> {if !empty($goods['optionname'])}{$goods['optionname']}{/if}</td>
+				<td>{$goods['goodssn']}</td>
+				<td>{$goods['productsn']}</td>
+                               
+				<!--td>{$category[$goods['pcate']]['name']} - {$children[$goods['pcate']][$goods['ccate']][1]}</td-->
+				<!--<td style="background:#f2dede;">{$goods['marketprice']}元 / {$goods['productprice']}元</td>
+				<td>{if $goods['status']==1}<span class="label label-success">上架</span>{else}<span class="label label-error">下架</span>{/if}&nbsp;<span class="label label-info">{if $goods['type'] == 1}实体商品{else}虚拟商品{/if}</span></td>-->
+                                 <td style='color:red;font-weight:bold;'>{$goods['orderprice']}</td>
+				<td>{$goods['total']}</td>
+				<!--<td style="text-align:right;">
+					<a href="{php echo $this->createWebUrl('goods', array('id' => $goods['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;<a href="{php echo $this->createWebUrl('goods', array('id' => $goods['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+				</td>-->
+			</tr>
+			{/loop}
+		</table>
+		<style>
+			.record_detail{}
+		</style>
+{if $list_fx}
+	<div class="fx_detail modal  " tabindex="-1" role="dialog" style=" width:600px;display:none;">
+	<div class="modal-header"><button data-dismiss="fx_detail" class="close_x close" type="button">×</button><h3>订单分销明细</h3></div>
+			<div class="modal-body">
+				<table class="tb" >
+				<tr>
+						<th><b>分销员</b></th>
+						<th><b>等级</b></th>
+						<th><b>分销佣金</b></th>
+						<th><b>状态</b></th>
+					</tr>
+					<TBODY>
+					{loop $list_fx $v}
+						{if $v["id"]}
+						<tr>
+							<td><a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $v['id']));}">{$v['realname']}</a></td>
+							<td>{$v["level"]}</td>
+							<td style="color:#f00;">{$v["commission"]}</td>
+							<td>
+							{if $v["status"]==0}未申请{/if}
+							{if $v["status"]==1}正在申请{/if}
+							{if $v["status"]==2}审核通过{/if}
+							{if $v["status"]==-1}审核无效驳回{/if}
+							{if $v["status"]==-2}已删除{/if}
+							</td>
+						</tr>
+						{/if}
+					{/loop}
+					</TBODY>
+				</table>
+		</div>
+		<div class="modal-footer"><a href="#" class="btn close_modal" >关闭</a></div>
+	</div>
+{/if}
+		
+		
+{if $list_fh}
+	<div class="fh_detail modal  " tabindex="-1" role="dialog" style=" width:600px;display:none;">
+	<div class="modal-header"><button data-dismiss="fh_detail" class="close_x close" type="button">×</button><h3>订单分红明细</h3></div>
+			<div class="modal-body">
+				<table class="tb" >
+			<tr>
+				<th><b>勋章名称</b></th>
+				<th><b>分销员</b></th>
+				<th><b>分红佣金</b></th>
+				<th><b>分红人数</b></th>
+				<th><b>状态</b></th>
+			</tr>
+			<TBODY>
+			{loop $list_fh $v}
+				{if $v["id"]}
+				<tr>
+					<td>{$v['medal_name']}</td>
+					<td><a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $v['id']));}">{$v['realname']}</a></td>
+					<td style="color:#f00">{$v["money"]}</td>
+					<td>{$v["person_num"]}</td>
+					<td>
+					{if $v["d_status"]==0}未申请{/if}
+					{if $v["d_status"]==1}正在申请{/if}
+					{if $v["d_status"]==2}审核通过{/if}
+					{if $v["d_status"]==-1}审核无效驳回{/if}
+					{if $v["d_status"]==-2}已删除{/if}
+					</td>
+				</tr>
+				{/if}
+			{/loop}
+			</TBODY>
+		</table>
+		</div>
+		<div class="modal-footer"><a href="#" class="btn close_modal" >关闭</a></div>
+	</div>
+{/if}		
+		<table class="tb">
+		{if ($item["status"]==-4)  or  ($item["status"]==-2) or  ($item["status"]==-6) or  ($item["status"]==-5)}
+			<tr>
+				<td>申请理由：</td>
+				<td>
+				{$item['rsreson']}
+				</td>
+			</tr>
+		{/if}
+			<tr>
+				<th>备注</th>
+				<td>
+					<textarea style="height:150px;" class="span7" name="remark" cols="70">{$item['remark']}</textarea>
+				</td>
+			</tr>
+		</table>
+		<table class="tb">
+			<tr>
+				<th></th>
+				<td>
+					{if empty($item['status'])}
+						<button type="submit" class="btn btn-primary span2" onclick="return confirm('确认付款此订单吗？'); return false;" name="confrimpay" onclick="" value="yes">确认付款</button>
+					{elseif $item['status'] == 1}
+						 {if !empty($dispatch)}
+						<button type="button" class="btn btn-primary span2" name="confirmsend" onclick="$('#modal-confirmsend').modal()" value="yes">确认发货</button>
+						<!--<button type="button" class="btn btn-danger span2" name="cancelsend" onclick="$('#modal-cancelsend').modal();" value="yes">取消发货</button>-->
+                                                {/if}
+						 
+					{elseif $item['status'] == 2}
+						  {if !empty($dispatch)}
+						<button type="button" class="btn btn-danger span2" name="cancelsend" onclick="$('#modal-cancelsend').modal();" value="yes">取消发货</button>
+                                                                                                             {/if}
+						 
+					{elseif $item['status'] == 3}
+
+					{/if}
+					{if $item['status']==2}
+					<button type="submit" class="btn btn-success span2" onclick="return confirm('确认完成此订单吗？'); return false;" name="finish" value="finish">完成订单</button>
+		{/if}
+		{if empty($item['special'])}
+					{if ($item['status']==-2||$item['status']==1)&&$item['paytype']!=3}
+						<button type="submit" class="btn btn-danger span2" onclick="return confirm('确认退款此订单吗？'); return false;" name="returnpay" value="returnpay">确认退款</button>
+					{/if}
+						{if $item['status']==-3}
+						<button type="button" class="btn btn-danger span2" onclick="$('#modal-confirmsend').modal(); " name="resend" value="resend">确认换货</button>
+				{/if}
+					{if $item['status']==-4}
+						<button type="submit" class="btn btn-danger span2" onclick="return confirm('确认退货此订单吗？'); return false;" name="returngood" value="returngood">确认退货</button>
+				{/if}
+				{if $item['status']==-2||$item['status']==-3||$item['status']==-4}
+					<button type="submit" class="btn span2" name="cancelreturn" onclick="return confirm('此订单要退回申请吗？'); return false;" value="cancelreturn">退回申请</button>
+					{/if}
+			
+					{if $item['status']==0||$item['status']==1||$item['status']==2}
+					<button type="submit" class="btn span2" name="close" onclick="return confirm('永久关闭此订单吗？'); return false;" value="close">关闭订单</button>
+					{/if}
+			{/if}
+					<input type="hidden" name="token" value="{$_W['token']}" />
+				</td>
+			</tr>
+		</table>
+		<div id="modal-confirmsend" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+			<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>快递信息</h3></div>
+			<div class="modal-body">
+				<table class="tb">
+					<tr>
+						<th><label for="">是否需要快递</label></th>
+						<td>
+							<label for="radio_1" class="radio inline"><input type="radio" name="isexpress" id="radio_1" value="1" onclick="$('#expresspanel').show();" checked autocomplete="off"> 是</label>
+							<label for="radio_2" class="radio inline"><input type="radio" name="isexpress" id="radio_2" value="0" onclick="$('#expresspanel').hide();" autocomplete="off"> 否</label>
+						</td>
+					</tr>
+					<tbody id="expresspanel">
+						<tr>
+							<th><label for="">快递公司</label></th>
+							<td>
+								<select name="express" id='express'>
+                                    {loop $express $ep}
+                                   <option value="{$ep['express_url']}" data-name="{$ep['express_name']}">{$ep['express_name']}</option>
+                                   {/loop}
+								</select>
+                                <input type='hidden' class='input span3' name='expresscom' id='expresscom'  />
+							</td>
+						</tr>
+						<tr>
+							<th><label for="">快递单号</label></th>
+							<td>
+								<input type="text" name="expresssn" class="span5" />
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<div id="module-menus"></div>
+			</div>
+			<div class="modal-footer"><button type="submit" class="btn btn-primary span2" name="confirmsend" value="yes">确认发货</button><a href="#" class="btn" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+		</div>
+		<div id="modal-cancelsend" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+			<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>取消发货</h3></div>
+			<div class="modal-body">
+				<table class="tb">
+					<tr>
+						<th><label for="">取消发货原因</label></th>
+						<td>
+							<textarea style="height:150px;" class="span5" name="cancelreson" cols="70" autocomplete="off"></textarea>
+						</td>
+					</tr>
+				</table>
+				<div id="module-menus"></div>
+			</div>
+			<div class="modal-footer"><button type="submit" class="btn btn-primary span2" name="cancelsend" value="yes">取消发货</button><a href="#" class="btn" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+		</div>
+		<div id="modal-close" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+			<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>关闭订单</h3></div>
+			<div class="modal-body">
+				<table class="tb">
+					<tr>
+						<th><label for="">关闭订单原因</label></th>
+						<td>
+							<textarea style="height:150px;" class="span5" name="reson" cols="70" autocomplete="off"></textarea>
+						</td>
+					</tr>
+				</table>
+				<div id="module-menus"></div>
+			</div>
+			<div class="modal-footer"><button type="submit" class="btn btn-primary span2" name="close" value="yes">关闭订单</button><a href="#" class="btn" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+		</div>
+	</form>
+</div>
+<script language='javascript'>
+     $(function(){
+         {if !empty($express)}
+             //$("#express").val("{$express['express_url']}");
+             $("#expresscom").val(  $("#express").find("option:selected").attr("data-name"));
+         {/if}
+             
+        $("#express").change(function(){
+            var obj = $(this);  
+            var sel =obj.find("option:selected").attr("data-name");
+
+            $("#expresscom").val(sel);
+        });
+      $(".fh_click").click(function(){
+    	  $(".fh_detail").show();
+      })
+      $(".fx_click").click(function(){
+    	  $(".fx_detail").show();
+      })
+      $(".close_modal").click(function(){
+    	  $(".close_modal").parent().parent().hide();
+      })
+        $(".close_x").click(function(){
+        	var model=$(this).attr("data-dismiss")
+    	  $("."+model).hide();
+      })
+    })
+    
+</script>
+{elseif $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data"  onsubmit="return formcheck(this);">
+		<table class="tb">
+			<tr>
+		        <th><span class="white">*</span><label for=""></label></th>
+		        <td>
+		        </td>
+		    </tr>
+		    <tr>
+		        <th><span class="white">*</span><label for="">订单状态修改为</label></th>
+		        <td>
+		            <select name="status">
+						<option value="2">待收货</option>
+						<option value="0">待付款</option>
+						<option value="1">待发货</option>
+						<option value="3">已完成</option>
+						<option value="-1">已关闭</option>
+						<option value="-2">退款中</option>
+						<option value="-3">换货中</option>
+						<option value="-4">退货中</option>
+						<option value="-5">已退货</option>
+						<option value="-6">已退款</option>
+					</select>
+		        </td>
+		    </tr>
+		    <tr>
+				<th></th>
+				<td>
+					<a href="./source/modules/bj_qmxk/style/new/ordersn.xlsx">下载模板文件</a>
+				</td>
+			</tr>
+			<tr>
+				<th><span class="white">*</span><label for="">批量导入</label></th>
+				<td>
+					<div class="fileupload fileupload-new" data-provides="fileupload">
+						<div>
+							<span class="btn btn-file"><span class="fileupload-new">选择导入的文件</span><span class="fileupload-exists">更改</span><input id="file" name="file" type="file" onclick="return confirm('请核对修改状态是否正确！'); return false;"/></span>
+						</div>
+					</div>
+					<div class="help-block">温馨提示：只能上传xls,xlsx格式的文件！</div>
+					<div class="help-block">批量导入数据前请先下载“模板文件”，添充数据后，上传即可。</div>
+				</td>
+			</tr>
+			<tr>
+			    <th></th>
+			    <td>
+			        <input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+			        <input type="hidden" name="token" value="{$_W['token']}" />
+			    </td>
+			</tr>
+		</table>
+    </form>
+</div>
+<script type="text/javascript">
+	$('form').submit(function(){                         
+        if($("#file").isEmpty()) {
+            alert("请选择导入的文件!");
+            return false;
+        }
+    })
+</script>
+{/if}
+{template 'common/footer'}

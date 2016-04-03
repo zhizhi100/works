@@ -1,0 +1,74 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'post'))}">添加代金券</a></li>
+	<li {if $operation == 'display'&&$modules!='receive'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'display'))}">管理代金券</a></li>
+	<li {if $operation == 'display'&&$modules=='receive'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher_receive', array('op' => 'display'))}">代金券领取记录</a></li>
+</ul>
+<div class="main">
+	<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="voucher_receive" />
+		<input type="hidden" name="op" value="display" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>用户名</th>
+					<td>
+						<input class="span3" name="realname" type="text" value="{$_GPC['realname']}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>代金券名称</th>
+					<td>
+						<input class="span3" name="voucher_name" type="text" value="{$_GPC['voucher_name']}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>状态</th>
+					<td>
+						<select name="state">
+							<option value="">请选择</option>
+							<option value="1" {if $_GPC['state'] == 1} selected{/if}>已领取</option>
+							<option value="2" {if $_GPC['state'] == 2} selected{/if}>已使用</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:300px;">用户名</th>
+					<th style="min-width:300px;">代金券名称</th>
+					<th style="width:150px;">状态</th>
+					<th style="width:200px;">领取时间</th>
+					<th style="width:200px;">使用时间</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['realname']}</td>
+					<td>{$item['voucher_name']}</td>
+					<td>{if $item['state'] == 1}已领取{elseif $item['state'] == 2}已使用{/if}</td>
+					<td>{$item['receive_time']}</td>
+					<td>{$item['use_time']}</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{template 'common/footer'}

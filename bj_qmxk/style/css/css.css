@@ -1,0 +1,293 @@
+﻿@charset "utf-8";
+/* CSS Document */
+
+*{margin:0px;padding:0px;}
+body{font-size:14px;font-family:"微软雅黑";color:#000;background-color: #f5f8fa;}
+a{text-decoration:none;color:#000;}
+img{border:none}
+.clear{clear:both;}
+ul{list-style:none;}
+.f00{color:#f00;font-size:16px;}
+/*头部*/
+
+  .header2 {
+	color: #FEFFFF;
+	height: 30px;
+	line-height: 30px;
+	margin-left: 10px;
+	
+  }
+
+.header2 ul li {width: 33%; float: left;border-left: #eee;color: #666666;font-size: 12px;}
+.header2 ul li span{color: #ff002a;}
+/*banner*/
+.banner{
+	width: 100%;
+	height: 200px;
+	background:url(../images/banner.jpg) repeat;
+	position: relative;
+}
+
+
+/*文章推广分享*/
+.nav_1{ background-color: #fff;}
+.quick_share{padding: 0 16px;height: 40px;line-height: 40px;border-bottom: 1px solid #eee;}
+.quick_share .share_img{width: 81px;float: left;height: 40px;}
+.quick_share .share_img img{width: 100%;margin-top: 10px;}
+.quick_share .share_more{float: right;}
+.nav_1 .quick_content{padding: 10px 16px;}
+.nav_1 .quick_content a{display: block;font-size: 12px;line-height: 26px;height: 26px;}
+
+
+.jfsc{width:100%;margin: 15px 0;}
+.jfsc img{height: 85px;    width: 100%;}
+
+
+/*商品内容*/
+.shop_content{float: left;
+    overflow: hidden;
+    width: 100%;
+    display: block;}
+.shop_content ul li{
+	display: inline;
+  /*  margin: 0 2% 19px;*/
+    float: left;
+    width: 100%;
+    overflow: hidden;
+	position:relative;
+	margin-top:20px;
+}
+.shop_content ul li span{position:absolute;bottom:0px;left:0px;right:0px;background:rgba(0,0,0,0.8);display:block;height:30px;line-height:30px;color:#fff;padding-left:5px;}
+.shop_content ul li .ipic{
+	overflow: hidden;
+ /*   display: table-cell;*/
+    vertical-align: middle;
+    text-align: center;
+    width: 100%;
+    height: 170px;
+}
+.shop_content ul li .ipic img{width: 100%;}
+.shop_content ul li .title{
+	    height: 25px;
+    line-height: 25px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.shop_content ul li .title a{color: #333;}
+.shop_content ul li .title_two a{color: #999;}
+
+.price{
+	margin: 10px 0px;
+	line-height: 18px;
+	    height: 18px;
+ 
+}
+
+.g_price{float: left;
+    margin-right: 6px;}
+.g_price-highlight{color: #ff324a;}
+.g_price-original{color: #999;}
+.g_price strong{  
+	font-size: 14px;  
+    font-weight: 700;
+    font-family: verdana,arial;}
+.g_price del{  
+	text-decoration: line-through;
+	font-size: 12px;  
+    font-weight: 500;
+    font-family: verdana,arial;}
+
+	
+	
+	
+	
+/*分类样式*/
+.category_name{font-size:14px;font-weight:bold;}
+	
+
+
+#tip{font-size:28px;color:#f00;text-align:center;position:fixed;bottom:0px;width:100%;}
+#category{padding:10px;}
+#category ul{margin-top:10px;}
+#category li{width:25%;float:left;text-align:center;}
+#category li img{width:50%;}
+#category li p{margin-top:10px;}
+.issendfree{padding:5px;background:#f00;color:#fff;  -moz-border-radius: 10px; 
+    -webkit-border-radius: 10px;  
+    border-radius:10px;}
+.xMarquee{;height:25px;line-height:25px; background:#ffffff; overflow:hidden;float:left;margin-left:20px;margin:5px}
+.xMarquee ol li{float:left;}
+.xMarquee ol li a{ color:#000; text-decoration:none; line-height:25px;padding:5px 40px 5px 5px ;color:#d1890b;font-size:16px;text-shadow:0px 2px 3px #ddd}
+.xMarquee ol li a:hover{ text-decoration:underline;}
+
+
+.mod_itemgrid {
+	padding:15px 20px 0 10px;
+	background-color:#FFF
+}
+.mod_itemgrid .hproduct {
+	position:relative;
+	background-color:#f3f3f3;
+	width:50%;
+	float:left;
+	margin-bottom:10px
+}
+.mod_itemgrid .hproduct.active {
+	background-color:#f3f3f3
+}
+.mod_itemgrid .hproduct:nth-child(2n) {
+	margin-right:-10px;
+	float:right
+}
+.mod_itemgrid .fn {
+	color:#444;
+	padding:8px 10px 0 10px;
+	margin-bottom:8px;
+	line-height:18px;
+	height:36px;
+	word-break:break-all
+}
+.mod_itemgrid .prices {
+	line-height:36px;
+	height:34px;
+	padding:0 0 4px 0;
+	position:relative
+}
+.mod_itemgrid .prices strong,.mod_itemgrid .prices del {
+	height:16px;
+	line-height:18px;
+	display:block;
+	margin-left:10px
+}
+.mod_itemgrid .prices em {
+	color:#e4393c;
+	font-style:normal;
+	vertical-align:top
+}
+.mod_itemgrid .prices del {
+	color:#666
+}
+.mod_itemgrid .discount {
+	position:absolute;
+	bottom:8px;
+	right:10px;
+	display:block;
+	background-color:#333;
+	color:#FFF;
+	border-radius:9px;
+	height:18px;
+	line-height:18px;
+	font-size:12px;
+	padding:0 9px
+}
+.mod_itemgrid .cover {
+	min-height:145px;
+	background-color:#E1E1E1;
+	position:relative
+}
+.mod_itemgrid .cover img {
+	width:100%
+}
+.nav_menu{position: fixed;bottom: 10px;left: 1px;width: 37px;}
+.nav_menu img{width: 100%;}
+
+
+
+
+
+
+
+
+
+
+
+.denglu{height: 45px;background-color: #f0f0f0;border: 1px solid #cecece;position: relative;}
+
+.denglu span{display: block;
+padding: 7px 21px;
+border: 1px solid #bebfbb;
+width: 43px;
+margin: 5px 10px;
+text-align: center;
+color: #bfbfbf;}
+.denglu img{position: absolute;right: 20px;top: 12px;}
+
+.footer{background-color: #f5f5f5; text-align:center;font-size:12px;color:#afafaf;border-top: 1px solid #ddd;}
+
+.footer_nav{height:40px;line-height:40px;color:#afafaf}
+.footer_nav a{color:#afafaf}
+
+
+
+
+
+
+/*设置页面*/
+
+.set_list{margin-top: 25px;}
+.set_list li{
+	padding-left: 20px;
+	height: 40px;
+	background: url(../images/jiantou1.png) no-repeat right white;
+	margin-bottom: 15px;
+	border: 1px solid #e3e3e3;
+	color: #666666;
+	font-size:17px;
+	line-height: 40px;
+}
+
+.set_list p{height: 40px;margin-bottom: 15px;border: 1px solid #e3e3e3;
+	font-size:17px;line-height: 40px;text-align: center;background-color: white;}
+.f0017{color: #f00;}
+
+
+
+/*新加页面样式-----开始*/
+
+/*我参加的活动*/
+.my_active_1{height: 68px;}
+.my_active_1 p{border-bottom: 2px solid red;padding-left:20px;padding-top: 5px;padding-bottom: 5px;}
+
+/*---------按钮样式---------*/
+.d_over {
+	padding: 3px 10px;
+	color:#ebf3fa;
+	font-size:14px;
+	font-weight:700;
+	text-align: center;
+	background: #6FAED9;
+	border: 1px solid #cacecf;
+	margin-left: 10px;
+margin-top: 7px;
+display: block;
+float: left;
+margin-bottom: 10px;
+}
+.d_out {
+	padding: 3px 10px;
+background-color: #faf8f8;
+font-size: 12px;
+text-align: center;
+border: 1px solid #cacecf;
+margin-left: 10px;
+margin-top: 7px;
+display: block;
+float: left;
+margin-bottom: 10px;
+}
+
+.lyyg_erweima{
+	width: 100%;
+margin: 20px auto;
+	}
+
+.lyyg_erweima_img{margin: 0 auto;width: 180px;height: 180px;}
+
+.lyyg_erweima_img img{width: 100%;}
+
+
+
+
+
+

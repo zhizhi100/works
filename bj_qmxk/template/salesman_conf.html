@@ -1,0 +1,47 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('salesman');}">总代管理</a></li>
+<!--	<li {if $op == 'check'}class="active"{/if}><a href="{php echo $this->createWebUrl('salesman', array('op'=>'check'));}">待审核总代</a></li>-->
+	<li {if $op == 'allfans'}class="active"{/if}><a href="{php echo $this->createWebUrl('salesman', array('op'=>'allfans'));}">所有粉丝</a></li>
+    <li {if $op == 'config'}class="active"{/if}><a href="{php echo $this->createWebUrl('salesman', array('op'=>'config'));}">设置</a></li>
+</ul>
+    <div class="main">
+		<div class="stat">
+		
+			<form action="">
+				<input type="hidden" name="act" value="module" />
+				<input type="hidden" name="name" value="bj_qmxk" />
+				<input type="hidden" name="do" value="salesman" />
+				<input type="hidden" name="op" value="config" />
+				<table class="table sub-search">
+					<tbody>
+						<tr>
+							<th style="width:150px;">1、直1消费圈的人数：</th>
+							<td>
+								<input name="member" type="text" value="{$sort['member']}" />
+							</td>
+						</tr>
+						<tr>
+							<th style="width:150px;">2、消费累计达到：</th>
+							<td>
+								<input name="money" type="text" value="{$sort['money']}" />
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="submit" name="submit" value="修改" class="btn btn-primary">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</form>
+			
+			
+		</div>
+    </div>
+
+<link type="text/css" rel="stylesheet" href="./resource/style/daterangepicker.css" />
+<script type="text/javascript" src="./resource/script/daterangepicker.js"></script>
+
+{template 'common/footer'}

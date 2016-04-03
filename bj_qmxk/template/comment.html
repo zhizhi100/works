@@ -1,0 +1,143 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'&&$modules!='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('goods', array('op' => 'post'))}">添加商品</a></li>
+	<li {if $operation == 'display'&&$modules!='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('goods', array('op' => 'display'))}">管理商品</a></li>
+	<li {if $operation == 'post'&&$modules=='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('category', array('op' => 'post'))}">添加商品分类</a></li>
+	<li {if $operation == 'display'&&$modules=='category'}class="active"{/if}><a href="{php echo $this->createWebUrl('category', array('op' => 'display'))}">管理商品分类</a></li>
+	<li {if $operation == 'comment'} class="active" {/if}><a href="{php echo $this->createWebUrl('comment', array('op' => 'comment'))}">管理商品评论</a></li>
+</ul>
+<div class="main">
+	<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="comment" />
+		<input type="hidden" name="op" value="comment" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>关键字</th>
+					<td>
+						<input class="span6" name="keyword" id="" type="text" value="{$_GPC['keyword']}">
+					</td>
+				</tr>
+				<tr>
+					<th>商品ID</th>
+					<td>
+						<input class="span6" name="goods_id"  id="" type="text" value="{$_GPC['goods_id']}">
+					</td>
+				</tr>
+				<tr>
+					<th>用户昵称</th>
+					<td>
+						<input class="span6" name="realname" id="" type="text" value="{$_GPC['realname']}">
+					</td>
+				</tr>
+				<tr>
+					<th>状态</th>
+					<td>
+						<select name="status">
+							<option value="">全部</option>
+							<option value="1" {if $_GPC['status']==1} selected{/if}>审核中</option>
+							<option value="2" {if $_GPC['status']==2} selected{/if}>已审核</option>
+							<option value="-1" {if $_GPC['status']==-1} selected{/if}>审核不通过</option>
+						</select>
+					</td>
+				</tr>
+				
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div style="padding:15px;">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return formcheck();">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:50px;"><input name="checkall"  type="checkbox" /></th>
+					<th style="width:200px;">商品标题</th>
+					<th style="width:100px;">用户昵称</th>
+					<th style="width:200px;">评论时间</th>
+					<th style="min-width:150px;">内容</th>
+					<th style="width:120px;">状态</th>
+                    <th style="width:200px;">审核时间</th>
+                    <th style="width:200px;">审核备注</th>
+<!-- 					<th style="text-align:right; min-width:60px;">操作</th> -->
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{if $item["status"]==1}<input name="childrencheck[]"  class="childrencheck"  type="checkbox" value="{$item['id']}"/>{/if}</td>
+					<td>{$item["title"]}</td>
+					<td><a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $item['mid']));}">{$item["realname"]}</a></td>
+					<td>{$item["createtime"]}</td>
+					<td>{$item["content"]}</td>
+					<td>
+					{if $item["status"]==1}审核中{/if}
+					{if $item["status"]==2}审核通过{/if}
+					{if $item["status"]==-1}审核不通过{/if}
+					</td>
+					<td>{$item["audittime"]}</td>
+					<td>{$item["remark"]}</td>
+<!-- 					<td style="text-align:right"><a href="javascript:void(0)">审核</a></td> -->
+				</tr>
+				{/loop}
+			</tbody>
+			<tr>
+				<td></td>
+				<td colspan="6">
+					<input name="token" type="hidden" value="{$_W['token']}" />
+						<button type="button" class="btn btn-primary span2" name="confirmsend" onclick="$('#modal-confirmsend').modal()" value="yes">批量审核</button>
+				</td>
+			</tr>
+		</table>
+		{$pager}
+	</div>
+</div>
+		<div id="modal-confirmsend" class="modal hide fade" tabindex="-1" role="dialog" aria-hidden="true" style=" width:600px;">
+			<div class="modal-header"><button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button><h3>审核信息</h3></div>
+			<div class="modal-body">
+				<table class="tb">
+					<tr>
+						<th><label for="">状态</label></th>
+						<td>
+							<label for="radio_1" class="radio inline"><input type="radio" name="c_status"  id="radio_1" value="2"  checked autocomplete="off"> 通过</label>
+							<label for="radio_2" class="radio inline"><input type="radio" name="c_status"  id="radio_2" value="-1" autocomplete="off"> 不通过</label>
+						</td>
+					</tr>
+					<tr>
+						<th><label for="">备注</label></th>
+						<td>
+							<textarea rows="3" cols="20" name="remark"></textarea>
+						</td>
+					</tr>
+				</table>
+				<div id="module-menus"></div>
+			</div>
+			<div class="modal-footer"><button type="submit" class="btn btn-primary span2" name="doveify" value="yes">确认</button>
+			<a href="#" class="btn" data-dismiss="modal" aria-hidden="true">关闭</a></div>
+		</div>
+</form>
+<script type="text/javascript">
+$(function(){          
+		$("input[name=checkall]").click(function(){
+			if($(this).attr("checked")){
+				$("input[class=childrencheck]").each(function(){
+					$(this).attr("checked",true)
+				})
+			}else{
+				$("input[class=childrencheck]").each(function(){
+					$(this).attr("checked",false)
+				})
+			}
+		})
+})
+</script>
+{template 'common/footer'}

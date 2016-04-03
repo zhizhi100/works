@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的账号</title>
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+	    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/dis-v4.1.css?201411241620000000">
+		<link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.tab.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.accordion.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/func.js"></script>
+    <style>
+
+.personal-center{margin-top:0px;}
+</style>
+</head>
+<body>
+    <div class="mask"></div>
+    <!--amount begin-->
+    <div class="bro-spare">
+       <p class="tip-txt"> <i class="icon-name"></i> 当前账号</p>
+      <span class="number-big">{$main_member_info['realname']}</span>
+        <p class="field-2">我的账号：<big>{$children_num}(个)</big></p>
+    </div>
+    <!--amount end-->
+    <!--list begin-->
+    <ul class="maneylist"">
+ 	{loop $children $child}
+    <li class="maneylist-li">
+		<a   class="personal-center" href="{php echo $this->createMobileUrl('children', array('op'=>'changeAccount','openid'=>$child['from_user']))}">   <i class="icon-name"></i> <span class="text">{$child["realname"]} </span><span class="money-number">点击切换</span></a>
+    </li>
+      {/loop} 
+           
+    </ul>
+    <!--list end-->
+
+    <div class="bro-extract-btn">
+	 <a href="{php echo $this->createMobileUrl('children', array('op'=>'addChildren'))}" class="button [radius round] red">添加账号</a>
+		
+    </div>
+
+	{template 'footer'}
+	   <div class="h50"></div>
+
+</body>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+
+<script type="text/javascript">
+//获取指定cookes函数
+wx.config({
+    debug: true,
+    appId: "{$signPackage['appId']}",
+    timestamp: {$signPackage['timestamp']}, 
+    nonceStr: "{$signPackage['nonceStr']}", 
+    signature: "{$signPackage['signature']}",
+     jsApiList: [
+        'checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo'
+      ]
+});
+wx.ready(function () {
+    // 在这里调用 API
+    wx.onMenuShareTimeline({
+        title: '', // 分享标题
+        link: '', // 分享链接
+        imgUrl: '', // 分享图标
+        success: function () { 
+        	alert(333)
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+     
+    wx.onMenuShareAppMessage({
+        title: '你好', // 分享标题
+        desc: '你好你好你好你好你好你好', // 分享描述
+        link: 'www.baidu.com', // 分享链接
+        imgUrl: 'http://qlogo4.store.qq.com/qzone/2316972085/2316972085/100?1319823857', // 分享图标
+        type: '', // 分享类型,music、video或link，不填默认为link
+        dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+        success: function () { 
+        	alert(333)
+            // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+        	alert(444)
+            // 用户取消分享后执行的回调函数
+        }
+    });
+     
+    wx.onMenuShareQQ({
+        title: '', // 分享标题
+        desc: '', // 分享描述
+        link: '', // 分享链接
+        imgUrl: '', // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+           // 用户取消分享后执行的回调函数
+        }
+    });
+ 
+    wx.onMenuShareWeibo({
+        title: '', // 分享标题
+        desc: '', // 分享描述
+        link: '', // 分享链接
+        imgUrl: '', // 分享图标
+        success: function () { 
+           // 用户确认分享后执行的回调函数
+        },
+        cancel: function () { 
+            // 用户取消分享后执行的回调函数
+        }
+    });
+ 
+  });
+  
+</script>
+
+
+</html>

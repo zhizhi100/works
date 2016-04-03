@@ -1,0 +1,106 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>我的薪资</title>
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+	    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/dis-v4.1.css?201411241620000000">
+		<link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+    <script src="{BJ_QMXK_ROOT}/recouse/js/jquery.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.tab.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/foundation.accordion.js"></script>
+    <script src="{BJ_QMXK_ROOT}/recouse/js/func.js"></script>
+</head>
+<body>
+    <div class="mask"></div>
+    <!--amount begin-->
+    <div class="bro-spare">
+        <p class="tip-txt"><i class="icon-money"></i>{$cfg["alias2"]}(可提现金额)</p>
+        <span class="number-big">¥{$freeSalary}</span>
+<!--         <p class="field-2">{$cfg["alias1"]}：<big>¥{$nogovernSalary}元</big></p> -->
+        <p class="field-2">累计收入：<big>¥{$totalSalary}元</big></p>
+         <p class="field-2">申请中：<big>¥{php echo ($unauditedSalary+$auditedSalary)}元</big></p>
+<!--           <p class="field-2">已审核：<big>¥{$auditedSalary}元</big></p> -->
+             <p class="field-2">审核不通过：<big>¥{$invalidSalary}元</big></p>
+        <p class="field-2">已打款：<big>¥{$paidSalary}元</big></p>
+     <div class="bro-extract-btn">
+        <a href="{php echo $this->createMobileUrl('commission', array('op'=>'commapply'))}" class="button [radius round] red">申请提现</a>
+         <a href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionDetail','action'=>'withdraw'))}" class="button [radius round] gray">提现记录</a>
+    </div>
+        
+    </div>
+    <!--amount end-->
+    <!--list begin-->
+    <h4 style="padding:20px;"><strong>我的收入</strong></h4>
+    <ul class="maneylist" style="display: ;">
+   {if CUSTOMER_CODE!='001HEML'&&CUSTOMER_CODE!='002XM'}
+               <li class="maneylist-li">
+            <a  class="a-personal"  href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionDetail','action'=>'agency'))}">
+                <i class="icon-money-circle"></i>
+                <span class="text">等级薪资</span>
+                <span class="money-number">¥{$agencySalary}<i class="arrow"></i></span>
+            </a>
+        </li>
+     
+         <li class="maneylist-li">
+            <a  class="a-personal" href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionDetail','action'=>'expand'))}">
+                <i class="icon-money-circle"></i>
+                <span class="text">推广薪资</span>
+                <span class="money-number">¥{$expandSalary}<i class="arrow"></i></span>
+            </a>
+        </li>
+        {if $cfg["consumerRebates"]==1}
+        <li class="maneylist-li">
+            <a  class="a-personal" href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionDetail','action'=>'consumerRebates'))}">
+                <i class="icon-money-circle"></i>
+                <span class="text">消费返点</span>
+                <span class="money-number">¥{$totalCompletedRebate}<i class="arrow"></i></span>
+            </a>
+        </li>
+        {/if}
+        
+        {if $cfg["subscribeDividend"]==1}
+            <li class="maneylist-li">
+            <a  class="a-personal" href="{php echo $this->createMobileUrl('commission', array('op'=>'commissionDetail','action'=>'subscribe'))}">
+                <i class="icon-money-circle"></i>
+                <span class="text">关注薪资</span>
+                <span class="money-number">¥{$subscribeSalary}<i class="arrow"></i> </span>
+                </a>
+            </a>
+        </li>
+       {/if}
+<!--        <li class="maneylist-li"> -->
+<!--             <a  class="a-personal" > -->
+<!--                 <i class="icon-money-circle"></i> -->
+<!--                 <span class="text">贡献积分</span> -->
+<!--                 <span class="money-number">¥{$nogovernSalary} </span> -->
+<!--                 </a> -->
+<!--             </a> -->
+<!--         </li> -->
+	{/if} 
+    </ul>
+    <!--list end-->
+
+  
+    <!--help begin-->
+    <div class="bro-help">
+        <ul class="bro-help-list"><!--href="javascript:void(0)" onclick="showShare()"-->
+            <li class="bro-help-list-li"><a class="bro-help-list-a" href="{php echo $this->createMobileUrl('list')}"><i class="icon-share-circle"></i><span>分享商城很重要</span><i class="arrow"></i></a></li>
+           <!-- <li class="bro-help-list-li"><a class="bro-help-list-a" href="#"><i class="icon-friend-circle"></i><span>我要推广，分享朋友圈</span><i class="arrow"></i></a></li>-->
+        </ul>
+    </div>
+    <!--help end-->
+
+
+	{template 'footer'}
+	   <div class="h50"></div>
+
+{template 'jsweixin'}
+</body>
+</html>

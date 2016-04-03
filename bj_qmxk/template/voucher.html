@@ -1,0 +1,160 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'post'))}">添加代金券</a></li>
+	<li {if $operation == 'display'&&$modules!='receive'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'display'))}">管理代金券</a></li>
+	<li {if $operation == 'display'&&$modules=='receive'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher_receive', array('op' => 'display'))}">代金券领取记录</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return formcheck();">
+        <input type="hidden" name="id" value="{$item['id']}" />
+        {if $item['id']}
+        <h4>修改代金券</h4>
+        {else}
+        <h4>添加代金券</h4>
+        {/if}
+		<table class="tb">
+			<tr>
+		        <th><span class="red">*</span><label for="">代金券名称</label></th>
+		        <td>
+		            <input type="text" name="voucher_name" id="voucher_name" class="span3" value="{$item['voucher_name']}" />
+		        </td>
+		    </tr>
+		    <tr>
+		        <th><span class="white">*</span><label for="">金额（元）</label></th>
+		        <td>
+		            <input type="text" name="money" class="span3" {if $item['money'] != ''}value="{$item['money']}"{else}value="0.00"{/if}/>
+		            <span class="help-block">金额只能是最多有两位小数的非负数！</span>
+		        </td>
+		    </tr>
+		    <tr>
+                <th><span class="white">*</span><label for="">图片</label></th>
+                <td>
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="fileupload-preview thumbnail" style="width: 210px; height: 160px;">
+                            <img src="./resource/attachment/{$item['pic']}" alt="" onerror="$(this).remove();">
+                        </div>
+                        <div>
+                            <span class="btn btn-file" id="thumb_div" tabindex="-1"><span class="fileupload-new">选择图片</span>
+                            <span class="fileupload-exists">更改</span><input name="pic" id="pic" type="file" /></span>
+                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+                        </div>
+                    </div>
+                    <span class="help-block"></span>
+                </td>
+            </tr>
+            <tr>
+				<th><label for="">有效期开始日期</label></th>
+				<td>
+					{php echo tpl_form_field_date('start_validity',$item['start_validity'], true)}
+					<span class="help-block">如果不选择，则默认为当天日期！</span>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">有效期结束日期</label></th>
+				<td>
+					{php echo tpl_form_field_enddate('end_validity',$item['end_validity'], true)}
+					<span class="help-block">如果不选择，则默认为当天的一个月后日期!</span>
+				</td>
+			</tr>
+			<tr>
+			    <th></th>
+			    <td>
+			        <input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+			        <input type="hidden" name="token" value="{$_W['token']}" />
+			    </td>
+			</tr>
+		</table>
+    </form>
+</div>
+<script type="text/javascript">
+    function formcheck(){                         
+        if($("#voucher_name").isEmpty()) {
+            Tip.focus("voucher_name","请输入代金券名称!","right");
+            return false;
+        }
+        if($("input[name=start_validity]").val() > $("input[name=end_validity]").val()) {
+        	alert('结束日期不能小于开始日期!');
+            return false;
+        }
+    }
+    $(function(){     
+		$("input[name=money]").keyup(function () {
+	        var reg = $(this).val().match(/\d+\.?\d{0,2}/);
+	        var txt = '';
+	        if (reg != null) {
+	            txt = reg[0];
+	        }
+	        $(this).val(txt);
+	    }).change(function () {
+	        $(this).keypress();
+	        var v = $(this).val();
+	        if (/\.$/.test(v)){
+	            $(this).val(v.substr(0, v.length - 1));
+	        }
+	    }).bind("copy cut paste",function(e){
+	        return false;
+	    })
+	});
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="voucher" />
+		<input type="hidden" name="op" value="display" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>代金券名称</th>
+					<td>
+						<input class="span3" name="voucher_name" type="text" value="{$_GPC['voucher_name']}"/>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="min-width:300px;">代金券名称</th>
+					<th style="width:200px;">金额（元）</th>
+					<th style="width:300px;">图片</th>
+					<th style="width:250px;">有效期</th>
+					<th style="width:150px;">添加账号</th>
+					<th style="width:200px;">添加时间</th>
+					<th style="text-align:right;width:100px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['voucher_name']}</td>
+					<td>{$item['money']}</td>
+					<td>{if $item['pic']}<img src="./resource/attachment/{$item['pic']}">{/if}</td>
+					<td>{$item['start_validity']}~<br/>{$item['end_validity']}</td>
+					<td>{$item['operator']}</td>
+					<td>{$item['add_time']}</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('voucher', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						<a href="{php echo $this->createWebUrl('voucher', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;">删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+{/if}
+{template 'common/footer'}

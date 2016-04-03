@@ -1,0 +1,150 @@
+{template 'common/header'}
+<div class="main">
+	<div class="form form-horizontal">
+		<h4>会员详细信息</h4>
+		<table class="tb">
+		<form action="">
+			<tr>
+				<th style="width:200px"><label for="">真实姓名</label></th>
+				<td>
+					{if $user['realname']!=""} {$user['realname']}(微信昵称){else}--{/if}
+				</td>
+			</tr>
+            <tr id="info">
+				<th style="width:200px"><label for="">上级代理</label></th>
+				<td id="sn">
+					{if $shareuser['realname']!=""} {$shareuser['realname']}{else}--{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user['mobile']!=""} {$user['mobile']}{else}--{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">微信号</label></th>
+				<td>
+					{if $user['wxhao']!=""} {$user['wxhao']}{else}--{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">QQ号</label></th>
+				<td>
+					{if $user['qq']!=""} {$user['qq']}{else}--{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">身份</label></th>
+				<td>
+					{if $user['flag']==1} {$cfg['agent_title']}{else}{$cfg['noagent_title']}{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">所得勋章</label></th>
+				<td>
+					{if count($get_medal)}
+					{loop $get_medal $medal}
+						<a href="javascript:void(0)" title="{$medal['medal_name']}"><img src="./resource/attachment/{$medal['avatar']}" width="20" height="20"/></a>
+					{/loop}
+					{else}--{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">注册时间</label></th>
+				<td>
+					{php echo date('Y-m-d H:i:s', $user['createtime']);}
+				</td>
+			</tr>			
+<!-- 			<tr> -->
+<!-- 				<th><label for="">银行卡号</label></th> -->
+<!-- 				<td> -->
+<!-- 					{if $user['banktype']!=""} {$user['banktype']}－<span id="bankcard">{$user['bankcard']}</span> {else}--{/if} -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<th><label for="">支付宝号</label></th> -->
+<!-- 				<td> -->
+<!-- 					{if $user['alipay']!=""} {$user['alipay']}{else}--{/if} -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+<!-- 			<tr> -->
+<!-- 				<th><label for="">微信号码</label></th> -->
+<!-- 				<td> -->
+<!-- 					{if $user['wxhao']!=""} {$user['wxhao']}{else}--{/if} -->
+<!-- 				</td> -->
+<!-- 			</tr> -->
+			{if $user['flag']==1}
+			<tr>
+				<th><label for="">当前可提现薪资</label></th>
+				<td>
+					<font color="#f00;"  size="3">{$credit3}元</font>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">代理名单</label></th>
+				<td>
+					<a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'user','from_user' => $user['from_user']));}">代理名单</a>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">我的推广订单</label></th>
+				<td>
+					<a href="{php echo $this->createWebUrl('expandorder',array('operation'=>'display','shareid' => $user['id']));}">推广订单</a>
+				</td>
+			</tr>
+			{/if}
+			<tr>
+				<th></th>
+				<td><input type="button" class="btn btn-primary span3"  onclick="history.go(-1)" value="返回"></td>
+			</tr>
+			</form>
+		</table>
+	</div>
+</div>
+<script>
+function edit(a){
+	if(a=="a"){
+		$("#info").hide();
+		$("#edit").show();
+	}else{
+		shareid = $("#shareid").val();
+		
+		$.ajax({
+    		type: "POST",
+    		url: "{php echo $this->createWebUrl('fansmanager',array('op'=>'changeshareid','id'=>$id))}",
+    		data: "shareid="+shareid,
+    		success: function(msg){
+    		if(msg=='0'){
+				alert( "修改失败" ); 
+				$('#info').show();
+				$('#edit').hide();
+    			
+    		}else{
+    			// alert( "yes: " + msg );
+    			$('#sn').html(msg+'　　<a onclick="edit(\'a\');">修改</a>');
+    			$('#info').show();
+				$('#edit').hide();
+    		}
+    			     
+    		}
+    	});
+		
+	}
+}
+</script>
+<script type="text/javascript">
+window.onload = function(){
+	var bankcard = "{$user['bankcard']}";
+	//var bankcard = bankcard.toString();
+	if(bankcard != ''){
+		var card = '';
+		for(var i=0; i<5; i++){
+			card = card + bankcard.substr(4*i,4) + ' ';
+		}
+		window.document.getElementById('bankcard').innerHTML = card;
+	}
+}
+
+</script>
+{template 'common/footer'}

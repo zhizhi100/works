@@ -1,0 +1,87 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+ 	<li {if $op=="list"}class="active" {/if}><a href="{php echo create_url('site/module', array('do' => 'charge', 'op' => 'list','name' => 'bj_qmxk','weid'=>$_W['weid']))}">会员信息</a></li>	
+ 	<li   {if $op=="transfer"}class="active" {/if}> <a href="{php echo  $this->createWebUrl('charge', array('op' => 'transfer'))}">转账信息</a></li>	
+</ul>
+    <div class="main">
+		<div class="stat">
+				<form >
+				<input type="hidden" name="act" value="module" />
+				<input type="hidden" name="name" value="bj_qmxk" />
+				<input type="hidden" name="do" value="charge" />
+				<input type="hidden" name="op" value="transfer" />
+					<input type="hidden" name="opp" value="sort" />
+				<table class="table table-bordered tb">
+				<tbody>
+					<tr>
+						<th width="100">付款方昵称</th>
+						<td>
+							<input class="span3" name="from_realname" id="" type="text" value="{$_GPC['from_realname']}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>收款方昵称</th>
+						<td>
+							<input class="span3" name="to_realname" id="" type="text" value="{$_GPC['to_realname']}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>转账时间</th>
+						<td>
+								{php echo tpl_form_field_date('start_date',$start_date, false,false)}至	{php echo tpl_form_field_date('end_date',$end_date, false,false)}
+						</td>
+					</tr>
+					<tr>
+					 <tr class="search-submit">
+						<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+					 </tr>
+				</tbody>
+			</table>
+				</form>
+			<div class="stat-div">
+				
+				<div class="sub-item" id="table-list">
+					<h4 class="sub-title" style="float:right;color:red;">总数：{$total}</h4>
+					<h4 class="sub-title">转账记录</h4>
+
+					<div class="sub-content">
+						<table class="table table-hover">
+							<thead class="navbar-inner">
+								<tr>
+									<th class="row-hover">付款人</th>
+									<th class="row-hover">收款人</th>
+									<th class="row-hover"> 金额（元）</th>
+									<th class="row-hover">属性</th>
+									<th class="row-hover">转账时间</th>
+								</tr>
+							</thead>
+							<tbody>
+								{loop $transfer_list $v}
+								<tr>
+									<td style="text-align: center;">
+										<a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $v['from_mid']));}">{$v['from_realname']}
+									</td>
+									<td style="text-align: center;">
+										<a href="{php echo $this->createWebUrl('fansmanager',array('op'=>'member','id' => $v['to_mid']));}">{$v['to_realname']}
+									</td>
+									<td style="text-align: center;">
+										{$v['money']}
+									</td>
+									<td style="text-align:center;">
+										{if $v['type']==1}自由余额转账{/if}
+									</td>
+									<td  style="text-align:center;">{$v["createtime"]}</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+					</div>
+					
+					{$pager}
+				</div>
+			</div>
+		</div>
+    </div>
+
+
+{template 'common/footer'}

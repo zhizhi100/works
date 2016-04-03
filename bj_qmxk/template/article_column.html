@@ -1,0 +1,156 @@
+{template 'common/header'}
+{template 'common'}
+<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<ul class="nav nav-tabs">
+	<li {if $operation == 'post'&&$modules!='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op' => 'post'))}">添加文章</a></li>
+	<li {if $operation == 'display'&&$modules!='column'&&$modules!='share'}class="active"{/if}><a href="{php echo $this->createWebUrl('article', array('op' => 'display'))}">管理文章</a></li>
+	<li {if $operation == 'post'&&$modules=='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_column', array('op' => 'post'))}">添加文章栏目</a></li>
+	<li {if $operation == 'display'&&$modules=='column'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_column', array('op' => 'display'))}">管理文章栏目</a></li>
+<!-- 	<li {if $operation == 'display'&&$modules=='share'}class="active"{/if}><a href="{php echo $this->createWebUrl('article_share', array('op' => 'display'))}">文章分享阅读记录</a></li> -->
+</ul>
+{if $operation == 'post'}
+<div class="main">
+	<form action="" method="post" class="form-horizontal form" enctype="multipart/form-data" onsubmit="return formcheck();">
+        <input type="hidden" name="id" value="{$item['id']}" />
+        {if $item['id']}
+        <h4>修改文章栏目</h4>
+        {else}
+        <h4>添加文章栏目</h4>
+        {/if}
+		<table class="tb">
+		    <tr>
+		        <th><span class="red">*</span><label for="">栏目名称</label></th>
+		        <td>
+		            <input type="text" name="column_name" id="column_name" class="span3" value="{$item['column_name']}"/>
+		        </td>
+		    </tr>
+            <tr>
+                <th><span class="white">*</span><label for="">栏目图片</label></th>
+                <td>
+                    <div class="fileupload fileupload-new" data-provides="fileupload">
+                        <div class="fileupload-preview thumbnail" style="width: 210px; height: 160px;">
+                            <img src="./resource/attachment/{$item['pic']}"  alt="" onerror="$(this).remove();" >
+                        </div>
+                        <div>
+                            <span class="btn btn-file" id="thumb_div" tabindex="-1"><span class="fileupload-new">选择图片</span>
+                            <span class="fileupload-exists">更改</span><input name="pic" id="pic" type="file" /></span>
+                            <a href="#" class="btn fileupload-exists" data-dismiss="fileupload">移除</a>
+                        </div>
+                    </div>
+                    <span class="help-block"></span>
+                </td>
+            </tr>
+			<tr>
+                <th><span class="white">*</span><label for="">是否开启</label></th>
+                <td>
+                    <label for="isshow1" class="radio inline"><input type="radio" name="isopen" value="1" id="isshow1" {if $item['isopen'] == 1}checked="true"{elseif empty($item['isopen'])}checked="true"{/if} /> 是</label>
+                    &nbsp;&nbsp;&nbsp;
+                    <label for="isshow2" class="radio inline"><input type="radio" name="isopen" value="-1" id="isshow2"  {if $item['isopen'] == -1}checked="true"{/if} /> 否</label>
+                    <span class="help-block"></span>
+                </td>
+            </tr>
+            <tr>
+				<th><span class="white">*</span><label for="">排序</label></th>
+				<td>
+					<input type="text" name="displayorder" class="span3" value="{$item['displayorder']}"/>
+				</td>
+			</tr>
+			<tr>
+			    <th></th>
+			    <td>
+			        <input name="submit" type="submit" value="提交" class="btn btn-primary span3">
+			        <input type="hidden" name="token" value="{$_W['token']}" />
+			    </td>
+			</tr>
+		</table>
+    </form>
+</div>
+<script type="text/javascript">
+    function formcheck(){                         
+        if($("#column_name").isEmpty()) {
+            Tip.focus("column_name","请输入栏目名称!","right");
+            return false;
+        }
+    }
+</script>
+{elseif $operation == 'display'}
+<div class="main">
+	<div class="search">
+		<form action="site.php" method="get">
+		<input type="hidden" name="act" value="module" />
+		<input type="hidden" name="do" value="article_column" />
+		<input type="hidden" name="op" value="display" />
+		<input type="hidden" name="name" value="bj_qmxk" />
+		<table class="table table-bordered tb">
+			<tbody>
+				<tr>
+					<th>栏目名称</th>
+					<td>
+						<input class="span3" name="column_name" id="" type="text" value="{$_GPC['column_name']}"/>
+					</td>
+				</tr>
+				<tr>
+					<th>开启状态</th>
+					<td>
+						<select name="isopen">
+							<option value="">请选择</option>
+							<option value="1" {if $_GPC['isopen'] == 1} selected{/if}>开启</option>
+							<option value="-1" {if $_GPC['isopen'] == -1} selected{/if}>关闭</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+				 <tr class="search-submit">
+					<td colspan="2"><button class="btn pull-right span2"><i class="icon-search icon-large"></i> 搜索</button></td>
+				 </tr>
+			</tbody>
+		</table>
+		</form>
+	</div>
+	<div style="padding:15px;">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th style="width:400px;">栏目名称</th>
+					<th style="min-width:400px;">图片</th>
+					<th style="width:300px;">开启状态(点击可修改)</th>
+					<th style="width:200px;">排序</th>
+					<th style="text-align:right;width:150px;">操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $list $item}
+				<tr>
+					<td>{$item['column_name']}</td>
+					<td>{if $item['pic']}<img src="./resource/attachment/{$item['pic']}" width="100"/>{/if}</td>
+					<td>{if $item['isopen'] == 1}<span data='{$item['isopen']}' onclick="setProperty(this,{$item['id']},'isopen')" class="label label-success" style="cursor:pointer;">开启</span>{else}<span data='{$item['isopen']}' onclick="setProperty(this,{$item['id']},'isopen')" class="label label-error" style="cursor:pointer;">关闭</span>{/if}</td>
+					<td>{$item['displayorder']}</td>
+					<td style="text-align:right;">
+						<a href="{php echo $this->createWebUrl('article_column', array('id' => $item['id'], 'op' => 'post'))}">编辑</a>&nbsp;&nbsp;
+						<a {if $item['num']}onclick="return confirm('此栏目下有文章，不能删除！');return false;"{else}href="{php echo $this->createWebUrl('article_column', array('id' => $item['id'], 'op' => 'delete'))}" onclick="return confirm('此操作不可恢复，确认删除？');return false;"{/if}>删除</a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+		</table>
+		{$pager}
+	</div>
+</div>
+<script type="text/javascript">
+	function setProperty(obj,id,type){
+        $.post("{php echo $this->createWebUrl('setcolumnproperty')}"
+        ,{id:id,type:type, data: obj.getAttribute("data")}
+        ,function(d){
+			$(obj).attr("data",d.data);
+			if(d.data==1){
+				obj.innerHTML = '开启';	
+			}
+			if(d.data==-1){
+				obj.innerHTML = '关闭';
+			}
+			$(obj).toggleClass("label-success");
+        },"json");
+    }
+</script>
+{/if}
+{template 'common/footer'}

@@ -1,0 +1,75 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>添加子账号</title>
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/foundation.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/normalize.css">
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/recouse/css/common-v4.1.css?201411241620000000">
+    <link rel="stylesheet" href="{BJ_QMXK_ROOT}/style/css/style.css"/>
+</head>
+<body class="body-gray">
+
+    <!--topbar begin-->
+    <div class="fixed">
+        <nav class="tab-bar">
+            <section class="left-small">
+                <a href="{php echo $this->createMobileUrl('children')}" class="menu-icon"><span></span></a>
+            </section>
+            <section class="middle tab-bar-section">
+                <h1 class="title">我的子账号</h1>
+            </section>
+        </nav>
+    </div>
+    <!--topbar end-->
+    <!--content begin-->
+    <div class="panel extract">
+      <div class="row extract-monynumber">
+            <div class="large-12 columns">
+                <input type="text" class="" id="realname"  name="realname"  placeholder="输入用户名">
+            </div>
+        </div>
+<!--         <a href="javascript:void(0)"  class="button [radius round] red  apply">立即添加</a> -->
+        <p class="rb-submit"><input type="button" value="立即添加"   class="button [radius round] red  apply"  /></p>
+	</div>    
+	{template 'footer'}
+<script src="http://libs.baidu.com/jquery/1.7.1/jquery.min.js"></script>
+<script src="{BJ_QMXK_ROOT}/style/js/com.js"></script>
+	 <script>
+	 $('.apply').live("click", function () {
+		 $(".apply").removeClass("red").addClass("gray").attr("disabled",true)
+			realname = $("#realname").val();
+			if (realname == "") {
+				TopBox.alert("请填写用户名!");
+				 $(".apply").removeClass("gray").addClass("red").attr("disabled",false)
+				return;
+			}else {
+				$.ajax({
+					type: "POST",
+					url: "{php echo $this->createMobileurl('children',array('op'=>'applyed'))}",
+					data: { 'realname': realname},
+					dataType: "text",
+					success: function (d) {
+						if (d == "1") {
+							TopBox.alert("添加成功.", function () { window.location.href = "{php echo $this->createMobileurl('children')}"; });
+						}else if(d=="-1"){
+							TopBox.alert("对不起您还不是东家!.", function () { window.location.href = "{php echo $this->createMobileurl('children')}"; });
+						}
+						 $(".apply").removeClass("gray").addClass("red").attr("disabled",false)
+					},
+					error: function (xml, text, thrown) {
+						 $(".apply").removeClass("gray").addClass("red").attr("disabled",false)
+						TopBox.alert("出错啦!");
+					}
+				});
+			}
+		});
+			
+		</script>
+
+</body>
+</html>

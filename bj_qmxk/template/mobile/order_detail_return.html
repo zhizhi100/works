@@ -1,0 +1,36 @@
+{php $bootstrap_type = 3;}
+{template 'header'}
+<link type="text/css" rel="stylesheet" href="{BJ_QMXK_ROOT}/images/style.css">
+<div class="head">
+	<a href="javascript:history.back();" class="bn pull-left"><i class="icon-angle-left"></i></a>
+	<span class="title">退货申请</span>
+	<a href="{php echo $this->createMobileUrl('mycart')}" class="bn pull-right"><i class="icon-bj_qmxk-cart"></i></a>
+</div>
+ 
+<div class="myoder img-rounded" style='padding-bottom: 10px;'>
+	<div class="myoder-hd">
+		<span class="pull-left">订单编号：{$item['ordersn']}</span>
+		<span class="pull-right">{php echo date('Y-m-d H:i', $item['createtime'])}</span>
+	</div>
+    
+	<form method="post" onsubmit="return confirm('你确认要退货？'); ">
+	<div style="margin:10px 10px 10px 10px">
+		<label for="">原因:</label>
+		<textarea style="height:150px; width:100%" class="span5" name="rsreson" cols="70" autocomplete="off"></textarea>
+	</div>
+    
+    <div class="myoder-total" style='margin-bottom:30px;'>
+    	<button type="submit" name="submit" value="submit" class="btn btn-primary btn-lg" style="width:100%;">提交</button>
+				<input type="hidden" name="token" value="{$_W['token']}" />
+		<br>	<a href="{php echo  $this->createMobileUrl('myorder', array('orderid' => $item['id'], 'op' => 'detail'))}">返回订单</a>
+    </div>
+    </form>
+</div>
+ 
+ 
+{template 'footer'}
+{template 'jsweixin'}
+
+<script>
+t_hideOptionMenu()();
+</script>

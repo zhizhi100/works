@@ -1,0 +1,373 @@
+{template 'common/header'}
+{template 'common'}
+<div class="main">
+ 
+    <form action="" method="post" class="form-horizontal form">
+        <h4>提醒设置</h4>
+        <table class="tb">
+            <tr>
+                <th>提醒接收邮箱</th>
+                <td>
+                    <input type="text" name="noticeemail" class="span5" value="{$settings['noticeemail']}" />(为空则不会发邮件提醒)
+                </td>
+            </tr>
+            
+        </table>
+		<h4>消费返点设置</h4>
+        <table class="tb">
+            <tr>
+                <th>消费返点</th>
+                <td>
+                     <select  class="span4" name="consumerRebates" id="consumerRebates" >
+						<option value="-1"  {if $settings['consumerRebates'] ==-1}selected=selected{/if}>关闭</option>
+						<option value="1"  {if $settings['consumerRebates'] ==1}selected=selected{/if}>开启</option>
+					</select>
+                </td>
+            </tr>
+            <tr>
+                <th>返点比例</th>
+                <td>
+                    <input type="text"  placeholder ="请输入数字格式"  class="span4"  name="rebatesScale"  id="rebatesScale" value="{$settings['rebatesScale']}"  />%
+                </td>
+            </tr>
+        </table>
+        <h4>收入分配</h4>
+        <table class="tb">
+            <tr>
+                <th>贡献的发展基金 /慈善基金</th>
+                <td>
+                <input type="text"  placeholder ="请输入数字格式"  class="span2"  name="immobileBalance"  id="immobileBalance"  value="{$settings['immobileBalance']}" / >%
+                </td>
+            </tr>
+               <tr>
+                <th>可购物余额</th>
+                <td>
+                <input type="text"  placeholder ="请输入数字格式"  class="span2"  name="shoppingBalance"  id="shoppingBalance"  value="{$settings['shoppingBalance']}" / >%
+                </td>
+            </tr>
+               <tr>
+                <th>可购物可提现余额</th>
+                <td>
+                <input type="text"  placeholder ="请输入数字格式"  class="span2"  name="withdrawBalance"  id="withdrawBalance"  value="{$settings['withdrawBalance']}" / >%
+                </td>
+            </tr>
+        </table>
+        <h4>别名设置</h4>
+         <table class="tb">
+         	 <tr >
+                <th>前台个人中心等级（非代理）别名</th>
+                <td>
+                  <input type="text"  name="noagent_title" class="span3" cols="60" value="{$settings['noagent_title']}" />
+                </td>
+            </tr>
+             <tr >
+                <th>前台个人中心等级（代理）别名</th>
+                <td>
+                  <input type="text"  name="agent_title" class="span3" cols="60" value="{$settings['agent_title']}" />
+                </td>
+        	 </tr>
+        	 <tr >
+                <th>（不可支配余额）别名</th>
+                <td>
+                  <input type="text"  name="alias1" class="span3" cols="60" value="{$settings['alias1']}" />
+                </td>
+        	 </tr>
+        	 <tr >
+                <th>（自由余额）别名</th>
+                <td>
+                  <input type="text"  name="alias2" class="span3" cols="60" value="{$settings['alias2']}" />
+                </td>
+        	 </tr>
+        	  <tr >
+                <th>（团队销售额）别名</th>
+                <td>
+                  <input type="text"  name="alias3" class="span3" cols="60" value="{$settings['alias3']}" />
+                </td>
+        	 </tr>
+        	  <tr >
+                <th>（购物余额）别名</th>
+                <td>
+                  <input type="text"  name="alias4" class="span3" cols="60" value="{$settings['alias4']}" />
+                </td>
+        	 </tr>
+        	  <tr >
+                <th>（累计收入）别名</th>
+                <td>
+                  <input type="text"  name="alias5" class="span3" cols="60" value="{$settings['alias5']}" />
+                </td>
+        	 </tr>
+        </table>
+		<h4>商城设置</h4>
+        <table class="tb">
+         <tr style="display:none;">
+                <th>授权</th>
+                <td>
+                   <a href="{php echo $this->createWebUrl('auth', array('op' => 'doauth'))}">同步授权</a>
+                </td>
+         </tr>
+    
+            <tr>
+					<th>子账号</th>
+					<td>
+							<select  class="span3" name="childrenAccount"   id="childrenAccount">
+								<option value="1"   {if $settings['childrenAccount'] ==1}selected=selected{/if}>关闭</option>
+								 <option value="2"   {if $settings['childrenAccount'] ==2}selected=selected{/if}>开启</option>
+							</select>
+					</td>
+			</tr>
+         <tr>
+					<th>退货期限</th>
+					<td>
+						<input type="text" id="rebacktime" name="rebacktime" class="span1" cols="60" value="{$settings['rebacktime']}" />
+						<div class="help-block">退换货申请所需要的周期，单位：天</div>
+					</td>
+			</tr>
+		 <tr>
+                <th>佣金打款限额</th>
+                <td>
+                    <input type="text" name="zhifuCommission" class="span1" value="{$settings['zhifuCommission']}"  />满足此金额的佣金才能打款！
+                </td>
+            </tr>
+                <tr>
+                <th>分销等级</th>
+                <td>
+                    	<select  class="span3" name="globalCommissionLevel" id="globalCommissionLevel" onchange="changecommission(this)">
+							<option value="1" >等级1</option>
+							 <option value="2" >等级2</option>
+							 <option value="3" >等级3</option>
+						</select>
+                </td>
+            </tr>
+            <tr>
+                <th>1级整站佣金</th>
+                <td>
+                    <input type="text" name="globalCommission" class="span1" value="{$settings['globalCommission']}"  />%
+                </td>
+            </tr>
+            <tr   >
+                <th ><span id='tr2_1'>2级整站佣金</span></th>
+                <td  ><span id='tr2_2'>
+                    <input type="text" name="globalCommission2" class="span1" value="{$settings['globalCommission2']}"  /><span style="dispaly:inline">%</span></span>
+                </td>
+            </tr>
+            <tr id='tr3'>
+                <th  style="min-width:60px"><span id='tr3_1'>3级整站佣金</span></th>
+                <td  style="min-width:60px"><span id='tr3_2'>
+                    <input type="text" name="globalCommission3" class="span1" value="{$settings['globalCommission3']}" /><span style="dispaly:inline">%</span></span>
+                </td>
+            </tr>
+            			<script>
+							function changecommission(select)
+							{
+									if(select.value>=1)
+								{
+									document.getElementById('tr2_1').style.display="none";
+									document.getElementById('tr2_2').style.display="none";
+									
+										document.getElementById('tr3_1').style.display="none";
+										document.getElementById('tr3_2').style.display="none";
+										
+								}
+								
+								if(select.value>=2)
+								{
+									document.getElementById('tr2_1').style.display="block";
+									document.getElementById('tr2_2').style.display="block";
+								}
+									if(select.value>=3)
+								{
+										document.getElementById('tr3_1').style.display="block";
+										document.getElementById('tr3_2').style.display="block";
+								}
+							}
+							document.getElementById('globalCommissionLevel').value="{php echo $settings['globalCommissionLevel']?$settings['globalCommissionLevel']:'3'}";
+				 changecommission(document.getElementById('globalCommissionLevel'));
+						
+							</script>
+			<!--<tr>
+                <th>首页限时特卖<br>显示条数</th>
+                <td>
+                    <input type="text" name="indexss" class="span1" value="{$settings['indexss']}" />
+                </td>
+            </tr>-->
+			<tr>
+                <th>未关注引导页面</th>
+                <td>
+                    <input type="text" name="ydyy" class="span7" value="{$settings['ydyy']}" /> 请到把引导页面链接缩短成短网址形式，以防止报错！<a target="_blank" href="http://www.dwz.cn">百度短网址</a>
+                </td>
+            </tr>
+            	<tr>
+                <th>商城首页标题</th>
+                <td>
+                    <input type="text" name="shopname" class="span2" value="{$settings['shopname']}" />
+                </td>
+            </tr>
+            	 <tr>
+                <th>底部版权</th>
+                <td>
+                   名称： <input type="text" name="footer" class="span2" value="{$settings['footer']}" /> 链接: <input type="text" name="footerurl" class="span3" value="{$settings['footerurl']}" /> 
+                </td>
+            </tr>
+			</table>
+			 <h4>分红设置</h4>
+			<TABLE class="tb">
+				<tr>
+	                <th>分红操作</th>
+	                <td>
+	                <select  class="span4" name="dividend_type" id="dividend_type" >
+						<option value="1"  {if $settings['dividend_type'] ==1}selected=selected{/if}>凡购买成功收货后则立即分红</option>
+						<option value="2"  {if $settings['dividend_type'] ==2}selected=selected{/if}>定点分红</option>
+					</select>
+	                </td>
+	            </tr>
+	            	<tr>
+	                <th>同时拥有勋章数量</th>
+	                <td>
+	                <select  class="span2" name="multi"  id="multi" >
+						<option value="1"  {if $settings['multi'] ==1}selected=selected{/if}>多个</option>
+						<option value="2"  {if $settings['multi'] ==2}selected=selected{/if}>只允许一个</option>
+					</select>
+	                </td>
+	            </tr>
+			</TABLE>
+		<h4>关注分钱</h4>
+		<table class="tb">
+			   <tr>
+	            	<th>关注分钱</th>
+	            	<td> 
+	            		 <select  class="span2" name="subscribeDividend"  id="subscribeDividend" >
+							<option value="-1"  {if $settings['subscribeDividend'] ==-1}selected=selected{/if}>关闭</option>
+							<option value="1"  {if $settings['subscribeDividend'] ==1}selected=selected{/if}>开启</option>
+						</select>
+						会员购买的每件商品xx%营业额，将平均分配给该会员所处同等级的所有人。
+示例：
+会员A的第三级人数有100人，若其中会员B购买了价值200元的商品，则xx%的售价为10元平分到第三级100人身上，即每人拥有0.1元，关注也分钱。
+	            	</td>
+	            </tr>
+	            <tr>
+	            	<th>关注分钱比例</th>
+	            	<td>  <input type="text"  placeholder ="请输入数字格式"  class="span4" name="subscribeDividendRate" id="subscribeDividendRate" value="{$settings['subscribeDividendRate']}"/ >%</td>
+	            </tr>
+		</table>
+		 <h4>转发参数设置</h4>
+        <table class="tb">
+			   <tr>
+                <th>转发图片：</th>
+                <td>
+                    {php echo tpl_form_field_image('logo', $settings['logo']);}
+                </td>
+            </tr>
+		 <tr>
+                <th>转发话术：</th>
+                <td>
+                    <textarea style="height:100px;" id="description" name="description" class="span7" cols="60">{$settings['description']}</textarea>
+                </td>
+            </tr>
+            	
+        </table>
+		
+		<h4>杀价参数</h4>
+         <table class="tb">
+           <tr>
+				<th>首页开启杀价排行榜</th>
+				<td>
+                  <input type="checkbox" id="enable_top_user" name="enable_top_user" value="1" {if $settings['enable_top_user']==1}checked{/if} /><lable for="enable_top_user">&nbsp;开启</label>
+                  <span class="help-block">勾选此项，可以在商城首页显示杀价排行榜。</span>
+				</td>
+			</tr>
+        </table>
+       <!-- <h4>商城信息</h4>
+        <table class="tb">
+            <tr>
+                <th>品牌名称</th>
+                <td>
+                   
+                </td>
+            </tr>
+
+            <tr>
+                <th><label for="">官方网址</label></th>
+                <td>
+                    <input type="text" name="officialweb" class="span6" value="{$settings['officialweb']}" />
+                </td>
+            </tr>				
+        				
+           	
+               <tr>
+                <th>联系电话：</th>
+                <td><input type="text" id="phone" name="phone"  class="span7" value="{$settings['phone']}"> </td>
+            </tr>
+            <tr>
+                <th>所在地址：</th>
+                <td><input type="text" id="address" name="address"  class="span7" value="{$settings['address']}"> </td>
+            </tr>
+          
+      
+          <tr>
+                <th></th>
+                <td>
+                    <input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+                    <input type="hidden" name="token" value="{$_W['token']}" />
+                </td>
+            </tr>-->
+			{if 1==1}
+        		<h4>消息模板</h4>
+        <table class="tb">
+            <tr>
+                <th>提交订单消息模板</th>
+                <td>
+                    <input type="text" name="paymsgTemplateid" class="span5" value="{$settings['paymsgTemplateid']}" />
+                </td>
+            </tr>
+            <tr>
+				<th colspan="2">
+					<div class="help-block">在http://mp.weixin.qq.com登录后，依次点击"消息模板",点击"模板库"，选择编号为TM00001的模板点击"详情"，再点击"添加"。添加成功后查看“我的模板”，将模板ID填写到这里</div>
+				</th>
+			</tr>
+        </table>
+          {else}
+          <input type="hidden" name="paymsgTemplateid" class="span5" value="" />
+        {/if}
+
+			<table class="tb">
+				<!--<h4>借用高级认证</h4>　　<tr>
+				<th>AppId：</th>
+				<td><input type="text" name="appid" class="span3" value="{$settings['appid']}" /></td>
+		　　</tr>
+			<tr>
+				<th>AppSecret：</th>
+				<td><input type="text" name="secret" class="span5" value="{$settings['secret']}" /></td>
+			</tr>			
+			<tr>
+				<th colspan="2">
+					<div class="help-block">借用说明：必需设置借用高级认证号的"网页授权获取用户基本信息"的回调域名为你公众号第三方平台的全域名。
+					如：你的域名为：weixin.baijiaweixin.com.cn ，你必需让借用高级认证号设置"网页授权获取用户基本信息"的回调域名为:weixin.baijiaweixin.com.cn</div>
+				</th>
+			</tr>
+			
+			<tr>
+				<th colspan="2">
+					<div class="help-block">使用的AppId和AppSecret在 [开发者中心]，可以找到。</div>
+				</th>
+			</tr>-->
+			<!--<tr>
+				<th colspan="2"><a href="./source/modules/hldpm/template/image/help.jpg" target='_blank'><img src="./source/modules/hldpm/template/image/help.jpg" width="500"></a></th>
+			</tr>		-->	
+			<tr>
+				<th colspan="2">
+					<input name="submit" type="submit" value="提交" class="btn btn-primary span3" />
+					   <input type="hidden" name="token" value="{$_W['token']}" />
+				</th>
+			</tr>
+	</table>
+
+    </form>
+</div>
+<link type="text/css" rel="stylesheet" href="./resource/script/kindeditor/themes/default/default.css" />
+<script type="text/javascript" src="./resource/script/kindeditor/kindeditor-min.js"></script>
+<script type="text/javascript" src="./resource/script/kindeditor/lang/zh_CN.js"></script>
+ 
+<script type="text/javascript">
+    kindeditor($(".description"));
+</script>
+{template 'common/footer'}

@@ -1,0 +1,472 @@
+<!doctype html>
+<html lang="zh-hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+<meta name="format-detection" content="telephone=no">
+<meta name="x5-orientation" content="portrait">
+<link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/style/css/heng.css?v">
+<script type="text/javascript" src="{BJ_QMXK_ROOT}/style/js/TouchSlide.1.1.js"></script>
+<title>{$title}</title>
+</head>
+
+<body>
+<div class="wrap">
+
+<!--焦点图 -->
+<div id="slideBox" class="slideBox">
+    <div class="bd">
+        <ul>
+            {loop $advs $adv}
+            <li>
+                <a class="pic" href="{if empty($adv['link'])}{else}http://{$adv['link']}{/if}"><img src="{$_W['attachurl']}{$adv['thumb']}" /></a>
+                <!--<a class="tit" href="#">banner01</a>-->
+            </li>
+            {/loop}
+            
+        </ul>
+    </div>
+    <div class="hd">
+        <ul></ul>
+    </div>
+</div>
+<script type="text/javascript">
+    TouchSlide({
+        slideCell:"#slideBox",
+        titCell:".hd ul", //开启自动分页 autoPage:true ，此时设置 titCell 为导航元素包裹层
+        mainCell:".bd ul",
+        effect:"leftLoop",
+        autoPage:true,//自动分页
+        autoPlay:true //自动播放
+    });
+</script>
+
+<div class="logo_"></div>
+<table class="tools">
+	<tr>
+    	<td>{$goodscount}</td>
+        <td><a href="{php echo $this->createMobileUrl('listCategory')}"><img src="{BJ_QMXK_ROOT}/style/images/icon01.png"></a></td>
+    	<td><a href="{php echo $this->createMobileUrl('mycart')}"><img src="{BJ_QMXK_ROOT}/style/images/icon02.png"></a></td>
+        <td><a href="{php echo $this->createMobileUrl('fansindex')}"><img src="{BJ_QMXK_ROOT}/style/images/icon03.png"></a></td>
+    </tr>
+    
+	<tr>
+    	<td>商品数量</td>
+        <td>分类</td>
+    	<td>购物车</td>
+        <td>创客中心</td>
+    </tr>    
+</table>
+<div class="clear"></div>
+
+    <div class="container_">
+        <h1>商户团购</h1>
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-01.jpg"></a>
+        {loop $categoods $v}
+        {if ($v['catename']=="女士专区")||($v['catename']==52)}
+		<h1>{$v['catename']}</h1>
+        <table class="exhibition_">
+        {php $cat = $v['ccats']}
+        	<tr>
+            	<td rowspan="3"><a href="#"><img src="{BJ_QMXK_ROOT}/style/images/nvshi_01.jpg"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"> </a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[2]['id']))}"><h2>{$cat[2]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[2]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+            </tr>        
+        
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[5]['id']))}"><h2>{$cat[5]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[5]['thumb']}"></a></td>
+            </tr>         
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-02.jpg"></a>
+		{/if}
+        {if ($v['catename']=="男士专区")||($v['catename']==57)}
+		<h1>{$v['catename']}</h1>
+        {php $cat = $v['ccats']}
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="3"><a href="#"><img src="{BJ_QMXK_ROOT}/style/images/nanshi_01.jpg"></a></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"> </a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2> </span><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"> </a></td>
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[2]['id']))}"><h2>{$cat[2]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[2]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+            </tr>        
+        
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[5]['id']))}"><h2>{$cat[5]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[5]['thumb']}"></a></td>
+            </tr>           
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-03.jpg"></a>
+        {/if}
+        {if ($v['catename']=="男士皮鞋")||($v['catename']==34)}
+		<h1>{$v['catename']}</h1>
+        {php $cat = $v['ccats']}
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="3"><a href="#"><img src="{BJ_QMXK_ROOT}/style/images/nanshi_01.jpg"></a></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"> </a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"> </a></td>
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[2]['id']))}"><h2>{$cat[2]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[2]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+            </tr>        
+        
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[5]['id']))}"><h2>{$cat[5]['name']}</h2> <img class="peitu_" src="{$_W['attachurl']}{$cat[5]['thumb']}"></a></td>
+            </tr>           
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-03.jpg"></a>
+        {/if}
+        {if ($v['catename']=="电脑手机数码")||($v['catename']==50)}
+		<h1>{$v['catename']}</h1>
+        {php $cat = $v['ccats']}
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="2"><img src="{BJ_QMXK_ROOT}/style/images/meirong_01.jpg"></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2>
+                
+                
+                
+                
+                <img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"></a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+            </tr>        
+               
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-04.jpg"></a>  
+        {/if}
+        {if ($v['catename']=="美容护肤")||($v['catename']==13)}
+		<h1>{$v['catename']}</h1>
+        {php $cat = $v['ccats']}
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="2"><img src="{BJ_QMXK_ROOT}/style/images/meirong_01.jpg"></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"></a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+            </tr>        
+               
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-04.jpg"></a>  
+        {/if}
+		{if ($v['catename']=="电器")||  ($v['id']=="4")}
+        {php $cat = $v['ccats']}
+		<h1>{$v['catename']}</h1>
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="2"><img src="{BJ_QMXK_ROOT}/style/images/jiaju_01.jpg"></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"></a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+            </tr>        
+               
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-05.jpg"></a>         
+              
+        {/if}
+        
+        
+		{if $v['catename']=="母婴用品"}
+        {php $cat = $v['ccats']}
+		<h1>{$v['catename']}</h1>
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="2"><img src="{BJ_QMXK_ROOT}/style/images/muying_01.jpg"></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"></a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+            </tr>        
+               
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-06.jpg"></a>
+		{/if}
+		{if $v['catename']=="进口食品"}
+        {php $cat = $v['ccats']}
+		<h1>进口食品</h1>
+        <table class="exhibition_">
+        	<tr>
+            	<td rowspan="2"><img src="{BJ_QMXK_ROOT}/style/images/food_01.jpg"></td>
+                <td class="bg_lianyiqun"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[0]['id']))}"><h2>{$cat[0]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[0]['thumb']}"></a> </td>
+                <td class="bg_watch"><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[1]['id']))}"><h2>{$cat[1]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[1]['thumb']}"></a></td>
+            </tr>
+            
+        	<tr>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[3]['id']))}"><h2>{$cat[3]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[3]['thumb']}"></a></td>
+                <td><a href="{php echo $this->createMobileUrl('list2', array('ccate' => $cat[4]['id']))}"><h2>{$cat[4]['name']}</h2><img class="peitu_" src="{$_W['attachurl']}{$cat[4]['thumb']}"></a></td>
+            </tr>        
+               
+        </table>
+        
+        <a href="#"><img src="{BJ_QMXK_ROOT}/style/images/ad-07.jpg"></a>
+        {/if}
+        {/loop}
+        <!--<h1>精品推荐</h1>
+
+<div id="leftTabBox" class="tabBox">
+				<div class="hd">
+					<ul>
+						<li><a href="javascript:void(0)">最新</a></li>
+						<li><a href="javascript:void(0)">最热</a></li>
+						<li><a href="javascript:void(0)">居家必备</a></li>
+						<li><a href="javascript:void(0)">进口推荐</a></li>
+					</ul>
+				</div>
+				<div class="bd">
+						<ul>
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>越南进口利葡面包干越南进口利葡面包干</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>
+								
+                                <div class="clear"></div>
+                                
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>                            
+						</ul>
+                        
+                        <ul>
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>
+
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>                            
+						</ul>
+                        
+                        <ul>
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>
+
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>                            
+						</ul>
+                        
+                        <ul>
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>
+
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_01.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00~999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_02.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥999.00</span>
+                            </li>
+                            
+							<li>
+                            	<a href="#"><img alt="" src="{BJ_QMXK_ROOT}/style/images/tuijian_03.png"></a>
+                            	<p>品牌白酒 限时抢购品牌白酒 限时抢购</p>
+                                <span>￥99.00</span>
+                            </li>                            
+						</ul>
+				</div>
+			</div>-->
+			<script type="text/javascript">TouchSlide({ slideCell:"#leftTabBox" });</script>
+
+	</div>
+</div>
+{if $shownotice == true}
+
+  <style>
+  	.mui-bar-tab {
+ {if $theone['ischeck'] == 1}
+top: 0;
+{else}
+bottom: 0;
+{/if}
+display: table;
+width: 100%;
+height: 50px;
+padding: 0;
+table-layout: fixed;
+border-top: 0;
+border-bottom: 0;
+}
+.mui-bar {
+position: fixed;
+right: 0;
+left: 0;
+z-index: 10;
+height: 44px;
+padding-right: 10px;
+padding-left: 10px;
+filter:alpha(opacity=50); 
+background:rgba(49, 48, 48, 0.5) none repeat scroll 0 0 !important;
+border-bottom: 0;
+-webkit-backface-visibility: hidden;
+backface-visibility: hidden;
+}
+.mui-btn {
+position: relative;
+top: 7px;
+z-index: 20;
+padding: 6px 12px 7px;
+margin-top: 0;
+font-weight: 400;
+}
+.mui-btn-warning {
+color: #fff;
+background-color: #f0ad4e;
+border: 1px solid #f0ad4e;
+float: right;
+margin-right: 5px;
+font-size: 15px;
+line-height: 21px;
+}
+  	</style>
+   <nav class="mui-bar mui-bar-tab" style="z-index:99999;font-family: Helvetica,STHeiti STXihei, Microsoft JhengHei, Microsoft YaHei, Arial;">
+                <img src="{if empty($fans['avatar'])}{BJ_QMXK_ROOT}/style/images/yh.png{else}{$fans['avatar']}{/if}" style="width:40px;height:40px;float:left;margin:5px;">
+                <div style="color:#ffffff;font-size:12px;font-weight:500;line-height:20px;float:left;margin-top: 5px;"><span style="color:#31FF00;font-size:13px;">{$fans['nickname']}</span><br>您还未关注{$_W['account']['name']}！</div>
+                <button onclick="location.href='{$cfg['ydyy']}';" class="mui-btn mui-btn-warning" style="float:right;margin-right:15px;font-size:15px;">点击关注</button>
+            </nav>
+   
+{/if}
+{template 'jsweixin'}
+</body>
+</html>

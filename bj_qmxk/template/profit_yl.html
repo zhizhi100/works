@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/vnd.ms-excel; charset=utf-8" />
+<title>{$months}工资表预览</title>
+<style>
+table{border:solid 1px #999999;border-collapse: collapse;}
+table tr th{line-height:35px; background-color:#CCCCCC}
+table tr td{line-height:28px;text-align:center;border-bottom: solid 1px #CCCCCC;}
+
+</style>
+</head>
+
+<body>
+<table width="100%">
+<tr>
+<th>会员姓名</th>
+<th>手机号码</th>
+<th>应发工资</th>
+<th>银行名称</th>
+<th>银行卡号</th>
+<th>支付宝</th>
+<th>是否已发放</th>
+</tr>
+{loop $list $v}
+<tr>
+<td>{$v['realname']}</td>
+<td>{$v['mobile']}</td>
+<td>{if $avaprofit}已发放{else}未发放{/if}</td>
+<td>{$v['bankcard']}</td>
+<td>{$v['banktype']}</td>
+<td>{$v['alipay']}</td>
+<td>{$v['ispay']}</td>
+</tr>
+{/loop}
+</table>
+
+
+
+</body>
+</html>

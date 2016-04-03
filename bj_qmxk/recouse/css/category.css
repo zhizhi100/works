@@ -1,0 +1,125 @@
+@charset "UTF-8";
+*{margin:0px;padding:0px;}
+body{font-size:14px;font-family:"微软雅黑";color:#000;background:#f3f4f6}
+a{text-decoration:none;color:#000;}
+img{border:none}
+.clear{clear:both;}
+ul{list-style:none;}
+
+
+/*头部*/
+.fenlei_menu{position:fixed;left:0px;bottom:0px;width:90px;top:0px;overflow-y:auto;}
+.fenlei_menu li{-webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;border-bottom: 1px solid #e0e0e0;height: 49px;line-height: 49px;border-right: 1px solid #e0e0e0;text-decoration: none;font-size: 14px;font-weight:normal;color: #252525;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;text-align:center;}
+.fenlei_menu .active{background:#fff;border-right:0px;color:#f00}
+
+
+.erji{position:fixed;top:0px;right:0px;bottom:0px;left:90px;background:#fff;padding:10px;overflow-y:auto}
+.erji_list .erji_title{color:#888;font-size:12px;margin-bottom:10px;}
+.erji_list ul{margin-bottom:30px;}
+.erji_list ul li{width: 28%;height:90px;float: left;text-align: center;border:none;padding:5px;margin-bottom:15px;}
+.erji_list ul li a{display:block;color:#252525;font-size:12px;}
+.erji_list ul li a img{width:100%;margin-bottom:5px;}
+.erji_list ul li a span{font-size: 12px;display: block;margin: 5px 0 9px;line-height: 1.1em;height: 1.1em;overflow: hidden;text-overflow: ellipsis; }
+
+.hide{display:none;}
+
+
+.wx_nav,.WX_tab_inner,.wx_referrer {
+	display:box;
+	display:-ms-box;
+	display:-webkit-box;
+	display:flex;
+	display:-ms-flexbox;
+	display:-webkit-flex
+}
+.wx_nav a,.WX_tab_inner a,.wx_referrer a {
+	display:block;
+	flex:1;
+	-ms-flex:1;
+	-webkit-flex:1;
+	box-flex:1;
+	-ms-box-flex:1;
+	-webkit-box-flex:1
+}
+.wx_nav a:before,.WX_backtop:after,.wx_aside .btn_more:after,.wx_aside .btn_top:after {
+	background-image:url(../images/icon_nav_v2.png);
+	background-repeat:no-repeat;
+	background-size:207px 46px;
+	-webkit-background-size:207px 46px
+}
+.wx_nav {
+	overflow:hidden;
+	height:49px;
+	position:fixed;
+	z-index:900;
+	width:100%;
+	bottom:0;
+	left:0;
+}
+.wx_nav a {
+	width:200px;
+	height:45px;
+	padding-top:4px;
+	color:#FFF;
+	font-size:12px;
+	filter:alpha(opacity=50);
+	background:rgba(49, 48, 48, 0.8) none repeat scroll 0 0 !important;
+	text-align:center
+}
+.wx_nav a:before {
+	width:23px;
+	height:23px;
+	content:'\20';
+	display:block;
+	margin:0 auto 2px auto
+}
+.wx_nav a:active {
+	background-color:#FFF
+}
+.wx_nav a:active,.wx_nav a.on {
+	color:#FFF
+}
+.wx_nav a:active:before,.wx_nav a.on:before {
+	background-position-y:-23px
+}
+.wx_nav a.dot {
+	position:relative
+}
+.wx_nav a.dot:after {
+	content:'';
+	display:inline-block;
+	width:7px;
+	height:7px;
+	background:#e4393c;
+	border-radius:4px;
+	position:absolute;
+	top:5px;
+	left:50%;
+	margin-left:10px
+}
+.wx_nav .nav_index:before {
+	background-position:0 0
+}
+.wx_nav .nav_search:before {
+	background-position:-46px 0
+}
+.wx_nav .nav_fav:before {
+	background-position:-23px 0
+}
+.wx_nav .nav_shopcart:before {
+	background-position:-138px 0
+}
+.wx_nav .nav_me:before {
+	background-position:-69px 0
+}
+.nav_me1:before {
+	background-position:-69px 0
+}
+.wx_nav .nav_newsfeed:before {
+	background-position:-161px 0
+}
+.wx_nav .nav_shopping_guide:before {
+	background-position:-184px 0
+}

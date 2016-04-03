@@ -1,0 +1,220 @@
+{template 'common/header'}
+<style>
+.ym{width:107px;height:80px;border:1px solid grey;float:left;}
+.ym h5{text-align:center;margin: 0px !important;background-color: #438EB9;}
+.ym #y,#m{overflow:auto;height:60px; }
+.ym p{text-align:center;}
+.actived {background: grey;}
+.noactive {background:;}
+</style>
+<ul class="nav nav-tabs">
+	<li {if $op == 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('profit');}">总代奖金表</a></li>
+	<!--<li {if $op == 'list'}class="active"{/if}><a href="{php echo $this->createWebUrl('profit',array('op'=>'list'));}">可分奖金总代审核</a></li>-->
+	<li {if $op == 'tj'}class="active"{/if}><a href="{php echo $this->createWebUrl('profit',array('op'=>'tj'));}">奖金统计</a></li>
+</ul>
+    <div class="main">
+		<div class="stat">
+				<form id="fm" action="">
+					<input type="hidden" name="act" value="module" />
+					<input type="hidden" name="name" value="bj_qmxk" />
+					<input type="hidden" name="do" value="profit" />
+					<input type="hidden" id="op" name="op" value="display" />
+				<table class="table sub-search">
+					<tbody>
+					
+						<tr>
+							<th style="width:100px;">月份</th>
+							<td>
+								<input id="months" name="months" type="text" value="{$months}" />
+								<input id="y" type="hidden" value="{$y}">
+								<input id="m" type="hidden" value="{$m}">
+								<div id="sel" style="display:none">
+									<div class="ym">
+										<h5>年</h5>
+										<div id="y">
+										<?php for($i=2014;$i<=date('Y',time());$i++){?>
+											<p {if $y==$i}class="actived"{/if} id="y{$i}" onclick="ym('y','{$i}');">{$i}</p>
+										<?php }?>
+										</div>
+										
+									</div>
+									<div class="ym">
+										<h5>月</h5>
+										<div id="m">
+										<?php for($i=1;$i<=12;$i++){?>
+											{if $i<10}{php $i = "0".$i;}{/if}
+											<p {if $m==$i}class="actived"{/if} id="m{$i}" onclick="ym('m','{$i}');">{$i}</p>
+										<?php }?>
+										</div>
+									</div>
+									<div style="clear:both"></div>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th></th>
+							<td>
+								<input type="submit" name="" value="搜索" class="btn btn-primary">
+							</td>
+						</tr>
+					
+						<tr>
+							<th style="width:100px;">总利润</th>
+							<td>
+								{if $modify==0}<input name="allprofit" type="text" value="{$allprofit}" />{else}{$allprofit}{/if}
+							</td>
+						</tr>
+						{if $modify==0}
+						<tr>
+							<th></th>
+							<td>
+								<button onclick="modify();" class="btn">修改</button>
+								
+							</td>
+						</tr>
+						{/if}
+					</tbody>
+				</table> 
+				</form>
+			<div class="stat-div">
+				<div class="navbar navbar-static-top">
+					<div class="navbar-inner">
+						<span class="pull-right" style="color:red; padding:10px 10px 0 0;">总代总人数：<?php echo $total;?>　<a href="{BJ_QMXK_ROOT}/recouse/file/gz_{$months}.csv" target="_blank">点击下载本月工资单</a></span>
+						<span class="brand">工资单</span>
+					</div>
+				</div>
+				<div class="sub-item" id="table-list">
+					<h4 class="sub-title">总代工资单</h4>
+
+					<form action="" method="post" onsubmit="">
+					<div class="sub-content">
+						<table class="table table-hover">
+							<thead class="navbar-inner">
+								<tr>
+									<th class="row-hover">会员姓名</th>
+									<th class="row-hover">手机号码</th>
+									<th class="row-hover">成为总代时间</th>
+                                    <th class="row-hover">直接消费圈</th>
+								    <th class="row-hover">应发工资</th>
+								    <th class="row-hover">是否已发放</th>
+									<th class="row-hover">操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								{loop $list $v}
+								<tr>
+									<td style="text-align: center;">
+										{$v['realname']}
+									</td>
+									<td style="text-align: center;">
+										{$v['mobile']}
+									</td>
+									<td style="text-align: center;">
+										{php echo date('Y-m-d',$v['salesmantime'])}
+									</td>
+                                     <td style="text-align: center;">
+										{$v['follower']}
+									</td>
+									<td style="text-align: center;">
+										{$avaprofit}
+									</td>
+									<td style="text-align: center;">
+										{if $v['ispay']==1}已发放{else}暂未发放{/if}
+									</td>
+									<td style="text-align: center;">
+										{if $v['ispay']==1}已发放工资{else}<a href="{php echo $this->createWebUrl('profit',array('op'=>'send','from_user' => $v['from_user'],'gz'=>$avaprofit,'months'=>$months));}">发放工资</a>{/if}
+									</td>
+								</tr>
+								{/loop}
+							</tbody>
+						</table>
+					</div>
+					</form>
+					{$pager}
+					
+				</div>
+			</div>
+		</div>
+    </div>
+
+<link type="text/css" rel="stylesheet" href="./resource/style/daterangepicker.css" />
+<script type="text/javascript" src="./resource/script/daterangepicker.js"></script>
+<script>
+$("#months").click(function(){
+	$("#sel").toggle();
+});
+
+$('#m p').click(function () {
+    var f = this;
+    $('#m p').each(function () {  this.className = this == f ? 'actived' : 'noactive'   });
+});
+$('#y p').click(function () {
+    var f = this;
+    $('#y p').each(function () {  this.className = this == f ? 'actived' : 'noactive'   });
+});
+
+function ym(flag,num){
+	if(flag=='y'){
+		var m= $("#m").val();
+		$('#y').val(num);
+		$('#months').val(num+'-'+m);
+	}else if(flag=='m'){
+		var y= $("#y").val();
+		$('#m').val(num);
+		$('#months').val(y+'-'+num);
+	}
+	
+}
+
+function modify(){
+	$("#op").val('modify');
+	$('#fm').submit();
+}
+
+</script>
+<script>
+$(function() {
+	$('#date-range').daterangepicker({
+		format: 'YYYY-MM-DD',
+		startDate: $(':hidden[name=start]').val(),
+		endDate: $(':hidden[name=end]').val(),
+		locale: {
+			applyLabel: '确定',
+			cancelLabel: '取消',
+			fromLabel: '从',
+			toLabel: '至',
+			weekLabel: '周',
+			customRangeLabel: '日期范围',
+			daysOfWeek: moment()._lang._weekdaysMin.slice(),
+			monthNames: moment()._lang._monthsShort.slice(),
+			firstDay: 0
+		}
+	}, function(start, end){
+		$('#date-range .date-title').html(start.format('YYYY-MM-DD') + ' 至 ' + end.format('YYYY-MM-DD'));
+		$(':hidden[name=start]').val(start.format('YYYY-MM-DD'));
+		$(':hidden[name=end]').val(end.format('YYYY-MM-DD'));
+	});
+	$('#date-range1').daterangepicker({
+		format: 'YYYY-MM-DD',
+		startDate: $(':hidden[name=start1]').val(),
+		endDate: $(':hidden[name=end1]').val(),
+		locale: {
+			applyLabel: '确定',
+			cancelLabel: '取消',
+			fromLabel: '从',
+			toLabel: '至',
+			weekLabel: '周',
+			customRangeLabel: '日期范围',
+			daysOfWeek: moment()._lang._weekdaysMin.slice(),
+			monthNames: moment()._lang._monthsShort.slice(),
+			firstDay: 0
+		}
+	}, function(start, end){
+		$('#date-range1 .date-title').html(start.format('YYYY-MM-DD') + ' 至 ' + end.format('YYYY-MM-DD'));
+		$(':hidden[name=start1]').val(start.format('YYYY-MM-DD'));
+		$(':hidden[name=end1]').val(end.format('YYYY-MM-DD'));
+	});
+	
+});
+</script>
+{template 'common/footer'}

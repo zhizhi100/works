@@ -1,0 +1,82 @@
+
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <title>{if $level==1}一级会员{/if}{if $level==2}二级会员{/if}{if $level==3}三级会员{/if}名单</title>
+<!--     <title>客户列表</title> -->
+    <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/style/new/foundation.css">
+<link href="{BJ_QMXK_ROOT}/recouse/css/bottom.css?x={BJ_QMXK_VERSION}" rel="stylesheet" type="text/css" />
+   <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/style/new/common-v4.0.css">
+     <link rel="stylesheet" type="text/css" href="{BJ_QMXK_ROOT}/style/new/person-v4.1.css">
+
+   
+</head>
+<body>
+     <!--   <nav class="tab-bar">
+            <section class="left-small">
+                <a href="{php echo $this->createMobileUrl('fansindex')}" class="menu-icon"><span></span></a>
+            </section>
+            <section class="middle tab-bar-section">
+                <h1 class="title">会员名单</h1>
+            </section>
+        </nav>-->
+ {if empty($fansall)}
+       
+       
+                
+<!--                    <div class="disorder-none"><i class="icon-none"></i><span class="nonetext">您还没有{if $level==1}一级{/if}{if $level==2}二级{/if}{if $level==3}三级{/if}{if $level<=3}{if $flag==1}代理{else}会员{/if}{/if}{if $level==4}推广点击{/if}{if $level==5}成功关注{/if}！</span></div> -->
+        <div class="disorder-none"><i class="icon-none"></i><span class="nonetext">暂无数据，多多推广吧,加油！</span></div>
+            
+       
+			
+			{else}
+<div class="list-myorder" style="margin-top:10px;">
+    
+		 
+    <ul class="ul-product" >
+	
+	
+	
+        		  {loop $fansall $fans}
+        <li>
+       
+                <span class="pic">
+                    <img src="{if empty($fans['avatar'])}{BJ_QMXK_ROOT}/style/images/yh.png{else}{$fans['avatar']}{/if}"></span>
+                <div class="text">
+                    <span class="pro-name">昵称：{$fans['realname']}</span>
+                    
+                     <div class="pro-pric"><span>关注时间：</span>{php echo date('Y-m-d', $fans['createtime']);}</div>
+                      <div class="pro-pric"><span>推荐店：</span>{php echo $this->getParentNickName($fans['from_user']);}</div>
+              
+                </div>
+        
+            
+        </li>
+			
+			{/loop}
+		
+        
+    </ul>
+    
+   
+
+
+    
+
+  
+    
+</div>
+	{/if}
+<!--01 end-->
+
+{template 'footer'}
+<div class="wx_nav"><a href="{php echo $this->createMobileUrl('list')}" data-href="###" ptag="37080.1.1" class="nav_index on">首页</a><a href="{php echo $this->createMobileUrl('listCategory')}"  ptag="37080.1.2" class="nav_search" style="display:">分类</a><a href="{php echo $this->createMobileUrl('mycart')}"  ptag="37080.1.3" class="nav_shopcart">购物车</a><a href="{php echo $this->createMobileUrl('myorder')}"  ptag="37080.1.4" class="nav_shopping_guide">我的订单</a><a href="{php echo $this->createMobileUrl('fansindex')}"  ptag="37080.1.4" class="nav_me">创客中心</a></div>
+</body>
+</html>

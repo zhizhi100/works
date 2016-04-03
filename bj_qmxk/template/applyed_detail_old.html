@@ -1,0 +1,132 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li><a href="{php echo $this->createWebUrl('commission', array('op'=>'display'))}">佣金审核提现操作</a></li>
+		<li ><a href="{php echo $this->createWebUrl('commission', array('op'=>'applyed'))}">已结算订单</a></li>
+		<li class="active"><a href="#">结算订单明细</a></li>
+	<li><a href="{php echo create_url('site/module', array('do' => 'zhifu', 'op' => 'list','name' => 'bj_qmxk','weid'=>$_W['weid']))}">代理提现报表</a></li>
+	<li><a href="{php echo $this->createWebUrl('commission', array('op'=>'invalid'))}">审核无效</a></li>
+</ul>
+<div class="main">
+	<div class="form form-horizontal">
+		<h4>结算订单明细</h4>
+		<table class="tb">
+
+			<tr>
+				<th style="width:200px"><label>设置审核结算状态</label></th>
+				<td style="text-align: left;">
+					已打款
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">真实姓名</label></th>
+				<td>
+					{if $user['realname']!=""} {$user['realname']}{else}未完善{/if}
+				</td>
+			</tr>
+			
+					<tr>
+				<th style="width:200px"><label for="">银行卡号</label></th>
+				<td>
+					{if $bankcard['banktype']!=""} {$bankcard['banktype']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">银行名称</label></th>
+				<td>
+					{if $bankcard['bankcard']!=""} {$bankcard['bankcard']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">支付宝</label></th>
+				<td>
+					{if $bankcard['alipay']!=""} {$bankcard['alipay']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user['mobile']!=""} {$user['mobile']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">申请时间</label></th>
+				<td>
+					{php echo date('Y-m-d H:i:s', $info['applytime']);}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">商品名称</label></th>
+				<td>
+					{$info['title']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">商品价格</label></th>
+				<td>
+					{$info['price']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">购买数量</label></th>
+				<td>
+					{$info['total']}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">打款佣金</label></th>
+				<td>
+						<input type="hidden" value="{php echo ($info['commission']*$info['total'])}" readonly name="commission"/>
+				
+					<font color="red">{$info['commission']} (总：{php echo ($info['commission']*$info['total'])}元)</font>
+				</td>
+			</tr>{if $cfg['globalCommissionLevel']>=2&&!empty($user2['id'])}	
+				<tr>
+				<th style="width:200px"><label for="">2级分销员</label></th>
+				<td>
+					{if $user2['realname']!=""} {$user2['realname']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user2['mobile']!=""} {$user2['mobile']}{else}未完善{/if}
+				</td>
+			</tr>  
+			<tr>
+				<th><label for="">2级打款佣金</label></th>
+				<td>	<input type="hidden" value="{php echo ($info['commission2']*$info['total'])}" readonly name="commission2"/>
+				
+					<font color="red">{$info['commission2']} (总：{php echo $info['commission2']*$info['total']}元)</font>
+				</td>
+			</tr>{/if}	{if $cfg['globalCommissionLevel']>=3&&!empty($user3['id'])}	
+			<tr>
+				<th style="width:200px"><label for="">3级分销员</label></th>
+				<td>
+					{if $user3['realname']!=""} {$user3['realname']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user3['mobile']!=""} {$user3['mobile']}{else}未完善{/if}
+				</td>
+			</tr>
+				<tr>
+				<th><label for="">3级打款佣金</label></th>
+				<td>	<input type="hidden" value="{php echo ($info['commission3']*$info['total'])}" readonly name="commission3"/>
+				
+					<font color="red">{$info['commission3']} (总：{php echo $info['commission3']*$info['total']}元)</font>
+				</td>
+			</tr>{/if}
+			<tr>
+				<th><label for="">备注</label></th>
+				<td>
+					<textarea name="content" readonly>{$info['content']}</textarea>
+				</td>
+			</tr>
+		
+		</table>
+	</div>
+</div>
+
+{template 'common/footer'}

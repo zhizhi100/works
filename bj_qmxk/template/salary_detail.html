@@ -1,0 +1,97 @@
+{template 'common/header'}
+<ul class="nav nav-tabs">
+	<li ><a href="{php echo $this->createWebUrl('salary', array('op'=>'display'))}">全部</a></li>
+	<li ><a href="{php echo $this->createWebUrl('salary', array('op'=>'unaudited'))}">未审核</a></li>
+	<li ><a href="{php echo $this->createWebUrl('salary', array('op'=>'audited'))}">已审核</a></li>
+	<li><a href="{php echo $this->createWebUrl('salary', array('op'=>'invalid'))}">审核无效</a></li>
+	<li class="active"><a href="#">审核打款详细信息</a></li>
+	
+<li><a href="{php echo $this->createWebUrl('salary', array('op'=>'paid'))}">已打款</a></li>
+</ul>
+<div class="main">
+	<div class="form form-horizontal">
+		<h4>审核打款详细信息</h4>
+		<table class="tb">
+		<form action="">
+			<input type="hidden" name="id" value="{$id}">
+			<input type="hidden" name="mid" value="{$mid}">
+			<input type="hidden" name="op" value="display">
+			<input type="hidden" name="opp" value="checked">
+			<input type="hidden" name="act" value="module" />
+			<input type="hidden" name="name" value="bj_qmxk" />
+			<input type="hidden" name="do" value="salary" />
+			<tr>
+				<th style="width:200px"><label>设置审核结算状态</label></th>
+				<td style="text-align: left;">
+					<label class="radio inline"><input type="radio" name="status" value="-1" {if $info['status']==-1}checked{/if}>无效</label>
+					<label class="radio inline" ><input type="radio" name="status" value="0" checked>暂不处理</label>
+					<label class="radio inline" ><input type="radio" name="status" value="1" checked>审核通过</label>
+					{if $info['status']==1 || $info['status']==2}
+					<label class="radio inline" ><input type="radio" name="status" value="2" {if $info['status']==2}checked{/if}>打款</label>
+					{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">申请人</label></th>
+				<td>
+					{if $user['realname']!=""} {$user['realname']}{else}未完善{/if}
+				</td>
+			</tr>
+			
+					<tr>
+				<th style="width:200px"><label for="">银行卡号</label></th>
+				<td>
+					{if $bankcard['banktype']!=""} {$bankcard['banktype']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">银行名称</label></th>
+				<td>
+					{if $bankcard['bankcard']!=""} {$bankcard['bankcard']}{else}未完善{/if}
+				</td>
+			</tr>
+					<tr>
+				<th style="width:200px"><label for="">支付宝</label></th>
+				<td>
+					{if $bankcard['alipay']!=""} {$bankcard['alipay']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th style="width:200px"><label for="">手机号码</label></th>
+				<td>
+					{if $user['mobile']!=""} {$user['mobile']}{else}未完善{/if}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">申请时间</label></th>
+				<td>
+					{php echo date('Y-m-d H:i:s', $info['createtime']);}
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">打款薪资</label></th>
+				<td>
+						<input type="hidden" value="{$info['commission']}" readonly name="commission"/>
+					<font color="red">{$info["commission"]}元</font>
+				</td>
+			</tr>
+			<tr>
+				<th><label for="">备注</label></th>
+				<td>
+					<textarea name="content">{$info['content']}</textarea>
+				</td>
+			</tr>
+			<tr>
+				<th></th>
+				<td>
+					<a href="{php echo $this->createWebUrl('salary', array('op'=>'display'))}">
+					<input type="button" class="btn btn-primary span3" name="submit" value="返回" /></a>
+					<input type="submit" class="btn btn-primary span3" name="submit" onclick="return confirm('确认操作吗？');" value="确定" />
+				</td>
+			</tr>
+			</form>
+		</table>
+	</div>
+</div>
+
+{template 'common/footer'}
