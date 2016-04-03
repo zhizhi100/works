@@ -1,6 +1,7 @@
 {template 'common/header'}
 {template 'common'}
-<script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script>
+<!-- <script type="text/javascript" src="./resource/script/jquery-ui-1.10.3.min.js"></script> zhongping 2016.4.3 change the js dir-->
+<script type="text/javascript" src="../addons/bj_qmxk/recouse/js/jquery-ui-1.10.3.min.js">
 <ul class="nav nav-tabs">
 	<li {if $operation == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'post'))}">添加代金券</a></li>
 	<li {if $operation == 'display'&&$modules!='receive'}class="active"{/if}><a href="{php echo $this->createWebUrl('voucher', array('op' => 'display'))}">管理代金券</a></li>

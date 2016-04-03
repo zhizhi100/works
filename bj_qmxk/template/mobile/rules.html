@@ -83,6 +83,7 @@ function kindeditor2(selector, callback) {
 	}
 	if (!UE) {
 		UE_LOADING = true;
+		/* changed the js dir to addon dir. by zhongping at 2016.4.3
 		$.getScript('./resource/script/ueditor/ueditor.config.js', function(){
 			$.getScript('./source/modules/bj_qmxk/recouse/new_ueditor.all.min.js?x=122333',function(){
 				$.getScript('./resource/script/ueditor/lang/zh-cn/zh-cn.js',function(){
@@ -91,6 +92,15 @@ function kindeditor2(selector, callback) {
 				});
 			});
 		});
+		*/
+		$.getScript('../addons/bj_qmxk/recouse/js/ueditor/ueditor.config.js', function(){
+			$.getScript('../addons/bj_qmxk/recouse/js/new_ueditor.all.min.js?x=122333',function(){
+				$.getScript('../addons/bj_qmxk/recouse/js/ueditor/lang/zh-cn/zh-cn.js',function(){
+					UE_LOADING = false;
+					UEditor(UE_SELECTOR, callback);
+				});
+			});
+		});		
 	} else {
 		UEditor(UE_SELECTOR, callback);
 	}

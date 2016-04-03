@@ -14,19 +14,27 @@
 	<meta name="apple-mobile-web-app-capable" content="yes" /> <!-- apple devices fullscreen -->
 	<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 	<!-- Mobile Devices Support @end -->
-	<script type="text/javascript" src="./resource/script/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="./resource/script/common.js?x={BJ_QMXK_VERSION}"></script>
+	<!-- <script type="text/javascript" src="./resource/script/jquery-1.7.2.min.js"></script> change the js dir.zhongping.2016.4.3 -->
+	<script type="text/javascript" src="../addons/bj_qmxk/recouse/js/jquery-1.7.2.min.js"></script>
+	<!-- <script type="text/javascript" src="./resource/script/common.js?x={BJ_QMXK_VERSION}"></script> change the js dir.zhongping.2016.4.3 -->
+	<script type="text/javascript" src="../addons/bj_qmxk/recouse/js/common.web.js?x={BJ_QMXK_VERSION}"></script>
 	{if $bootstrap_type == 3}
 	<link type="text/css" rel="stylesheet" href="./themes/mobile/default/style/bootstrap.css?x={BJ_QMXK_VERSION}">
 	<script type="text/javascript" src="./themes/mobile/default/script/bootstrap.min.js?x={BJ_QMXK_VERSION}"></script>
 	{else}
+	<!-- dir changed in we7.2016  zhongping 2016.4.3 
 	<link type="text/css" rel="stylesheet" href="./resource/style/bootstrap.css?x={BJ_QMXK_VERSION}">
 	<script type="text/javascript" src="./resource/script/bootstrap.js?x={BJ_QMXK_VERSION}"></script>
+	-->
+	<link type="text/css" rel="stylesheet" href="./resource/css/bootstrap.css?x={BJ_QMXK_VERSION}">
+	<script type="text/javascript" src="./resource/js/bootstrap.js?x={BJ_QMXK_VERSION}"></script>	
 	{/if}
-{if $initNG}<script type="text/javascript" src="./resource/script/angular.min.js?x={BJ_QMXK_VERSION}"></script>{/if}
-	<link type="text/css" rel="stylesheet" href="./resource/style/font-awesome.min.css?x={BJ_QMXK_VERSION}" />
+{if $initNG}<!-- <script type="text/javascript" src="./resource/script/angular.min.js?x={BJ_QMXK_VERSION}"></script> dir changed in we7.2016 zhongping 2016.4.3--><script type="text/javascript" src="../addons/bj_qmxk/recouse/js/angular.min.js?x={BJ_QMXK_VERSION}"></script>{/if}
+	<!-- <link type="text/css" rel="stylesheet" href="./resource/style/font-awesome.min.css?x={BJ_QMXK_VERSION}" /> dir changed in we7.2016 zhongping 2016.4.3-->
+	<link type="text/css" rel="stylesheet" href="../addons/bj_qmxk/recouse/css/font-awesome.min.css?x={BJ_QMXK_VERSION}" />
 	<link type="text/css" rel="stylesheet" href="./themes/mobile/default/style/common.mobile.css?x={BJ_QMXK_VERSION}">
-	<script type="text/javascript" src="./resource/script/cascade.js?x={BJ_QMXK_VERSION}"></script>
+	<!-- <script type="text/javascript" src="./resource/script/cascade.js?x={BJ_QMXK_VERSION}"></script> dir changed in we7.2016 zhongping 2016.4.3-->
+	<script type="text/javascript" src="../addons/bj_qmxk/recouse/js/cascade.js?x={BJ_QMXK_VERSION}"></script>
 	<script type="text/javascript" src="./themes/mobile/default/script/jquery.touchwipe.js?x={BJ_QMXK_VERSION}"></script>
 	<script type="text/javascript" src="./themes/mobile/default/script/swipe.js?x={BJ_QMXK_VERSION}"></script>
 	

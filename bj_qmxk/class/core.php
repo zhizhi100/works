@@ -2889,9 +2889,13 @@ function img_url($img = '') {
 function tpl_form_field_date2($name, $value = array() , $ishour = false) {
     $s = '';
     if (!defined('INCLUDE_DATE')) {
+		/* zhongping 2016.4.3 move css,js file to addon resource directory.
         $s = '
 		<link type="text/css" rel="stylesheet" href="./resource/style/datetimepicker.css" />
-		<script type="text/javascript" src="./resource/script/datetimepicker.js"></script>';
+		<script type="text/javascript" src="./resource/script/datetimepicker.js"></script>';*/
+        $s = '
+		<link type="text/css" rel="stylesheet" href="../addons/bj_qmxk/recouse/css/datetimepicker.css" />
+		<script type="text/javascript" src="../addons/bj_qmxk/recouse/js/datetimepicker.js"></script>';		
         define('INCLUDE_DATE', true);
     }
     if (strexists($name, '[')) {
