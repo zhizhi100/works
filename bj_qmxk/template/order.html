@@ -1,5 +1,7 @@
 {template 'common/header'}
 {template 'common'}
+<link type="text/css" rel="stylesheet" href="../addons/bj_qmxk/style/css/bootstrap_v2.3.2.css?v={php echo date('Y-m-d H:i:s', time())}" />
+<link type="text/css" rel="stylesheet" href="../addons/bj_qmxk/style/css/common.css?v={php echo date('Y-m-d H:i:s', time())}" />
 <ul class="nav nav-tabs">
 {if empty($shareid)}
 	<li {if $operation == 'display' && $status == '1'}class="active"{/if}><a href="{php echo $this->createWebUrl('order', array('op' => 'display', 'status' => 1))}">待发货</a></li>

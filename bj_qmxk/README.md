@@ -1,52 +1,67 @@
-1¡¢´ÓÔ­Ê¼ÎÄ¼ş¸´ÖÆµÄ×´Ì¬
-ÒÑÖªÎÊÌâ£º
-A¡¢°²×°¡¢Ğ¶ÔØ½Å±¾ÒÑÍê³É±í½á¹¹´´½¨£¬Êı¾İ¿âº¯ÊıSEQ´´½¨½Å±¾ÓĞbug¡£
-B¡¢Ç°¶Ë²¿·ÖÒÀÀµµÄÄÚÈİ²»ÔÚ²å¼şÄ¿Â¼£¬we7Ä¬ÈÏ²»´øÕâ²¿·Ö×ÊÔ´£¬Ö÷ÒªÊÇÇ°¶Ë×é¼ş¡£
-ĞŞ¸´·½·¨£ºĞèÒªµÄ×ÊÔ´¶¼·ÅÔÚ²å¼şÄ¿Â¼£¬²»¶ÔÕûÌåwe7»·¾³ÒÀÀµ£¬ĞèÒªĞŞ¸ÄÒıÓÃÎ»ÖÃ¡£
-C¡¢ºó¶ËÒµÎñÂß¼­²¿·Ö£¬ÒòÎªwe7°æ±¾²»Ò»ÖÂ£¬±í½á¹¹²»Í¬£¬ĞèÒªÌí¼Ó±í×Ö¶Î»òÌí¼ÓÍ¬Òå´Ê¡£
-D¡¢À©Õ¹µÄ²Ëµ¥ÒÑÍ¨¹ıĞŞ¸Ä²å¼şXMLÎÄ¼şÍê³É£¬¾ßÌå½á¹ûĞèÏêÏ¸²âÊÔ¡£
+1ã€ä»åŸå§‹æ–‡ä»¶å¤åˆ¶çš„çŠ¶æ€
+å·²çŸ¥é—®é¢˜ï¼š
+Aã€å®‰è£…ã€å¸è½½è„šæœ¬å·²å®Œæˆè¡¨ç»“æ„åˆ›å»ºï¼Œæ•°æ®åº“å‡½æ•°SEQåˆ›å»ºè„šæœ¬æœ‰bugã€‚
+Bã€å‰ç«¯éƒ¨åˆ†ä¾èµ–çš„å†…å®¹ä¸åœ¨æ’ä»¶ç›®å½•ï¼Œwe7é»˜è®¤ä¸å¸¦è¿™éƒ¨åˆ†èµ„æºï¼Œä¸»è¦æ˜¯å‰ç«¯ç»„ä»¶ã€‚
+ä¿®å¤æ–¹æ³•ï¼šéœ€è¦çš„èµ„æºéƒ½æ”¾åœ¨æ’ä»¶ç›®å½•ï¼Œä¸å¯¹æ•´ä½“we7ç¯å¢ƒä¾èµ–ï¼Œéœ€è¦ä¿®æ”¹å¼•ç”¨ä½ç½®ã€‚
+Cã€åç«¯ä¸šåŠ¡é€»è¾‘éƒ¨åˆ†ï¼Œå› ä¸ºwe7ç‰ˆæœ¬ä¸ä¸€è‡´ï¼Œè¡¨ç»“æ„ä¸åŒï¼Œéœ€è¦æ·»åŠ è¡¨å­—æ®µæˆ–æ·»åŠ åŒä¹‰è¯ã€‚
+Dã€æ‰©å±•çš„èœå•å·²é€šè¿‡ä¿®æ”¹æ’ä»¶XMLæ–‡ä»¶å®Œæˆï¼Œå…·ä½“ç»“æœéœ€è¯¦ç»†æµ‹è¯•ã€‚
+Eã€å•†å“ç®¡ç†çš„å‡ ä¸ªæ ‡ç­¾å‡ºä¸æ¥ã€‚
 
-Ğ¡ÎÊÌâ£º
-0x01,²å¼ş°æÈ¨ĞÅÏ¢ĞŞ¸Ä¡£
-0x02,seqº¯Êı´´½¨´íÎó¡£
-0x03,ÔÚbj_qmxk\template\mobile\share_detail.htmlÎÄ¼şÖĞÒıÓÃmodules/juyousha/ÖĞµÄÄÚÈİ£¬Êµ¼Êjuyousha²»´æÔÚ¡£
-0x04,ÔÚbj_qmxk\template\mobile\cart.htmlÖĞ£¬ÓĞ{BJ_QMXK_ROOT}/images/jquery.gcjs.jsµÄÒıÓÃ£¬ĞèÒª´¦Àí{BJ_QMXK_ROOT}µÄÖµ¡£
-0x05,Ô­³§ÉÌÆ´ÁËrecouse,Ó¦¸ÃÊÇrecourse»òresource°É£¿
-0x06,ÊÖ»ú¶ËthemesÏÔÊ¾µÄÎÊÌâ
-0x07,bj_qmxk\template\mobile\rules.htmlÖĞ»ñÈ¡new_ueditor.all.min.js£¬¸ù±¾Ã»ÓĞ´ËÎÄ¼ş
+å°é—®é¢˜ï¼š
+0x01,æ’ä»¶ç‰ˆæƒä¿¡æ¯ä¿®æ”¹ã€‚
+0x02,seqå‡½æ•°åˆ›å»ºé”™è¯¯ã€‚
+0x03,åœ¨bj_qmxk\template\mobile\share_detail.htmlæ–‡ä»¶ä¸­å¼•ç”¨modules/juyousha/ä¸­çš„å†…å®¹ï¼Œå®é™…juyoushaä¸å­˜åœ¨ã€‚
+0x04,åœ¨bj_qmxk\template\mobile\cart.htmlä¸­ï¼Œæœ‰{BJ_QMXK_ROOT}/images/jquery.gcjs.jsçš„å¼•ç”¨ï¼Œéœ€è¦å¤„ç†{BJ_QMXK_ROOT}çš„å€¼ã€‚
+0x05,åŸå‚å•†æ‹¼äº†recouse,åº”è¯¥æ˜¯recourseæˆ–resourceå§ï¼Ÿ
+0x06,æ‰‹æœºç«¯themesæ˜¾ç¤ºçš„é—®é¢˜
+0x07,bj_qmxk\template\mobile\rules.htmlä¸­è·å–new_ueditor.all.min.jsï¼Œæ ¹æœ¬æ²¡æœ‰æ­¤æ–‡ä»¶
+0x08,çŠ¯æµ‘ï¼Œæ›¿æ¢äº†éƒ¨åˆ†æ–‡ä»¶ä¸­â€œåˆ†é’±â€â€œdatetimepickerâ€ç­‰å†…å®¹ã€‚
 
 
-2¡¢´¦ÀíÇ°¶ËÒÀÀµ×é¼şÎÊÌâ 2016.4.3
-0x01,¶©µ¥´¦Àí£¬ÏÔÊ¾jquery.gcjs.jsÁ¬½Ó404´íÎó¡£
-bj_qmxk\template\common.htmlÖĞ£º
-  ./source/modules/bj_qmxk/images/jquery.gcjs.jsĞŞ¸ÄÎª../addons/bj_qmxk/images/jquery.gcjs.js
-  Í¬Ñù´¦ÀíµÄ»¹ÓĞjquery.form.js,tooltipbox.js
+2ã€å¤„ç†å‰ç«¯ä¾èµ–ç»„ä»¶é—®é¢˜ 2016.4.3
+0x01,è®¢å•å¤„ç†ï¼Œæ˜¾ç¤ºjquery.gcjs.jsè¿æ¥404é”™è¯¯ã€‚
+bj_qmxk\template\common.htmlä¸­ï¼š
+  ./source/modules/bj_qmxk/images/jquery.gcjs.jsä¿®æ”¹ä¸º../addons/bj_qmxk/images/jquery.gcjs.js
+  åŒæ ·å¤„ç†çš„è¿˜æœ‰jquery.form.js,tooltipbox.js
   
-0x02,¶©µ¥´¦Àí£¬ÏÔÊ¾datetimepicker.cssÁ¬½Ó404´íÎó¡£
-  copyÎÄ¼şµ½bj_qmxk\recouse\css\Ä¿Â¼£ºdaterangepicker.css,datetimepicker.css
-  copyÎÄ¼şµ½bj_qmxk\recouse\js\Ä¿Â¼£ºdaterangepicker.js,datetimepicker.js
-  ĞŞ¸Äbj_qmxk\class\core.phpÎÄ¼ş£º
+0x02,è®¢å•å¤„ç†ï¼Œæ˜¾ç¤ºdatetimepicker.cssè¿æ¥404é”™è¯¯ã€‚
+  copyæ–‡ä»¶åˆ°bj_qmxk\recouse\css\ç›®å½•ï¼šdaterangepicker.css,datetimepicker.css
+  copyæ–‡ä»¶åˆ°bj_qmxk\recouse\js\ç›®å½•ï¼šdaterangepicker.js,datetimepicker.js
+  ä¿®æ”¹bj_qmxk\class\core.phpæ–‡ä»¶ï¼š
   ./resource/style/datetimepicker.css--->../addons/bj_qmxk/recouse/css/datetimepicker.css
   ./resource/script/datetimepicker.js--->../addons/bj_qmxk/recouse/js/datetimepicker.js
   
-0x03,¶©µ¥´¦Àí£¬ÏÔÊ¾jquery-ui-timepicker-addon.jsÁ¬½Ó404´íÎó¡£
-  ÒıÓÃÈçÏÂ£º{BJ_QMXK_ROOT}/recouse/js/jquery-ui-timepicker-addon.js
-  ĞŞ¸Äbj_qmxk\class\dev.phpÖĞBJ_QMXK_ROOTµÄ¶¨Òå£º
+0x03,è®¢å•å¤„ç†ï¼Œæ˜¾ç¤ºjquery-ui-timepicker-addon.jsè¿æ¥404é”™è¯¯ã€‚
+  å¼•ç”¨å¦‚ä¸‹ï¼š{BJ_QMXK_ROOT}/recouse/js/jquery-ui-timepicker-addon.js
+  ä¿®æ”¹bj_qmxk\class\dev.phpä¸­BJ_QMXK_ROOTçš„å®šä¹‰ï¼š
   '/source/modules/bj_qmxk'----->'/addons/bj_qmxk'
   define ( 'BJ_QMXK_ROOT', '.' . BJ_QMXK_BASE );---->define ( 'BJ_QMXK_ROOT', BJ_QMXK_BASE );
 
-0x04,´óÁ¿×ÊÔ´ÒıÓÃÎÊÌâ£º/resource/script/ÀàÒıÓÃ
+0x04,å¤§é‡èµ„æºå¼•ç”¨é—®é¢˜ï¼š/resource/script/ç±»å¼•ç”¨
   bj_qmxk\template\applyed.html:src="./resource/script/daterangepicker.js"
-  template\applyed_old.html ¡­¡­
-     Ïê¼û¸½¼ş1
-  	È«²¿Ìæ»»£º./resource/script/---->../addons/bj_qmxk/recouse/js/
-  	È±ÉÙµÄÄÚÈİĞèÒªcopyµ½bj_qmxk\recouse\js\Ä¿Â¼
-  	./resource/scriptºÍ../addons/bj_qmxk/recouse/js/¶¼ÓĞcommon.js£¬ÄÚÈİ²»Í¬£¬copyÎªcommon.web.js
-  
+  template\applyed_old.html â€¦â€¦
+     è¯¦è§é™„ä»¶1
+  	å…¨éƒ¨æ›¿æ¢ï¼š./resource/script/---->../addons/bj_qmxk/recouse/js/
+  	ç¼ºå°‘çš„å†…å®¹éœ€è¦copyåˆ°bj_qmxk\recouse\js\ç›®å½•
+  	./resource/scriptå’Œ../addons/bj_qmxk/recouse/js/éƒ½æœ‰common.jsï¼Œå†…å®¹ä¸åŒï¼Œcopyä¸ºcommon.web.js
+  	
+0x05,æ ·å¼ä¸ä¸€è‡´çš„é—®é¢˜ ï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿï¼Ÿ
+   	åŸç³»ç»Ÿæœ‰yfnmall\data\tpl\web\default\modules\bj_qmxkç›®å½•
+   	è¿™ä¸ªç›®å½•çš„æ–‡ä»¶å¦‚ä½•å¤„ç†ï¼Ÿ
+	æš‚æ—¶ä¸å¤„ç†æ¨¡æ¿ï¼Œå…ˆè€ƒè™‘æ ·å¼ç»Ÿä¸€
+	åœ¨order.htmlä¸­å¢åŠ common.cssçš„åŠ è½½ï¼Œåœ¨order.htmlä¸­æµ‹è¯•ï¼Œå¯è€ƒè™‘ä¿®æ”¹common.htmlæ¨¡æ¿ã€‚
+	åœ¨\addons\bj_qmxk\style\css\ç›®å½•ä¸­æ·»åŠ common.csså’Œbootstrap2.cssä¸¤ä¸ªæ–‡ä»¶ï¼Œå®é™…ä¸èƒ½å·¥ä½œï¼Œå¤šä½™ã€‚
+	ä¼°è®¡ä¿®æ”¹cssæ–‡ä»¶ä¸å¯è¡Œï¼Œå¼€å‘å•†ä½¿ç”¨bootstrap version 2.3.2ï¼Œå¾®æ“ä½¿ç”¨ bootstrap3ï¼Œç›´æ¥åˆ‡æ¢ç‰ˆæœ¬ä¼šå½±å“å¾®æ“æœ¬èº«å†…å®¹æ˜¾ç¤ºä¸æ­£å¸¸ã€‚ 
+	
+0x06,requireæ¨¡å—è°ƒç”¨çš„é—®é¢˜
+	åŸå‚å•†ä½¿ç”¨requireæ¨¡å—è°ƒç”¨ï¼Œå¿…é¡»æŒ‰è§„èŒƒæŠŠç›¸åº”æ¨¡å—copyåˆ°å¯¹åº”çš„ç›®å½•ã€‚
+	å¾®æ“é»˜è®¤ç”Ÿæˆçš„requireè¯­å¥ï¼Œä½†resourceç›®å½•ä¸­æ²¡æœ‰ç›¸åº”çš„jsä¸cssæ–‡ä»¶ï¼Œæ‰‹å·¥copyã€‚
+	copyä¸æˆåŠŸï¼Œä¼°è®¡éœ€è¦ä¸‹è½½å®Œæ•´ç‰ˆã€‚
+	ä»wzé¡¹ç›®ä¸­å¤åˆ¶resource\componentsç›®å½•ã€‚
   
   
 
-¸½¼ş1£º
+é™„ä»¶1ï¼š
   E:\PHPPro\works\bj_qmxk\template\applyed.html (1 hit)
 	Line 100: <script type="text/javascript" src="./resource/script/daterangepicker.js"></script>
   E:\PHPPro\works\bj_qmxk\template\applyed_old.html (1 hit)
